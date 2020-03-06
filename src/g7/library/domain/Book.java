@@ -63,7 +63,7 @@ public class Book implements Serializable {
 		this.copies = copies;
 	}
 	
-	public long getCopieAvailable() {
+	public Long getCopieAvailable() {
 		return copies.stream().filter(p -> p.isAvailable()).count();
 	}
 

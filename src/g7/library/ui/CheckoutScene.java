@@ -1,5 +1,6 @@
 package g7.library.ui;
 
+import g7.library.domain.BookCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,18 +109,18 @@ public class CheckoutScene extends BaseScene {
 	@SuppressWarnings("unchecked")
 	private Parent renderBooks() {
 		HBox booksContainer = new HBox();
-		ObservableList<BookManagementScene.Book> books = loadBooks();
+		ObservableList<BookCopy> books = loadBooks();
 		
-		TableView<BookManagementScene.Book> booksTable = new TableView<>();
+		TableView<BookCopy> booksTable = new TableView<>();
 		
 		
-		TableColumn<BookManagementScene.Book, String> titleColumn = new TableColumn<>("Title");
-		TableColumn<BookManagementScene.Book, String> isbnColumn = new TableColumn<>("ISBN");
-		TableColumn<BookManagementScene.Book, Integer> availableColumn = new TableColumn<>("Available");
+		TableColumn<BookCopy, String> titleColumn = new TableColumn<>("Title");
+		TableColumn<BookCopy, String> isbnColumn = new TableColumn<>("ISBN");
+		TableColumn<BookCopy, Integer> availableColumn = new TableColumn<>("Available");
 		
-		titleColumn.setCellValueFactory(new PropertyValueFactory<BookManagementScene.Book, String>("title"));
-		isbnColumn.setCellValueFactory(new PropertyValueFactory<BookManagementScene.Book, String>("isbn"));
-		availableColumn.setCellValueFactory(new PropertyValueFactory<BookManagementScene.Book, Integer>("available"));
+		titleColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, String>("title"));
+		isbnColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, String>("isbn"));
+		availableColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, Integer>("available"));
 		
 		booksTable.setItems(books);
 		booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn);
@@ -130,7 +131,7 @@ public class CheckoutScene extends BaseScene {
 		return booksContainer;
 	}
 	
-	private ObservableList<BookManagementScene.Book> loadBooks() {
-		return FXCollections.observableArrayList(new BookManagementScene.Book("Khanh", "232323", 12), new BookManagementScene.Book("Tien", "2245523", 14));
+	private ObservableList<BookCopy> loadBooks() {
+		return FXCollections.observableArrayList();
 	}
 }

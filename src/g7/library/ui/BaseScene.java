@@ -2,6 +2,7 @@ package g7.library.ui;
 
 import java.util.stream.Stream;
 
+import g7.library.frontcontroller.LibraryController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -15,8 +16,10 @@ import javafx.scene.layout.VBox;
 public abstract class BaseScene {
 
 	private Scene scene;
+	protected LibraryController libraryController;
 	
 	protected BaseScene() {
+		libraryController = new LibraryController();
 		scene = createScene();
 		loadCss();
 	}

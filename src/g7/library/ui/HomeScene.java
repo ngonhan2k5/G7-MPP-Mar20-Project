@@ -24,7 +24,8 @@ public class HomeScene extends BaseScene {
 		
 		
 		Label title = new Label("Welcome to Library Management Tool");
-		title.getStyleClass().add("home-title");
+		title.getStyleClass().addAll("form-title", "home-title");
+
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
 		

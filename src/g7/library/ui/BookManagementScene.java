@@ -1,26 +1,26 @@
 package g7.library.ui;
 
+import g7.library.domain.Author;
 import g7.library.domain.Book;
-import g7.library.domain.BookCopy;
-import g7.library.frontcontroller.LibraryController;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BookManagementScene extends BaseScene {
 
@@ -44,7 +44,8 @@ public class BookManagementScene extends BaseScene {
     VBox vBox = new VBox(10);
 
     Label title = new Label("Books Management");
-    title.setStyle("-fx-font-size: 20");
+    title.getStyleClass().add("form-title");
+
     HBox titleContainer = new HBox(20, title);
     titleContainer.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -67,17 +68,18 @@ public class BookManagementScene extends BaseScene {
 
     TableView<Book> booksTable = new TableView<>();
 
-
     TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
     TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
     TableColumn<Book, String> availableColumn = new TableColumn<>("Available Copies");
+    TableColumn<Book, Parent> actionsColumn = new TableColumn<>("Actions");
 
     titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getTitle()));
     isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
     availableColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
+    actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
 
     booksTable.setItems(this.books);
-    booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn);
+    booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
     booksTable.setMinWidth(400);
     booksContainer.getChildren().add(booksTable);
 
@@ -97,9 +99,61 @@ public class BookManagementScene extends BaseScene {
     message = new Label();
   }
 
-@Override
-public void getDataFromFields() {
-	// TODO Auto-generated method stub
-	
-}
+  @Override
+  public void getDataFromFields() {
+    // TODO Auto-generated method stub
+
+  }
+
+  public static class CustomButtonCell<Book, Parent> extends TableCell<Book, Parent> {
+    final HBox buttons;
+
+    CustomButtonCell() {
+      buttons = new HBox(10);
+      Button viewBtn = new Button("View");
+      Button addCopyBtn = new Button("Add Copy");
+
+      viewBtn.setOnAction(this::viewBook);
+      addCopyBtn.setOnAction(this::addCopy);
+      buttons.getChildren().addAll(viewBtn, addCopyBtn);
+    }
+
+    @Override
+    protected void updateItem(Parent item, boolean empty) {
+      super.updateItem(item, empty);
+      if (!empty) {
+        setGraphic(buttons);
+      }
+    }
+
+    void viewBook(ActionEvent evt) {
+      g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
+      System.out.println("Item: " + book.toString());
+      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500);
+    }
+
+    void addCopy(ActionEvent evt) {
+    }
+
+    private javafx.scene.Parent generateBookInformation(g7.library.domain.Book book) {
+      String authors = book.getAuthors().stream().map(Author::getFullName).collect(Collectors.joining(", "));
+
+      VBox bookInfo = new VBox(10);
+      Label title = new Label("Title:"), isbn = new Label("ISBN:"), available = new Label("Available copies:"),
+          author = new Label("Author(s):");
+
+      Stream.of(title, isbn, available, author).forEach(lb -> lb.setPrefWidth(150));
+
+      bookInfo.getChildren().addAll(
+          new HBox(title, new Label(book.getTitle())),
+          new HBox(isbn, new Label(book.getIsbn())),
+          new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
+          new HBox(author, new Label(authors))
+      );
+      StackPane pane = new StackPane(bookInfo);
+      StackPane.setMargin(bookInfo, new Insets(15));
+
+      return pane;
+    }
+  }
 }

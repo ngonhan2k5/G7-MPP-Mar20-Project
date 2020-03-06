@@ -30,6 +30,12 @@ public class LoginScene extends BaseScene {
 		StackPane pane = new StackPane();
 
 		// Login form
+		HBox hBox_0 = new HBox(50);
+		Label globalMessage = new Label("");
+		globalMessage.setStyle("-fx-text-fill: red;");
+		hBox_0.getChildren().add(globalMessage);
+		pane.getChildren().add(hBox_0);
+		
 		HBox hBox_1 = new HBox(10);
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
@@ -51,7 +57,7 @@ public class LoginScene extends BaseScene {
 		Button btn = new Button("Login");
 		hBox_4.getChildren().add(btn);
 		hBox_4.setAlignment(Pos.BASELINE_RIGHT);
-		hBox_4.setMinHeight(50);
+		hBox_4.setMinHeight(80);
 
 		btn.setOnAction((event) -> {
 			SystemUser systemUser = this.libraryController.login(userName.getText(), password.getText());
@@ -61,6 +67,7 @@ public class LoginScene extends BaseScene {
 			} else {
 				userName.setText("");
 				password.setText("");
+				globalMessage.setText("Login Failed. The provided credentials were not found.");
 			}
 		});
 

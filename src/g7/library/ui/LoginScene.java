@@ -68,4 +68,10 @@ public class LoginScene extends BaseScene {
 		userName = new TextField();
 		password = new PasswordField();
 	}
+
+	@Override
+	public void getDataFromFields() {
+		// TODO Auto-generated method stub
+		
+	}
 }

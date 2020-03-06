@@ -134,4 +134,10 @@ public class CheckoutScene extends BaseScene {
 	private ObservableList<BookCopy> loadBooks() {
 		return FXCollections.observableArrayList();
 	}
+
+	@Override
+	public void getDataFromFields() {
+		// TODO Auto-generated method stub
+		
+	}
 }

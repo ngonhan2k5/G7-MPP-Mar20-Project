@@ -1,12 +1,17 @@
 package g7.library.ui;
 
+import java.util.Map;
 import java.util.stream.Stream;
+
+import com.sun.javafx.scene.control.InputField;
 
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -76,4 +81,19 @@ public class AddNewMemberScene extends BaseScene {
 		state = new TextField();
 		phone = new TextField();
 	}
+
+	@Override
+	public void getDataFromFields() {
+		// TODO Auto-generated method stub
+		
+		TextInputControl [] controls = {memberId, firstName, lastName, street, city, zip, state, phone};
+		String[] ids = {"memberId", "firstName", "lastName", "street", "city", "zip", "state", "phone"};
+		
+		for(int i=0; i< controls.length; i++) {
+			TextInputControl f = controls[i];
+			data.put(ids[i], f.getText());
+		}
+	}
+
+	
 }

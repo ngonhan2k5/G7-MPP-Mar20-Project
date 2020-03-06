@@ -1,22 +1,39 @@
 package g7.library.ui;
 
+import java.util.HashMap;
 import java.util.stream.Stream;
 
+
+
 import g7.library.frontcontroller.LibraryController;
+import g7.library.ui.validation.Util;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public abstract class BaseScene {
+public abstract class BaseScene implements IData {
 
 	private Scene scene;
 	protected LibraryController libraryController;
+	
+	protected HashMap<String, String> data = new HashMap<>();
+	
+	public String getFieldValue(String fieldName) {
+		
+		return data.get(fieldName);
+	}
+	
+//	public String getFieldValue(String fieldName) {
+//		if (Util.objectHasProperty(this.getField(fieldName), "text"))
+//		return data.get(fieldName).getText();
+//	}
 	
 	protected BaseScene() {
 		libraryController = new LibraryController();
@@ -112,4 +129,6 @@ public abstract class BaseScene {
 	private void handleExit(ActionEvent evt) {
 		Start.exit();
 	}
+	
+	
 }

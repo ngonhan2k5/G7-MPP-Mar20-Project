@@ -36,4 +36,10 @@ public class HomeScene extends BaseScene {
 
 		return pane;
 	}
+
+	@Override
+	public void getDataFromFields() {
+		// TODO Auto-generated method stub
+		
+	}
 }

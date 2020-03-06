@@ -96,4 +96,10 @@ public class BookManagementScene extends BaseScene {
     searchField = new TextField();
     message = new Label();
   }
+
+@Override
+public void getDataFromFields() {
+	// TODO Auto-generated method stub
+	
+}
 }

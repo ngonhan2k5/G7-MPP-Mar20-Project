@@ -1,0 +1,14 @@
+.button:focused {
+	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 5, 4, 3;
+}
+
+.home-page {
+	-fx-background-image: url("background.jpg");
+}
+
+.home-title {
+	-fx-font-size: 20;
+	-fx-background-color: white;
+}

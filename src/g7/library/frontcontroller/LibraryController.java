@@ -1,13 +1,14 @@
 package g7.library.frontcontroller;
 
+import java.util.Collection;
+import java.util.Set;
+
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
+import g7.library.domain.LoginCredentials;
+import g7.library.domain.SystemUser;
 import g7.library.service.LibraryServiceInterface;
 import g7.library.service.impl.LibraryServiceImpl;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 public class LibraryController {
 	private LibraryServiceInterface libraryService = new LibraryServiceImpl();
@@ -23,4 +24,8 @@ public class LibraryController {
 	public Set<BookCopy> findAllBookCopies() {
 		return libraryService.fetchAllBookCopies();
 	}
+	
+	public SystemUser login(String loginUserName, String password) {
+		return libraryService.login(new LoginCredentials(loginUserName, password));
+	}	
 }

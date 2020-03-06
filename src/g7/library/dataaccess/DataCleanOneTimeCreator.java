@@ -24,6 +24,7 @@ public class DataCleanOneTimeCreator {
 		role.addNewAccessPermission(PermissionType.UPDATE_MEMBER);
 		role.addNewAccessPermission(PermissionType.ADD_BOOK);
 		role.addNewAccessPermission(PermissionType.DELETE_MEMBER);
+		role.addNewAccessPermission(PermissionType.ADD_MEMBER);
 		userRoles.put(UserRoleType.ADMIN, role);
 		
 		role = new UserRole(UserRoleType.LIBRARIAN);

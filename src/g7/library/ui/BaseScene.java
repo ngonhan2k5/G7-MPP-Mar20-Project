@@ -1,18 +1,19 @@
 package g7.library.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
-
-
 import g7.library.frontcontroller.LibraryController;
-import g7.library.ui.validation.Util;
+import g7.library.frontcontroller.LogicViewController;
+import g7.library.model.UserDataBuilder;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -81,6 +82,24 @@ public abstract class BaseScene implements IData {
 		Button btnLogout = new Button("Logout");
 		Button btnExit = new Button("Exit");
 		
+		List<Node> fxNodes = new ArrayList<Node>();
+		UserDataBuilder userData = Start.getUserData();
+		if(userData == null) {
+			fxNodes.add(btnLogin);
+		} else {
+			LogicViewController logicView = new LogicViewController(userData.systemUser());
+			if(logicView.isLibMemberAddPermited()) 
+				fxNodes.add(btnAddNew);
+			
+			if(logicView.isBookCheckoutPermited())
+				fxNodes.add(btnCheckout);
+			
+			fxNodes.add(btnBooksManagement);
+			fxNodes.add(btnLogout);
+		}
+		
+		//fxNodes.add(btnExit);
+		
 		btnAddNew.setOnAction(this::openAddNewMember);
 		btnBooksManagement.setOnAction(this::openBooksManagement);
 		btnCheckout.setOnAction(this::openCheckout);
@@ -89,7 +108,7 @@ public abstract class BaseScene implements IData {
 		btnExit.setOnAction(this::handleExit);
 
 		Stream.of(btnAddNew, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit).forEach(b -> b.setPrefWidth(150));
-		menuContainer.getChildren().addAll(btnAddNew, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit);
+		menuContainer.getChildren().addAll(fxNodes);
 		StackPane.setMargin(menuContainer, new Insets(20));
 		pane.getChildren().add(menuContainer);
 
@@ -123,7 +142,8 @@ public abstract class BaseScene implements IData {
 	}
 	
 	private void handleLogout(ActionEvent evt) {
-		Start.changeScene(HomeScene.INSTANCE);
+		Start.trackOfUserData(null);
+		Start.changeScene(LoginScene.INSTANCE);
 	}
 	
 	private void handleExit(ActionEvent evt) {

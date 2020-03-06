@@ -3,17 +3,20 @@ package g7.library.ui.validation;
 import java.awt.Component;
 import java.util.HashMap;
 
+import g7.library.ui.IData;
+
 
 
 final public class RuleSetFactory {
+	
 	private RuleSetFactory(){}
-	static HashMap<Class<? extends RuleSet>, RuleSet> map = new HashMap<>();
+	static HashMap<String, RuleSet> map = new HashMap<>();
 	static {
-		map.put(UserInfoRuleSet.class, new UserInfoRuleSet());
-		map.put(AddressRuleSet.class, new AddressRuleSet());
+		map.put("Member", new UserInfoRuleSet());
+		map.put("Address", new AddressRuleSet());
 	}
-	public static RuleSet getRuleSet(Component c) {
-		Class<? extends Component> cl = c.getClass();
+	public static RuleSet getRuleSet(String cl) {
+//		Class<? extends Component> cl = (Class<? extends Component>) c.getClass();
 		if(!map.containsKey(cl)) {
 			throw new IllegalArgumentException(
 					"No RuleSet found for this Component");

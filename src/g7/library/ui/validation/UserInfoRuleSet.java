@@ -19,6 +19,7 @@ public class UserInfoRuleSet implements RuleSet {
 	@Override
 	public void applyRules(IData ob) throws RuleException {
 //		scene = (ProfileWindow)ob;
+		profWin = ob;
 		nonemptyRule();
 		idNumericRule();
 //		favRestAndMovieRule();		

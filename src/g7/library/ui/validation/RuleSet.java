@@ -6,4 +6,5 @@ import g7.library.ui.IData;
 
 public interface RuleSet {
 	public void applyRules(IData ob) throws RuleException;
+//	public void applyRules(String ob) throws RuleException;
 }

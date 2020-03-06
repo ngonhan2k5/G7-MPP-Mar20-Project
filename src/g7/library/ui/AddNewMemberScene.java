@@ -3,17 +3,24 @@ package g7.library.ui;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.swing.JOptionPane;
+
 import com.sun.javafx.scene.control.InputField;
 
+import g7.library.ui.validation.RuleException;
+import g7.library.ui.validation.RuleSet;
+import g7.library.ui.validation.RuleSetFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+
 
 public class AddNewMemberScene extends BaseScene {
 
@@ -62,7 +69,14 @@ public class AddNewMemberScene extends BaseScene {
 		hButtons.setMinHeight(50);
 
 		btn.setOnAction((event) -> {
-
+			getDataFromFields();
+			RuleSet rules = RuleSetFactory.getRuleSet("Member");
+			try {
+				rules.applyRules(INSTANCE);
+			} catch (RuleException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage()); 
+			}
 		});
 
 		vBox.getChildren().addAll(titleContainer, memberFields, hButtons);
@@ -92,6 +106,7 @@ public class AddNewMemberScene extends BaseScene {
 		for(int i=0; i< controls.length; i++) {
 			TextInputControl f = controls[i];
 			data.put(ids[i], f.getText());
+			
 		}
 	}
 

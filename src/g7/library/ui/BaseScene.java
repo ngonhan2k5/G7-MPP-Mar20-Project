@@ -28,7 +28,7 @@ public abstract class BaseScene implements IData {
 	
 	public String getFieldValue(String fieldName) {
 
-		return data.get(fieldName);
+		return data.get(fieldName).trim();
 	}
 	
 //	public String getFieldValue(String fieldName) {

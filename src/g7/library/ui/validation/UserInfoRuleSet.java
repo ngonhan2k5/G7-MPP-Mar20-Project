@@ -22,16 +22,17 @@ public class UserInfoRuleSet implements RuleSet {
 		idNumericRule();
 //		favRestAndMovieRule();		
 //		correctCharTypeRule();
+		RuleSetFactory.getRuleSet(RuleSetFactory.ADDRESS).applyRules(ob);
 		
 	}
 	
 	private void nonemptyRule() throws RuleException {
-		if(profWin.getFieldValue("firstName").trim().isEmpty() ||
-		     profWin.getFieldValue("lastName").trim().isEmpty() ||
-			 profWin.getFieldValue("lastName").trim().isEmpty() ||
-//			 profWin.getFieldValue("memberId").trim().isEmpty() ||
-//			 profWin.getFieldValue("memberId").trim().isEmpty() ||
-		     profWin.getFieldValue("phone").trim().isEmpty()) {
+		if(profWin.getFieldValue("firstName").isEmpty() ||
+		     profWin.getFieldValue("lastName").isEmpty() ||
+			 profWin.getFieldValue("lastName").isEmpty() ||
+//			 profWin.getFieldValue("memberId").isEmpty() ||
+//			 profWin.getFieldValue("memberId").isEmpty() ||
+		     profWin.getFieldValue("phone").isEmpty()) {
 			   throw new RuleException("All fields must be nonempty");
 		}
 	}
@@ -44,7 +45,7 @@ public class UserInfoRuleSet implements RuleSet {
 //	}
 
 	private void idNumericRule() throws RuleException {
-		String val = profWin.getFieldValue("memberId").trim();
+		String val = profWin.getFieldValue("phone").trim();
 		try {
 			Integer.parseInt(val);
 			//val is numeric

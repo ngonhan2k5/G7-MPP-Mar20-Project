@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+
 public class Util {
 	public static boolean isInRangeAtoZ(char c) {
 		return (int)'A' <= (int)c && (int)c <= (int)'Z';
@@ -39,5 +42,25 @@ public class Util {
 	    }
 
 	    return fields;
+	}
+	
+	public static void showAlert(String msg, String headerText, String desc) {
+	    Platform.runLater(new Runnable() {
+	      public void run() {
+	          Alert alert = new Alert(Alert.AlertType.ERROR);
+	          alert.setTitle("Error");
+	          alert.setHeaderText(msg);
+	          alert.setContentText(desc);
+	          alert.showAndWait();
+	      }
+	    });
+	}
+	
+	public static void showAlert(String msg, String headerText) {
+		Util.showAlert(msg, headerText, "");
+	}
+	
+	public static void showAlert(String msg) {
+		Util.showAlert(msg, "Error", "");
 	}
 }

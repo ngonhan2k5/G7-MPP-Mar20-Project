@@ -1,7 +1,6 @@
 package g7.library.ui.validation;
 
 import g7.library.ui.BaseScene;
-import g7.library.ui.IData;
 
 
 /**
@@ -21,7 +20,7 @@ public class AddressRuleSet implements RuleSet {
 	public void applyRules(BaseScene ob) throws RuleException {
 		addr = ob;
 		nonemptyRule();
-		idNumericRule();
+//		idNumericRule();
 		zipNumericRule();
 		stateRule();
 		idNotZipRule();

@@ -11,9 +11,12 @@ final public class RuleSetFactory {
 	
 	private RuleSetFactory(){}
 	static HashMap<String, RuleSet> map = new HashMap<>();
+	final public static String MEMBER = "Member";
+	final public static String ADDRESS = "Address";
+	
 	static {
-		map.put("Member", new UserInfoRuleSet());
-		map.put("Address", new AddressRuleSet());
+		map.put(MEMBER, new UserInfoRuleSet());
+		map.put(ADDRESS, new AddressRuleSet());
 	}
 	public static RuleSet getRuleSet(String cl) {
 //		Class<? extends Component> cl = (Class<? extends Component>) c.getClass();

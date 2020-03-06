@@ -10,6 +10,7 @@ import com.sun.javafx.scene.control.InputField;
 import g7.library.ui.validation.RuleException;
 import g7.library.ui.validation.RuleSet;
 import g7.library.ui.validation.RuleSetFactory;
+import g7.library.ui.validation.Util;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -51,6 +52,8 @@ public class AddNewMemberScene extends BaseScene {
 		
 		Stream.of(firstName, lastName, street, city, state, zip, phone).forEach(field -> field.setMinWidth(200));
 
+		Label error = new Label();
+		HBox h0 = new HBox(10, error);
 		HBox h1 = new HBox(10, new Label("First Name: "), firstName);
 		HBox h2 = new HBox(10, new Label("Last Name: "), lastName);
 		HBox h3 = new HBox(10, new Label("Street: "), street);
@@ -59,9 +62,9 @@ public class AddNewMemberScene extends BaseScene {
 		HBox h6 = new HBox(10, new Label("Zipe: "), zip);
 		HBox h7 = new HBox(10, new Label("Phone: "), phone);
 
-		Stream.of(h1, h2, h3, h4, h5, h6, h7).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
+		Stream.of(h0, h1, h2, h3, h4, h5, h6, h7).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
 
-		memberFields.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7);
+		memberFields.getChildren().addAll(h0, h1, h2, h3, h4, h5, h6, h7);
 
 		Button btn = new Button("Add");
 		hButtons.getChildren().add(btn);
@@ -70,14 +73,18 @@ public class AddNewMemberScene extends BaseScene {
 
 		btn.setOnAction((event) -> {
 			getDataFromFields();
-			RuleSet rules = RuleSetFactory.getRuleSet("Member");
+			RuleSet rules = RuleSetFactory.getRuleSet(RuleSetFactory.MEMBER);
 			try {
 				rules.applyRules(INSTANCE);
 			} catch (RuleException e) {
 				// TODO Auto-generated catch block
-				System.out.println(e.getMessage()); 
+				//System.out.println(e.getMessage()); 
+				//Util.showAlert(e.getMessage());
+				error.setText(e.getMessage());
 			}
 		});
+		
+		btn.setDefaultButton(true);
 
 		vBox.getChildren().addAll(titleContainer, memberFields, hButtons);
 		hBox_1.getChildren().add(vBox);
@@ -91,9 +98,38 @@ public class AddNewMemberScene extends BaseScene {
 		lastName = new TextField();
 		street = new TextField();
 		city = new TextField();
-		zip = new TextField();
+		zip = new TextField() {
+		    @Override public void replaceText(int start, int end, String text) {
+		        // If the replaced text would end up being invalid, then simply
+		        // ignore this call!
+		        if (!text.matches("[a-z]")) {
+		            super.replaceText(start, end, text);
+		        }
+		    }
+
+		    @Override public void replaceSelection(String text) {
+		        if (!text.matches("[a-z]")) {
+		            super.replaceSelection(text);
+		        }
+		    }
+		};
 		state = new TextField();
-		phone = new TextField();
+//		phone = new TextField();
+		phone = new TextField() {
+		    @Override public void replaceText(int start, int end, String text) {
+		        // If the replaced text would end up being invalid, then simply
+		        // ignore this call!
+		        if (!text.matches("[a-z]")) {
+		            super.replaceText(start, end, text);
+		        }
+		    }
+
+		    @Override public void replaceSelection(String text) {
+		        if (!text.matches("[a-z]")) {
+		            super.replaceSelection(text);
+		        }
+		    }
+		};
 	}
 
 	@Override

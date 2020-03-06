@@ -2,6 +2,7 @@ package g7.library.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Book implements Serializable {
@@ -61,4 +62,29 @@ public class Book implements Serializable {
 	public void setCopies(Set<BookCopy> copies) {
 		this.copies = copies;
 	}
+	
+	public long getCopieAvailable() {
+		return copies.stream().filter(p -> p.isAvailable()).count();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((isbn == null) ? 0 : isbn.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		return Objects.equals(isbn, other.isbn);
+	}
+	
 }

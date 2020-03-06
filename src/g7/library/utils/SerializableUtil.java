@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 
 public class SerializableUtil {
-	public static String OUTPUT_DIR = System.getProperty("user.dir") + "\\src\\g7\\library\\dataaccess\\storage";
+	public static String OUTPUT_DIR = System.getProperty("user.dir") + "/src/g7/library/dataaccess/storage";
 	
 	public static <T, E> void saveToStorage(T type, E obj) throws IOException {
 		ObjectOutputStream out = null;

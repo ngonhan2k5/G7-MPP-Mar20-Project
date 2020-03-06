@@ -105,6 +105,7 @@ public class AddNewMemberScene extends BaseScene {
 		
 		for(int i=0; i< controls.length; i++) {
 			TextInputControl f = controls[i];
+			System.out.println(f.getText());
 			data.put(ids[i], f.getText());
 			
 		}

@@ -1,8 +1,6 @@
 package g7.library.ui.validation;
 
-import java.awt.Component;
-
-import g7.library.ui.IData;
+import g7.library.ui.BaseScene;
 
 /**
  * Rules:
@@ -15,9 +13,9 @@ import g7.library.ui.IData;
  */
 public class UserInfoRuleSet implements RuleSet {
 
-	private IData profWin;
+	private BaseScene profWin;
 	@Override
-	public void applyRules(IData ob) throws RuleException {
+	public void applyRules(BaseScene ob) throws RuleException {
 //		scene = (ProfileWindow)ob;
 		profWin = ob;
 		nonemptyRule();

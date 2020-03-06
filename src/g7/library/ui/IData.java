@@ -1,7 +1,5 @@
 package g7.library.ui;
 
-import java.util.Map;
-
 public interface IData {
 //	public Map<String, ?> getAllFieldsData();
 //	public void setFieldData()
@@ -10,7 +8,7 @@ public interface IData {
 //	}
 //	
 	
-	public String getFieldValue(String fieldName);
+//	public String getFieldValue(String fieldName);
 	
 	
 	public void getDataFromFields();

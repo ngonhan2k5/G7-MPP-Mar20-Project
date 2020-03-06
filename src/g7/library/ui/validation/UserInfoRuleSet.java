@@ -26,8 +26,8 @@ public class UserInfoRuleSet implements RuleSet {
 	}
 	
 	private void nonemptyRule() throws RuleException {
-		if(profWin.getFieldValue("memberId").trim().isEmpty() ||
-		     profWin.getFieldValue("firstName").trim().isEmpty() ||
+		if(profWin.getFieldValue("firstName").trim().isEmpty() ||
+		     profWin.getFieldValue("lastName").trim().isEmpty() ||
 			 profWin.getFieldValue("lastName").trim().isEmpty() ||
 //			 profWin.getFieldValue("memberId").trim().isEmpty() ||
 //			 profWin.getFieldValue("memberId").trim().isEmpty() ||

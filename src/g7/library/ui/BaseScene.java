@@ -23,10 +23,10 @@ public abstract class BaseScene implements IData {
 	private Scene scene;
 	protected LibraryController libraryController;
 	
-	protected HashMap<String, String> data = new HashMap<>();
+	protected final HashMap<String, String> data = new HashMap<>();
 	
 	public String getFieldValue(String fieldName) {
-		
+
 		return data.get(fieldName);
 	}
 	

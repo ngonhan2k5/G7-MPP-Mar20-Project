@@ -1,6 +1,7 @@
 package g7.library.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class BookCopy implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +14,7 @@ public class BookCopy implements Serializable {
 		if(book == null) throw new IllegalArgumentException("Book is null.");
 		this.book = book;
 		this.copyNumber = copyNumber;
+		this.isAvailable = true;
 	}
 
 	public boolean isAvailable() {
@@ -30,4 +32,28 @@ public class BookCopy implements Serializable {
 	public int getCopyNumber() {
 		return copyNumber;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((book == null) ? 0 : book.hashCode());
+		result = prime * result + copyNumber;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		BookCopy other = (BookCopy) obj;
+		return Objects.equals(book, other.book) && Objects.equals(copyNumber, other.copyNumber);
+	}
+	
+	
 }

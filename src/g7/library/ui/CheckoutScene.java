@@ -1,6 +1,8 @@
 package g7.library.ui;
 
 import g7.library.domain.BookCopy;
+import g7.library.domain.LibraryMember;
+import g7.library.utils.UserInterfaceUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,10 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -39,7 +39,8 @@ public class CheckoutScene extends BaseScene {
 		VBox vBox = new VBox(10);
 
 		Label title = new Label("Checkout Book Form");
-		title.setStyle("-fx-font-size: 20");
+		title.getStyleClass().add("form-title");
+
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -48,24 +49,25 @@ public class CheckoutScene extends BaseScene {
 		errorContainer.setAlignment(Pos.BASELINE_LEFT);
 
 		HBox hButtons = new HBox(10);
-
 		VBox checkoutFields = new VBox(10);
+		Button checkout = new Button("Checkout");
+		Button findBook = new Button("Find");
+		Button findMember = new Button("Find");
+		checkout.setOnAction(this::handleOnSubmit);
+		findBook.setOnAction(this::findBooks);
+		Separator separator = new Separator();
+		separator.prefWidthProperty().bind(checkoutFields.widthProperty());
 
-		HBox h1 = new HBox(10, new Label("Member ID: "), memberId);
-		HBox h2 = new HBox(10, new Label("ISBN: "), isbn);
+		HBox h1 = new HBox(10, new Label("Member ID: "), memberId, findMember);
+		HBox h2 = new HBox(10, new Label("ISBN: "), isbn, findBook);
+		HBox h3 = new HBox(separator);
 
 		Stream.of(h1, h2).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
 
-		checkoutFields.getChildren().addAll(h1, h2);
-
-		Button checkout = new Button("Checkout");
-		Button findBook = new Button("Find Books");
-		checkout.setOnAction(this::handleOnSubmit);
-		findBook.setOnAction(this::findBooks);
-		
+		checkoutFields.getChildren().addAll(h1, h2, h3);
 		hButtons.setAlignment(Pos.BASELINE_RIGHT);
 		hButtons.setMinHeight(50);
-		hButtons.getChildren().addAll(findBook, checkout);
+		hButtons.getChildren().addAll(checkout);
 
 
 		vBox.getChildren().addAll(titleContainer, errorContainer, checkoutFields, hButtons);
@@ -85,50 +87,37 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-		StackPane pane = new StackPane();
-		
-		VBox finderContainer = new VBox(10);
-		HBox container = new HBox(10);
 		TextField searchText = new TextField();
 		Button searchButton = new Button("Search");
-		
-		Parent booksTable = renderBooks();
-		
-		container.getChildren().addAll(searchText, searchButton);
-		finderContainer.getChildren().addAll(container, booksTable);
-		
-		pane.getChildren().addAll(finderContainer);
-		
+		ObservableList<BookCopy> books = loadBooks();
+		Parent booksTable = UserInterfaceUtils.renderBooks(books);
+
+		HBox container = new HBox(10, searchText, searchButton);
+		VBox finderContainer = new VBox(10, container, booksTable);
+		StackPane pane = new StackPane(finderContainer);
+
 		Start.displayPopup(pane, "Book Finder", 550, 500);
+	}
+
+	private void findMembers(ActionEvent evt) {
+		TextField searchText = new TextField();
+		Button searchButton = new Button("Search");
+		ObservableList<LibraryMember> members = loadMembers("");
+		Parent booksTable = UserInterfaceUtils.renderMembers(members);
+
+		HBox container = new HBox(10, searchText, searchButton);
+		VBox finderContainer = new VBox(10, container, booksTable);
+		StackPane pane = new StackPane(finderContainer);
+
+		Start.displayPopup(pane, "Book Finder", 550, 500);
+	}
+
+	private ObservableList<LibraryMember> loadMembers(String searchString) {
+		return FXCollections.observableArrayList();
 	}
 	
 	private void closePopup(ActionEvent evt) {
 		Start.hidePopup();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Parent renderBooks() {
-		HBox booksContainer = new HBox();
-		ObservableList<BookCopy> books = loadBooks();
-		
-		TableView<BookCopy> booksTable = new TableView<>();
-		
-		
-		TableColumn<BookCopy, String> titleColumn = new TableColumn<>("Title");
-		TableColumn<BookCopy, String> isbnColumn = new TableColumn<>("ISBN");
-		TableColumn<BookCopy, Integer> availableColumn = new TableColumn<>("Available");
-		
-		titleColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, String>("title"));
-		isbnColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, String>("isbn"));
-		availableColumn.setCellValueFactory(new PropertyValueFactory<BookCopy, Integer>("available"));
-		
-		booksTable.setItems(books);
-		booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn);
-		booksTable.setMinWidth(400);
-		
-		booksContainer.getChildren().add(booksTable);
-		
-		return booksContainer;
 	}
 	
 	private ObservableList<BookCopy> loadBooks() {

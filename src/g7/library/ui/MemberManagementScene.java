@@ -37,7 +37,8 @@ public class MemberManagementScene extends BaseScene {
 		VBox vBox = new VBox(10);
 
 		Label title = new Label("Members Management");
-		title.setStyle("-fx-font-size: 20");
+		title.getStyleClass().add("form-title");
+
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
 

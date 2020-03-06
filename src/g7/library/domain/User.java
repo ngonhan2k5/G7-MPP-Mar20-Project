@@ -40,4 +40,8 @@ public class User implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	public String getFullName() {
+		return firstName + lastName;
+	}
 }

@@ -8,7 +8,10 @@
 	-fx-background-image: url("background.jpg");
 }
 
-.home-title {
+.label .form-title {
 	-fx-font-size: 20;
+}
+
+.home-title {
 	-fx-background-color: white;
 }

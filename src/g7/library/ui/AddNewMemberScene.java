@@ -1,12 +1,5 @@
 package g7.library.ui;
-
-import java.util.Map;
 import java.util.stream.Stream;
-
-import javax.swing.JOptionPane;
-
-import com.sun.javafx.scene.control.InputField;
-
 import g7.library.ui.validation.RuleException;
 import g7.library.ui.validation.RuleSet;
 import g7.library.ui.validation.RuleSetFactory;

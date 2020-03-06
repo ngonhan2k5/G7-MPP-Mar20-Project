@@ -98,7 +98,7 @@ public abstract class BaseScene implements IData {
 			fxNodes.add(btnLogout);
 		}
 		
-		//fxNodes.add(btnExit);
+		fxNodes.add(btnExit);
 		
 		btnAddNew.setOnAction(this::openAddNewMember);
 		btnBooksManagement.setOnAction(this::openBooksManagement);

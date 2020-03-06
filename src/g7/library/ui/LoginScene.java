@@ -1,5 +1,7 @@
 package g7.library.ui;
 
+import g7.library.domain.SystemUser;
+import g7.library.model.UserDataBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -52,7 +54,14 @@ public class LoginScene extends BaseScene {
 		hBox_4.setMinHeight(50);
 
 		btn.setOnAction((event) -> {
-
+			SystemUser systemUser = this.libraryController.login(userName.getText(), password.getText());
+			if(systemUser != null) {
+				Start.trackOfUserData(new UserDataBuilder(systemUser));
+				Start.changeScene(HomeScene.INSTANCE);
+			} else {
+				userName.setText("");
+				password.setText("");
+			}
 		});
 
 		vBox.getChildren().addAll(titleContainer, hBox_2, hBox_3, hBox_4);

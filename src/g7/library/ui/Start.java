@@ -1,5 +1,6 @@
 package g7.library.ui;
 
+import g7.library.model.UserDataBuilder;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -11,6 +12,14 @@ public class Start extends Application {
 	private static Stage stage = null;
 	
 	private static String activeScene = null;
+	
+	public static void trackOfUserData(UserDataBuilder userData) {
+		stage.setUserData(userData);
+	}
+	
+	public static UserDataBuilder getUserData() {
+		return (UserDataBuilder)stage.getUserData();
+	}
 	
 	public static String getActiveScene() {
 		return activeScene;

@@ -16,6 +16,7 @@ import g7.library.domain.LibraryMember;
 import g7.library.domain.LoginCredentials;
 import g7.library.domain.SystemUser;
 import g7.library.domain.User;
+import g7.library.domain.factory.LibraryMemberFactory;
 import g7.library.service.LibraryServiceInterface;
 
 public class LibraryServiceImpl implements LibraryServiceInterface {
@@ -30,15 +31,31 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 
 	@Override
 	public SaveMessage addNewLibraryMember(LibraryMember libraryMember) throws RuntimeException {
-		
-		return null;
+		DataLoader.getInstance().getLibraryMember().put(libraryMember.getMemberId(), libraryMember);
+		return new DataPersistor<Map<String, LibraryMember>>(
+				StorageType.MEMBERS, DataLoader.getInstance().getLibraryMember()).save();
 	}
 
 	@Override
 	public SaveMessage checkoutBook(String bookIsbn, String memberId, Date checkoutDate, Date returnDueDate)
 			throws RuntimeException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		SaveMessage saveMessage = new SaveMessage();
+		try {
+			LibraryMember member = LibraryMemberFactory.getInstance(memberId).addNewCheckoutEntry(
+					bookIsbn, checkoutDate, returnDueDate);
+			
+			//save checkout record
+			DataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
+			saveMessage = new DataPersistor<Map<String, LibraryMember>>(
+					StorageType.MEMBERS, DataLoader.getInstance().getLibraryMember()).save();
+		} catch (Exception e) {
+			saveMessage.setSuccessed(false);
+			saveMessage.setE(e);
+			saveMessage.getErrors().add("Bad Data. Checkout Failed.");
+		}
+		
+		return saveMessage;
 	}
 
 	@Override

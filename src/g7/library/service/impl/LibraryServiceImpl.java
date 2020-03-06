@@ -1,13 +1,16 @@
 package g7.library.service.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import g7.library.dataaccess.DataLoader;
 import g7.library.dataaccess.DataPersistor;
 import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.dataaccess.storage.StorageType;
 import g7.library.domain.Book;
+import g7.library.domain.BookCopy;
 import g7.library.domain.CheckoutRecord;
 import g7.library.domain.LibraryMember;
 import g7.library.domain.LoginCredentials;
@@ -81,6 +84,20 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 		DataLoader.getInstance().getBooks().put(book.getIsbn(), book);
 		return new DataPersistor<Map<String, Book>>(
 				StorageType.BOOKS, DataLoader.getInstance().getBooks()).save();
+	}
+
+	@Override
+	public Set<BookCopy> fetchAllBookCopies() {
+		Set<BookCopy> bookCopies = new HashSet<BookCopy>();
+		Map<String, Book> books = DataLoader.getInstance().getBooks();
+		for(String isbn : books.keySet()) {
+			Book book = books.get(isbn);
+			if(book != null) {
+				bookCopies.addAll(book.getCopies());
+			}
+		}
+		
+		return bookCopies;
 	}
 
 }

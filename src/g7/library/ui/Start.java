@@ -1,4 +1,4 @@
-package ui;
+package g7.library.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;

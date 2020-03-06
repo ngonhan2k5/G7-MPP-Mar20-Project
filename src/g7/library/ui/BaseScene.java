@@ -1,4 +1,4 @@
-package ui;
+package g7.library.ui;
 
 import java.util.stream.Stream;
 
@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;

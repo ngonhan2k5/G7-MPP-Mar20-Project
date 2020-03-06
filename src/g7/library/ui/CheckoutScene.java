@@ -1,4 +1,4 @@
-package ui;
+package g7.library.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

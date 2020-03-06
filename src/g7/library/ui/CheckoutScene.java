@@ -55,6 +55,7 @@ public class CheckoutScene extends BaseScene {
 		Button findMember = new Button("Find");
 		checkout.setOnAction(this::handleOnSubmit);
 		findBook.setOnAction(this::findBooks);
+		findMember.setOnAction(this::findMembers);
 		Separator separator = new Separator();
 		separator.prefWidthProperty().bind(checkoutFields.widthProperty());
 

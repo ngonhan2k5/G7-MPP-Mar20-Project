@@ -60,6 +60,12 @@ public class UserInterfaceUtils {
     booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn);
     booksTable.setMinWidth(400);
 
-    return new HBox(booksTable);
+    AnchorPane anchorPane = new AnchorPane(booksTable);
+    AnchorPane.setTopAnchor(booksTable, 0.0);
+    AnchorPane.setRightAnchor(booksTable, 0.0);
+    AnchorPane.setBottomAnchor(booksTable, 0.0);
+    AnchorPane.setLeftAnchor(booksTable, 0.0);
+
+    return anchorPane;
   }
 }

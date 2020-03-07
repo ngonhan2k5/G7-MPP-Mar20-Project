@@ -129,15 +129,14 @@ public class BookManagementScene extends BaseScene {
 
 	public static class CustomButtonCell extends TableCell<Book, Parent> {
 		final HBox buttons;
+		private TextField copyNumber;
 
 		CustomButtonCell() {
 			buttons = new HBox(10);
+			copyNumber = new TextField();
+			copyNumber.setPrefWidth(100);
 			Button viewBtn = new Button("View");
 			Button addCopyBtn = new Button("Add Copy");
-
-			viewBtn.setOnAction(this::viewBook);
-			addCopyBtn.setOnAction(this::addCopy);
-//			buttons.getChildren().addAll(viewBtn, addCopyBtn);
 
 			viewBtn.setOnAction(this::viewBook);
 			addCopyBtn.setOnAction(this::addCopy);
@@ -145,9 +144,9 @@ public class BookManagementScene extends BaseScene {
 			List<Node> nodes = new ArrayList<Node>();
 			nodes.add(viewBtn);
 			UserDataBuilder userData = Start.getUserData();
-			if (userData != null) {
+			if(userData != null) {
 				LogicViewController logicView = new LogicViewController(userData.systemUser());
-				if (logicView.isBookAddPermited()) {
+				if(logicView.isBookAddPermited()) {
 					nodes.add(addCopyBtn);
 				}
 			}
@@ -164,15 +163,48 @@ public class BookManagementScene extends BaseScene {
 		}
 
 		void viewBook(ActionEvent evt) {
-			g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems()
-					.get(CustomButtonCell.this.getIndex());
+			Book book = CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
 			Start.displayPopup(generateBookInformation(book), "Book information", 400, 500, null);
 		}
 
 		void addCopy(ActionEvent evt) {
+			Book book = CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
+			Button addCopyBtn = new Button("Add");
+			addCopyBtn.setOnAction(this::doAddCopy);
+			Start.displayPopup(generateAddCopy(book), "Add Copy", 400, 500, addCopyBtn);
 		}
 
-		private javafx.scene.Parent generateBookInformation(g7.library.domain.Book book) {
+		private Parent generateAddCopy(Book book) {
+			String authors = book.getAuthors().stream().map(Author::getFullName).collect(Collectors.joining(", "));
+
+			VBox bookInfo = new VBox(10);
+			Label title = new Label("Title:"), isbn = new Label("ISBN:"), available = new Label("Available copies:"),
+					author = new Label("Author(s):"), addCopyLabel = new Label("Number of copies: ");
+
+			Stream.of(title, isbn, available, author, addCopyLabel).forEach(lb -> lb.setPrefWidth(150));
+
+			bookInfo.getChildren().addAll(
+					new HBox(title, new Label(book.getTitle())),
+					new HBox(isbn, new Label(book.getIsbn())),
+					new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
+					new HBox(addCopyLabel, this.copyNumber),
+					new HBox(author, new Label(authors))
+			);
+			StackPane pane = new StackPane(bookInfo);
+			StackPane.setMargin(bookInfo, new Insets(15));
+
+			return pane;
+		}
+
+		private void doAddCopy(ActionEvent actionEvent) {
+			if (copyNumber != null && copyNumber.getText() != "") {
+				System.out.println("doAddCopy(ActionEvent actionEvent) - " + copyNumber.getText());
+				Start.hidePopup();
+				// TODO: perform add copy
+			}
+		}
+
+		private Parent generateBookInformation(g7.library.domain.Book book) {
 			String authors = book.getAuthors().stream().map(Author::getFullName).collect(Collectors.joining(", "));
 
 			VBox bookInfo = new VBox(10);
@@ -181,10 +213,12 @@ public class BookManagementScene extends BaseScene {
 
 			Stream.of(title, isbn, available, author).forEach(lb -> lb.setPrefWidth(150));
 
-			bookInfo.getChildren().addAll(new HBox(title, new Label(book.getTitle())),
+			bookInfo.getChildren().addAll(
+					new HBox(title, new Label(book.getTitle())),
 					new HBox(isbn, new Label(book.getIsbn())),
 					new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
-					new HBox(author, new Label(authors)));
+					new HBox(author, new Label(authors))
+			);
 			StackPane pane = new StackPane(bookInfo);
 			StackPane.setMargin(bookInfo, new Insets(15));
 

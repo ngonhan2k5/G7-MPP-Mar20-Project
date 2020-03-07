@@ -47,6 +47,10 @@
 
 }
 
+.button:hover {
+  -fx-opacity: 0.7;
+}
+
 .popup-window .button {
 	-fx-background-color: #7f8c8d;
 	-fx-border-radius: none;

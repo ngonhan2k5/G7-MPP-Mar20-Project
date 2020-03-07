@@ -1,11 +1,15 @@
 package g7.library.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import g7.library.domain.Author;
 import g7.library.domain.Book;
+import g7.library.frontcontroller.LogicViewController;
+import g7.library.model.UserDataBuilder;
 import g7.library.ui.validation.Attributes;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -13,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -33,11 +38,9 @@ public class BookManagementScene extends BaseScene {
 		super();
 	}
 
-
-  private TextField searchField;
-  private Label message;
-  private BookTableView booksTable;
-
+	private TextField searchField;
+	private Label message;
+	private BookTableView booksTable;
 
 	@Override
 	protected Parent renderMainContent() {
@@ -60,7 +63,7 @@ public class BookManagementScene extends BaseScene {
 
 		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 //    HBox titleContainer = new HBox(20, title);
-    titleContainer.setAlignment(Pos.BOTTOM_LEFT);
+		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
 		searchBtn.setOnAction(this::handleOnSearch);
 
@@ -74,7 +77,6 @@ public class BookManagementScene extends BaseScene {
 
 		return hBox_1;
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private TableView<Book> createBookTableView() {
@@ -97,7 +99,6 @@ public class BookManagementScene extends BaseScene {
 		return booksTable;
 	}
 
-
 	private void handleOnAdd(ActionEvent evt) {
 		Set<Book> books = libraryController.searchBook(searchField.getText());
 		this.booksTable.setItems(FXCollections.observableArrayList(books));
@@ -108,21 +109,17 @@ public class BookManagementScene extends BaseScene {
 		return FXCollections.observableArrayList(libraryController.findAllBooks());
 	}
 
-  private void handleOnSearch(ActionEvent evt) {
-	  Set<Book> books = libraryController.searchBook(searchField.getText());
-	  this.booksTable.update(books);
-  }
+	private void handleOnSearch(ActionEvent evt) {
+		Set<Book> books = libraryController.searchBook(searchField.getText());
+		this.booksTable.update(books);
+	}
 
-
-
-
-  private void initFields() {
-    searchField = new TextField();
-    message = new Label();
-    this.booksTable = new BookTableView();
-    this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
-  }
-
+	private void initFields() {
+		searchField = new TextField();
+		message = new Label();
+		this.booksTable = new BookTableView();
+		this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
+	}
 
 	@Override
 	public void getDataFromFields(Attributes<Control> attrs) {
@@ -130,11 +127,8 @@ public class BookManagementScene extends BaseScene {
 
 	}
 
-
-
-  public static class CustomButtonCell extends TableCell<Book, Parent> {
-    final HBox buttons;
-
+	public static class CustomButtonCell extends TableCell<Book, Parent> {
+		final HBox buttons;
 
 		CustomButtonCell() {
 			buttons = new HBox(10);
@@ -143,7 +137,22 @@ public class BookManagementScene extends BaseScene {
 
 			viewBtn.setOnAction(this::viewBook);
 			addCopyBtn.setOnAction(this::addCopy);
-			buttons.getChildren().addAll(viewBtn, addCopyBtn);
+//			buttons.getChildren().addAll(viewBtn, addCopyBtn);
+
+			viewBtn.setOnAction(this::viewBook);
+			addCopyBtn.setOnAction(this::addCopy);
+
+			List<Node> nodes = new ArrayList<Node>();
+			nodes.add(viewBtn);
+			UserDataBuilder userData = Start.getUserData();
+			if (userData != null) {
+				LogicViewController logicView = new LogicViewController(userData.systemUser());
+				if (logicView.isBookAddPermited()) {
+					nodes.add(addCopyBtn);
+				}
+			}
+
+			buttons.getChildren().addAll(nodes);
 		}
 
 		@Override
@@ -154,10 +163,11 @@ public class BookManagementScene extends BaseScene {
 			}
 		}
 
-    void viewBook(ActionEvent evt) {
-      g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
-      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500, null);
-    }
+		void viewBook(ActionEvent evt) {
+			g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems()
+					.get(CustomButtonCell.this.getIndex());
+			Start.displayPopup(generateBookInformation(book), "Book information", 400, 500, null);
+		}
 
 		void addCopy(ActionEvent evt) {
 		}

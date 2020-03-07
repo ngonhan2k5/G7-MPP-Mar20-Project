@@ -69,7 +69,7 @@ public class LoginScene extends BaseScene {
 			} else {
 				userName.setText("");
 				password.setText("");
-				globalMessage.setText("Login Failed. The provided credentials were not found.");
+				globalMessage.setText("Login Failed. The provided credentials were not valid.");
 			}
 		});
 

@@ -27,9 +27,9 @@ public final class Address implements Serializable {
 	public int getZip() {
 		return zip;
 	}
+
 	@Override
 	public String toString() {
 		return "(" + street + ", " + city + ", " + zip + ")";
-		
 	}
 }

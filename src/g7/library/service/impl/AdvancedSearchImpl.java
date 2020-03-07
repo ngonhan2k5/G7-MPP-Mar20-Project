@@ -27,11 +27,12 @@ public class AdvancedSearchImpl implements AdvancedSearchInterface {
 		
 		for(String isbn : books.keySet()) {
 			//by isbn //by title //by Author name
-			if(isbn.contains(criteria.searchString()) 
-					|| books.get(isbn).getTitle().contains(criteria.searchString())
+			String searchString = criteria.searchString().toLowerCase();
+			if(isbn.toLowerCase().contains(searchString) 
+					|| books.get(isbn).getTitle().toLowerCase().contains(searchString)
 					|| books.get(isbn).getAuthors().stream().anyMatch(
-							p -> p.getFirstName().contains(criteria.searchString()) 
-							|| p.getLastName().contains(criteria.searchString())))
+							p -> p.getFirstName().toLowerCase().contains(searchString) 
+							|| p.getLastName().toLowerCase().contains(searchString)))
 				results.add(books.get(isbn));
 			
 		}

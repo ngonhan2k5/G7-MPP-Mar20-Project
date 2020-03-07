@@ -1,5 +1,9 @@
 package g7.library.ui;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import g7.library.domain.Author;
 import g7.library.domain.Book;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -19,9 +23,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class BookManagementScene extends BaseScene {
 
   public static final BookManagementScene INSTANCE = new BookManagementScene();
@@ -32,7 +33,7 @@ public class BookManagementScene extends BaseScene {
 
   private TextField searchField;
   private Label message;
-  private ObservableList<Book> books;
+  private TableView<Book> booksTable;
 
   @Override
   protected Parent renderMainContent() {
@@ -55,18 +56,18 @@ public class BookManagementScene extends BaseScene {
 
     searchBtn.setOnAction(this::handleOnSearch);
 
-    vBox.getChildren().addAll(titleContainer, message, h1, this.renderBooks());
+    HBox booksContainer = new HBox();
+    booksContainer.getChildren().add(this.booksTable);
+    
+    vBox.getChildren().addAll(titleContainer, message, h1, booksContainer);
     hBox_1.getChildren().add(vBox);
 
     return hBox_1;
   }
 
   @SuppressWarnings("unchecked")
-  private Parent renderBooks() {
-    HBox booksContainer = new HBox();
-    this.books = loadBooks();
-
-    TableView<Book> booksTable = new TableView<>();
+private TableView<Book> createBookTableView() {
+	TableView<Book> booksTable = new TableView<>();
 
     TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
     TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
@@ -78,16 +79,16 @@ public class BookManagementScene extends BaseScene {
     availableColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
     actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
 
-    booksTable.setItems(this.books);
     booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
     booksTable.setMinWidth(400);
-    booksContainer.getChildren().add(booksTable);
-
-    return booksContainer;
+    booksTable.setItems(loadBooks());
+    return booksTable;
   }
 
   private void handleOnSearch(ActionEvent evt) {
-
+	  Set<Book> books = libraryController.searchBook(searchField.getText());
+	  this.booksTable.setItems(FXCollections.observableArrayList(books));
+	  this.booksTable.refresh();
   }
 
   private ObservableList<Book> loadBooks() {
@@ -97,6 +98,7 @@ public class BookManagementScene extends BaseScene {
   private void initFields() {
     searchField = new TextField();
     message = new Label();
+    this.booksTable = createBookTableView();
   }
 
   @Override

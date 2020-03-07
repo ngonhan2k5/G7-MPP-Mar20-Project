@@ -45,8 +45,8 @@ public class UserInterfaceUtils {
     TableColumn<BookCopy, String> isbnColumn = new TableColumn<>("ISBN");
     TableColumn<BookCopy, Integer> availableColumn = new TableColumn<>("Available");
 
-    titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-    isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+    titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getBook().getTitle()));
+    isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getBook().getIsbn()));
     availableColumn.setCellValueFactory(new PropertyValueFactory<>("available"));
 
     TableView<BookCopy> booksTable = new TableView<>(books);

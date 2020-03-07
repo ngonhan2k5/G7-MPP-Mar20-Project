@@ -1,12 +1,15 @@
 package g7.library.frontcontroller;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
@@ -51,5 +54,17 @@ public class LibraryController {
 		return Optional.ofNullable(libraryService.fetchAllMembers())
 				.map(Map::values)
 				.orElse(Collections.emptyList());
+	}
+	
+	public SaveMessage checkoutBook(String bookIsbn, String memberId) {
+		Book book = findBookByISBN(bookIsbn);
+		
+		Calendar ca = Calendar.getInstance();
+		ca.add(Calendar.DAY_OF_MONTH, book.getMaxCheckoutLength());
+		
+		Date checkoutDate = new Date();
+		Date returnDueDate = ca.getTime();
+		
+		return libraryService.checkoutBook(bookIsbn, memberId, checkoutDate, returnDueDate);
 	}
 }

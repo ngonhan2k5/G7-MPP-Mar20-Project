@@ -125,23 +125,24 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-		TextField searchText = new TextField();
-		Button searchButton = new Button("Search");
-		Button choose = new Button("OK");
-
-		BookTableView bookTableView = new BookTableView();
-		bookTableView.update(libraryController.findAllBooks());
-		Parent booksTable = new HBox(bookTableView);
-		HBox container = new HBox(10, searchText, searchButton, choose);
-		VBox finderContainer = new VBox(10, container, booksTable);
-		StackPane pane = new StackPane(finderContainer);
-
-		searchButton.setOnAction(e -> {
-			Set<Book> books = libraryController.searchBook(searchText.getText());
-			bookTableView.update(books);
-		});
+//		TextField searchText = new TextField();
+//		Button searchButton = new Button("Search");
+//		Button choose = new Button("OK");
+//
+//		BookTableView bookTableView = new BookTableView();
+//		bookTableView.update(libraryController.findAllBooks());
+//		Parent booksTable = new HBox(bookTableView);
+//		HBox container = new HBox(10, searchText, searchButton, choose);
+//		VBox finderContainer = new VBox(10, container, booksTable);
+//		StackPane pane = new StackPane(finderContainer);
+//
+//		searchButton.setOnAction(e -> {
+//			Set<Book> books = libraryController.searchBook(searchText.getText());
+//			bookTableView.update(books);
+//		});
 		
-		Start.displayPopup(pane, "Book Finder", 550, 600, choose);
+		BookSearchPopupWindow.INSTANCE.show();
+		//Start.displayPopup(pane, "Book Finder", 550, 600, choose);
 	}
 
 	private void findMembers(ActionEvent evt) {

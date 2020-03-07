@@ -9,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 public class Start extends Application {
 
 	private static Stage stage = null;

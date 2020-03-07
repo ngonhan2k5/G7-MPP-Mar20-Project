@@ -17,9 +17,6 @@ public class PopupWindow extends Stage {
 	public static final double DEFAULT_WIDTH = 300;
 	public static final double DEFAULT_HEIGHT = 250;
 
-	private PopupWindow() {
-	}
-
 	public void setScene(Parent content, double width, double height) {
 		content.getStyleClass().add("popup-window");
 		setMinWidth(width);
@@ -54,5 +51,10 @@ public class PopupWindow extends Stage {
 		StackPane.setMargin(buttons, new Insets(15));
 		this.setScene(pane, width, height);
 		this.setTitle(title);
+	}
+	
+	public void displayPopup(Parent content, String title, double width, double height, Parent item) {
+		this.setScene(content, title, width, height, item);
+		this.show();
 	}
 }

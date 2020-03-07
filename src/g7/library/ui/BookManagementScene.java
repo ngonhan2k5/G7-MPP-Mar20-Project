@@ -1,16 +1,21 @@
 package g7.library.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import g7.library.domain.Author;
 import g7.library.domain.Book;
+import g7.library.frontcontroller.LogicViewController;
+import g7.library.model.UserDataBuilder;
 import g7.library.ui.validation.Attributes;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -91,7 +96,18 @@ public class BookManagementScene extends BaseScene {
 
       viewBtn.setOnAction(this::viewBook);
       addCopyBtn.setOnAction(this::addCopy);
-      buttons.getChildren().addAll(viewBtn, addCopyBtn);
+      
+      List<Node> nodes = new ArrayList<Node>();
+      nodes.add(viewBtn);
+      UserDataBuilder userData = Start.getUserData();
+		if(userData != null) {
+			LogicViewController logicView = new LogicViewController(userData.systemUser());
+			if(logicView.isBookAddPermited()) {
+				 nodes.add(addCopyBtn);
+			}
+		}
+		
+		buttons.getChildren().addAll(nodes);
     }
 
     @Override

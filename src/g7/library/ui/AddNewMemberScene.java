@@ -3,11 +3,9 @@ package g7.library.ui;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
-
 import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.domain.Address;
 import g7.library.domain.LibraryMember;
-import g7.library.domain.factory.LibraryMemberFactory;
 import g7.library.service.LibraryServiceInterface;
 import g7.library.service.impl.LibraryServiceImpl;
 import g7.library.ui.validation.Attributes;
@@ -20,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
@@ -52,9 +49,9 @@ public class AddNewMemberScene extends BaseScene {
 		VBox vBox = new VBox(10);
 
 		Label title = new Label("Add New Member Form");
-		title.setStyle("-fx-font-size: 20");
+		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
-		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		titleContainer.setAlignment(Pos.BASELINE_LEFT);
 
 		HBox hButtons = new HBox(10);
 
@@ -71,7 +68,7 @@ public class AddNewMemberScene extends BaseScene {
 		HBox h3 = new HBox(10, new Label("Street: "), street);
 		HBox h4 = new HBox(10, new Label("City: "), city);
 		HBox h5 = new HBox(10, new Label("State: "), state);
-		HBox h6 = new HBox(10, new Label("Zipcode: "), zip);
+		HBox h6 = new HBox(10, new Label("Zip Code: "), zip);
 		HBox h7 = new HBox(10, new Label("Phone: "), phone);
 
 		Stream.of(h0, h1, h2, h3, h4, h5, h6, h7).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));

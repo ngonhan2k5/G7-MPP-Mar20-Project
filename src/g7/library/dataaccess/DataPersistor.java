@@ -23,11 +23,13 @@ public class DataPersistor<E> {
 			SerializableUtil.saveToStorage(type, data);
 			message.setSuccessed(true);
 			message.setMessage(type + " Saved Successfully.");
+			System.out.println(type + " Saved Successfully.");
 		} catch (IOException e) {
 			e.printStackTrace();
 			message.setE(e);
 			message.getErrors().add(type + " Saved Unsuccessfully. Failed :)");
 			message.setSuccessed(false);
+			System.out.println(type + " Saved Unsuccessfully. Failed :)");
 		}
 		
 		return message;
@@ -38,6 +40,13 @@ public class DataPersistor<E> {
 		private boolean isSuccessed;
 		private Set<String> errors = new HashSet<String>();
 		private Throwable e;
+		
+		public String showErrors() {
+			String errorMsgs = "";
+			for(String e : errors)
+				errorMsgs += e + "\n";
+			return errorMsgs;
+		}
 		
 		public String getMessage() {
 			return message;

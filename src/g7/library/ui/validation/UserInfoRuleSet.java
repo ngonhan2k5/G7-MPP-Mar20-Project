@@ -27,10 +27,10 @@ public class UserInfoRuleSet implements RuleSet {
 	}
 	
 	private void nonemptyRule(String[] fields) throws RuleException {
-		System.out.println("A"+profWin.getFieldValue(fields[0]).isBlank());
+		//System.out.println("A"+profWin.getFieldValue(fields[0]).isEmpty());
 		for(int i=0; i< fields.length; i++) {
-			boolean s = profWin.getFieldValue(fields[i]).isBlank();
-			if (profWin.getFieldValue(fields[i]).isBlank())
+			boolean s = profWin.getFieldValue(fields[i]).isEmpty();
+			if (profWin.getFieldValue(fields[i]).isEmpty())
 			   throw new RuleException(Util.camel2Name(fields[i]) + " field must be nonempty");
 		}
 	}

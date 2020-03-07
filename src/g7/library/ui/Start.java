@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
 public class Start extends Application {
 
 	private static Stage stage = null;
@@ -72,8 +74,8 @@ public class Start extends Application {
 		PopupWindow.INSTANCE.show();
 	}
 	
-	public static void displayPopup(Parent content, String title, double width, double height) {
-		PopupWindow.INSTANCE.setScene(content, title, width, height);
+	public static void displayPopup(Parent content, String title, double width, double height, Parent item) {
+		PopupWindow.INSTANCE.setScene(content, title, width, height, item);
 		PopupWindow.INSTANCE.show();
 	}
 	

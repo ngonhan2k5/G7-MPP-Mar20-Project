@@ -57,6 +57,8 @@ public class BookManagementScene extends BaseScene {
 		Button addBtn = new Button("+ Add");
 
 		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
+//    HBox titleContainer = new HBox(20, title);
+    titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
 		searchBtn.setOnAction(this::handleOnSearch);
 
@@ -141,12 +143,10 @@ public class BookManagementScene extends BaseScene {
 			}
 		}
 
-		void viewBook(ActionEvent evt) {
-			g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems()
-					.get(CustomButtonCell.this.getIndex());
-			System.out.println("Item: " + book.toString());
-			Start.displayPopup(generateBookInformation(book), "Book information", 400, 500);
-		}
+    void viewBook(ActionEvent evt) {
+      g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
+      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500, null);
+    }
 
 		void addCopy(ActionEvent evt) {
 		}

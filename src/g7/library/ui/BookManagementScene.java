@@ -135,8 +135,10 @@ public class BookManagementScene extends BaseScene {
 			buttons = new HBox(10);
 			copyNumber = new TextField();
 			copyNumber.setPrefWidth(100);
-			Button viewBtn = new Button("View");
-			Button addCopyBtn = new Button("Add Copy");
+			Button viewBtn = new Button();
+			viewBtn.getStyleClass().addAll("view-btn", "btn-icon");
+			Button addCopyBtn = new Button();
+			addCopyBtn.getStyleClass().addAll("copy-btn", "btn-icon");
 
 			viewBtn.setOnAction(this::viewBook);
 			addCopyBtn.setOnAction(this::addCopy);

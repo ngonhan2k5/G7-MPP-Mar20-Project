@@ -49,8 +49,8 @@ public class CheckoutScene extends BaseScene {
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
-		message.setStyle("-fx-text-color: green");
-		errorMessage.setStyle("-fx-text-color: red");
+		message.getStyleClass().addAll("message");
+		errorMessage.getStyleClass().addAll("error-message");
 		HBox errorContainer = new HBox(20, errorMessage);
 		HBox messageContainer = new HBox(20, message);
 		errorContainer.setAlignment(Pos.BASELINE_LEFT);
@@ -58,16 +58,18 @@ public class CheckoutScene extends BaseScene {
 		HBox hButtons = new HBox(10);
 		VBox checkoutFields = new VBox(10);
 		Button checkout = new Button("Checkout");
-		Button findBook = new Button("Find");
-		Button findMember = new Button("Find");
+		Button findBook = new Button();
+		Button findMember = new Button();
+		findBook.getStyleClass().addAll("find-btn", "btn-icon");
+		findMember.getStyleClass().addAll("find-btn", "btn-icon");
 		checkout.setOnAction(this::handleOnSubmit);
 		findBook.setOnAction(this::findBooks);
 		findMember.setOnAction(this::findMembers);
 		Separator separator = new Separator();
 		separator.prefWidthProperty().bind(checkoutFields.widthProperty());
 
-		HBox h1 = new HBox(10, new Label("Member ID: "), memberId, findMember);
-		HBox h2 = new HBox(10, new Label("ISBN: "), isbn, findBook);
+		HBox h1 = new HBox(5, new Label("Member ID: "), memberId, findMember);
+		HBox h2 = new HBox(5, new Label("ISBN: "), isbn, findBook);
 		HBox h3 = new HBox(separator);
 
 		Stream.of(h1, h2).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
@@ -93,29 +95,25 @@ public class CheckoutScene extends BaseScene {
 
 	private void handleOnSubmit(ActionEvent evt) {
 		if("".equals(isbn.getText()) || "".equals(memberId.getText())) {
-			message.setText("Member Id and ISBN are required.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Member Id and ISBN are required.");
 			return;
 		}
 		
 		if(!libraryController.findAllMembers().stream().anyMatch(
 				u -> u.getMemberId().equals(memberId.getText()))) {
-			message.setText("Member Id is invalid.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Member Id is invalid.");
 			return;
 		}
 		
 		Book book = libraryController.findBookByISBN(isbn.getText());
 		if(book == null) {
-			message.setText("Book is not found or unavailable.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Book is not found or unavailable.");
 			return;
 		}
 
 		SaveMessage result = libraryController.checkoutBook(isbn.getText(), memberId.getText());
 		if(result.isSuccessed()) {
 			message.setText("Processed book checkout successfully.");
-			message.setStyle("-fx-text-fill: blue;");
 			isbn.setText("");
 			memberId.setText("");
 		} else {
@@ -147,6 +145,7 @@ public class CheckoutScene extends BaseScene {
 	private void findMembers(ActionEvent evt) {
 		TextField searchText = new TextField();
 		Button searchButton = new Button("Search");
+		searchButton.getStyleClass().addAll("find-btn", "btn-icon");
 		Button choose = new Button("OK");
 		ObservableList<LibraryMember> members = loadMembers("");
 		Parent booksTable = UserInterfaceUtils.renderMembers(members);

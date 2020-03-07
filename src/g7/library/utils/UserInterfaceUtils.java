@@ -1,5 +1,6 @@
 package g7.library.utils;
 
+import g7.library.domain.Address;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -9,6 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+
+import java.util.Optional;
 
 /**
  * @author knguyen93
@@ -27,7 +30,7 @@ public class UserInterfaceUtils {
     firstNameColumn.setCellValueFactory(m -> new ReadOnlyStringWrapper(m.getValue().getFirstName()));
     lastNameColumn.setCellValueFactory(m -> new ReadOnlyStringWrapper(m.getValue().getLastName()));
     phoneColumn.setCellValueFactory(m -> new ReadOnlyStringWrapper(m.getValue().getPhoneNumber()));
-    addressColumn.setCellValueFactory(m -> new ReadOnlyStringWrapper(m.getValue().getAddress().toString()));
+    addressColumn.setCellValueFactory(m -> new ReadOnlyStringWrapper(Optional.ofNullable(m.getValue().getAddress()).map(Address::toString).orElse("")));
 
     TableView<LibraryMember> table = new TableView<>(members);
     table.getColumns().addAll(memberIdColumn, firstNameColumn, lastNameColumn, phoneColumn, addressColumn);

@@ -10,12 +10,15 @@ import g7.library.frontcontroller.LogicViewController;
 import g7.library.model.UserDataBuilder;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -55,19 +58,23 @@ public abstract class BaseScene implements IData {
 		AnchorPane leftMenu = new AnchorPane(renderLeftMenu());
 		Parent mainContent = this.renderMainContent();
 		StackPane mainContainer = new StackPane(mainContent);
-		StackPane.setMargin(mainContent, new Insets(15));
+		StackPane.setMargin(mainContent, new Insets(10));
 
 		// set prefer size
-		leftMenu.setPrefWidth(250);
-		mainContainer.minWidth(450);
+		leftMenu.setPrefWidth(220);
+		mainContainer.minWidth(580);
 
-		SplitPane splitPane = new SplitPane(leftMenu, mainContainer);
-		SplitPane.setResizableWithParent(leftMenu, false);
-		SplitPane.setResizableWithParent(mainContainer, true);
-		splitPane.setDividerPositions(0.3, 1);
-		splitPane.setMinSize(700, 500);
+		Separator separator = new Separator(Orientation.VERTICAL);
+		separator.prefHeightProperty().bind(mainContainer.heightProperty());
+		HBox mainScreen = new HBox(5, leftMenu, separator, mainContainer);
+
+//		SplitPane splitPane = new SplitPane(leftMenu, mainContainer);
+//		SplitPane.setResizableWithParent(leftMenu, false);
+//		SplitPane.setResizableWithParent(mainContainer, true);
+//		splitPane.setDividerPositions(0.3, 1);
+//		splitPane.setMinSize(800, 500);
 		
-		return new Scene(splitPane, 700, 500);
+		return new Scene(mainScreen, 800, 500);
 	}
 
 	private Parent renderLeftMenu() {
@@ -77,6 +84,7 @@ public abstract class BaseScene implements IData {
 		// buttons
 		Button btnLogin = createButton("Login", LoginScene.class.getName());
 		Button btnAddNew = createButton("Add new member", AddNewMemberScene.class.getName());
+		Button btnMemberManagement = createButton("Members Mamagement", MemberManagementScene.class.getName());
 		Button btnBooksManagement = createButton("Books Management", BookManagementScene.class.getName());
 		Button btnCheckout = createButton("Checkout", CheckoutScene.class.getName());
 		Button btnLogout = new Button("Logout");
@@ -88,9 +96,11 @@ public abstract class BaseScene implements IData {
 			fxNodes.add(btnLogin);
 		} else {
 			LogicViewController logicView = new LogicViewController(userData.systemUser());
-			if(logicView.isLibMemberAddPermited()) 
+			if(logicView.isLibMemberAddPermited()) {
+				fxNodes.add(btnMemberManagement);
 				fxNodes.add(btnAddNew);
-			
+			}
+
 			if(logicView.isBookCheckoutPermited())
 				fxNodes.add(btnCheckout);
 			
@@ -102,12 +112,13 @@ public abstract class BaseScene implements IData {
 		
 		btnAddNew.setOnAction(this::openAddNewMember);
 		btnBooksManagement.setOnAction(this::openBooksManagement);
+		btnMemberManagement.setOnAction(this::openMembersManagement);
 		btnCheckout.setOnAction(this::openCheckout);
 		btnLogin.setOnAction(this::openLogin);
 		btnLogout.setOnAction(this::handleLogout);
 		btnExit.setOnAction(this::handleExit);
 
-		Stream.of(btnAddNew, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit).forEach(b -> b.setPrefWidth(150));
+		Stream.of(btnAddNew, btnMemberManagement, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit).forEach(b -> b.setPrefWidth(200));
 		menuContainer.getChildren().addAll(fxNodes);
 		StackPane.setMargin(menuContainer, new Insets(20));
 		pane.getChildren().add(menuContainer);
@@ -140,7 +151,9 @@ public abstract class BaseScene implements IData {
 	private void openCheckout(ActionEvent evt) {
 		Start.changeScene(CheckoutScene.INSTANCE);
 	}
-	
+
+	private void openMembersManagement(ActionEvent evt) {Start.changeScene(MemberManagementScene.INSTANCE);}
+
 	private void handleLogout(ActionEvent evt) {
 		Start.trackOfUserData(null);
 		Start.changeScene(LoginScene.INSTANCE);
@@ -149,6 +162,4 @@ public abstract class BaseScene implements IData {
 	private void handleExit(ActionEvent evt) {
 		Start.exit();
 	}
-	
-	
 }

@@ -13,5 +13,6 @@
 }
 
 .home-title {
+	-fx-font-size: 30;
 	-fx-background-color: white;
 }

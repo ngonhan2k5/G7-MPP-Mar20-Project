@@ -1,5 +1,12 @@
 package g7.library.frontcontroller;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
@@ -10,12 +17,6 @@ import g7.library.service.AdvancedSearchInterface;
 import g7.library.service.LibraryServiceInterface;
 import g7.library.service.impl.AdvancedSearchImpl;
 import g7.library.service.impl.LibraryServiceImpl;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 public class LibraryController {
 	private LibraryServiceInterface libraryService = new LibraryServiceImpl();
@@ -41,6 +42,8 @@ public class LibraryController {
 	
 
 	public Set<Book> searchBook(String searchString) {
+		if("".equals(searchString))
+			return new HashSet<Book>(findAllBooks());
 		return searchService.searchBook(new BookSearchCriteria().withSearchString(searchString));
 	}
 

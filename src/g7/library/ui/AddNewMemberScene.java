@@ -181,7 +181,7 @@ public class AddNewMemberScene extends BaseScene {
 					String.valueOf(timestamp.getTime()), 
 					getFieldValue("firstName"), 
 					getFieldValue("lastName"), 
-					getFieldValue("phoneNumber"),
+					getFieldValue("phone"),
 					new Address(
 							getFieldValue("street"),
 							getFieldValue("city"),

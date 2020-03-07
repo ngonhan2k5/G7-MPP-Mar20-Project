@@ -28,6 +28,7 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private Label message;
+	private Label errorMessage;
 	private TextField memberId;
 	private TextField isbn;
 
@@ -44,10 +45,12 @@ public class CheckoutScene extends BaseScene {
 		title.getStyleClass().add("form-title");
 
 		HBox titleContainer = new HBox(20, title);
-		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
-		message.setStyle("-fx-text-color: red");
-		HBox errorContainer = new HBox(20, message);
+		message.setStyle("-fx-text-color: green");
+		errorMessage.setStyle("-fx-text-color: red");
+		HBox errorContainer = new HBox(20, errorMessage);
+		HBox messageContainer = new HBox(20, message);
 		errorContainer.setAlignment(Pos.BASELINE_LEFT);
 
 		HBox hButtons = new HBox(10);
@@ -73,7 +76,7 @@ public class CheckoutScene extends BaseScene {
 		hButtons.getChildren().addAll(checkout);
 
 
-		vBox.getChildren().addAll(titleContainer, errorContainer, checkoutFields, hButtons);
+		vBox.getChildren().addAll(titleContainer, errorContainer, messageContainer, checkoutFields, hButtons);
 		hBox_1.getChildren().add(vBox);
 
 		return hBox_1;
@@ -81,6 +84,7 @@ public class CheckoutScene extends BaseScene {
 
 	private void initFields() {
 		message = new Label();
+		errorMessage = new Label();
 		memberId = new TextField();
 		isbn = new TextField();
 	}
@@ -92,27 +96,29 @@ public class CheckoutScene extends BaseScene {
 	private void findBooks(ActionEvent evt) {
 		TextField searchText = new TextField();
 		Button searchButton = new Button("Search");
+		Button choose = new Button("OK");
 		ObservableList<BookCopy> books = loadBooks();
 		Parent booksTable = UserInterfaceUtils.renderBooks(books);
 
-		HBox container = new HBox(10, searchText, searchButton);
+		HBox container = new HBox(10, searchText, searchButton, choose);
 		VBox finderContainer = new VBox(10, container, booksTable);
 		StackPane pane = new StackPane(finderContainer);
 
-		Start.displayPopup(pane, "Book Finder", 550, 500);
+		Start.displayPopup(pane, "Book Finder", 550, 600, choose);
 	}
 
 	private void findMembers(ActionEvent evt) {
 		TextField searchText = new TextField();
 		Button searchButton = new Button("Search");
+		Button choose = new Button("OK");
 		ObservableList<LibraryMember> members = loadMembers("");
 		Parent booksTable = UserInterfaceUtils.renderMembers(members);
 
-		HBox container = new HBox(10, searchText, searchButton);
+		HBox container = new HBox(10, searchText, searchButton, choose);
 		VBox finderContainer = new VBox(10, container, booksTable);
 		StackPane pane = new StackPane(finderContainer);
 
-		Start.displayPopup(pane, "Book Finder", 550, 500);
+		Start.displayPopup(pane, "Member Finder", 550, 600, choose);
 	}
 
 	private ObservableList<LibraryMember> loadMembers(String searchString) {

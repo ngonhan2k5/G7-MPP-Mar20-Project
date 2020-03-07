@@ -41,7 +41,7 @@ public class MemberManagementScene extends BaseScene {
 		Label title = new Label("Members Management");
 		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
-		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 		Button searchBtn = new Button("Search");
 		HBox h1 = new HBox(10, searchField, searchBtn);
 		searchBtn.setOnAction(this::handleOnSearch);

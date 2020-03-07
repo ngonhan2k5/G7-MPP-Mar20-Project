@@ -50,7 +50,7 @@ public class BookManagementScene extends BaseScene {
     title.getStyleClass().add("form-title");
 
     HBox titleContainer = new HBox(20, title);
-    titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+    titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
     Button searchBtn = new Button("Search");
 
@@ -132,8 +132,7 @@ private TableView<Book> createBookTableView() {
 
     void viewBook(ActionEvent evt) {
       g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
-      System.out.println("Item: " + book.toString());
-      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500);
+      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500, null);
     }
 
     void addCopy(ActionEvent evt) {

@@ -8,8 +8,8 @@
   -fx-background-image: url("background.jpg");
 }
 
-.label .form-title {
-  -fx-font-size: 20;
+.label.form-title {
+  -fx-font-size: 30;
 }
 
 .home-title {

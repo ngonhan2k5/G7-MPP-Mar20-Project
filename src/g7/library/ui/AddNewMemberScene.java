@@ -1,4 +1,7 @@
 package g7.library.ui;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import g7.library.dataaccess.DataPersistor.SaveMessage;
@@ -166,11 +169,19 @@ public class AddNewMemberScene extends BaseScene {
 			return;
 		}
 		
-		System.out.println("111"+getFieldValue("zip", "0000"));
+
+        //method 2 - via Date
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        //return number of milliseconds since January 1, 1970, 00:00:00 GMT
+        System.out.println(timestamp.getTime());
+        
+        
 		LibraryServiceInterface srv = new LibraryServiceImpl();
 		SaveMessage ret = srv.addNewLibraryMember(
 				new LibraryMember(
-					getFieldValue("memberId"), 
+					String.valueOf(timestamp.getTime()), 
 					getFieldValue("firstName"), 
 					getFieldValue("lastName"), 
 					getFieldValue("phoneNumber"),

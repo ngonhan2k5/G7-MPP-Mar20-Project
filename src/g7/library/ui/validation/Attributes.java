@@ -3,9 +3,6 @@ package g7.library.ui.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.Control;
-import javafx.scene.control.TextInputControl;
-
 public class Attributes<T> {
 	private T[] fieldControls;
 	private String[] fieldNames;
@@ -40,6 +37,7 @@ public class Attributes<T> {
 		
 		this.fieldControls = fieldControls;
 		this.fieldNames = fieldNames;
+		
 		for(int i=0; i< fieldControls.length; i++)
 			list.add(new Attribute<T>(fieldNames[i], fieldControls[i]));
 	}

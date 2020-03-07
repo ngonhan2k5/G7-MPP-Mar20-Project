@@ -1,5 +1,7 @@
 package g7.library.utils;
 
+import java.util.Optional;
+
 import g7.library.domain.Address;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
@@ -10,9 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
-import java.util.Optional;
 
 /**
  * @author knguyen93

@@ -5,9 +5,7 @@ import java.util.stream.Stream;
 import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
-import g7.library.domain.LibraryMember;
 import g7.library.ui.validation.Attributes;
-import g7.library.utils.UserInterfaceUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class CheckoutScene extends BaseScene {
@@ -122,43 +119,11 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-//		TextField searchText = new TextField();
-//		Button searchButton = new Button("Search");
-//		Button choose = new Button("OK");
-//
-//		BookTableView bookTableView = new BookTableView();
-//		bookTableView.update(libraryController.findAllBooks());
-//		Parent booksTable = new HBox(bookTableView);
-//		HBox container = new HBox(10, searchText, searchButton, choose);
-//		VBox finderContainer = new VBox(10, container, booksTable);
-//		StackPane pane = new StackPane(finderContainer);
-//
-//		searchButton.setOnAction(e -> {
-//			Set<Book> books = libraryController.searchBook(searchText.getText());
-//			bookTableView.update(books);
-//		});
-		
 		BookSearchPopupWindow.INSTANCE.show();
-		//Start.displayPopup(pane, "Book Finder", 550, 600, choose);
 	}
 
 	private void findMembers(ActionEvent evt) {
-		TextField searchText = new TextField();
-		Button searchButton = new Button("Search");
-		searchButton.getStyleClass().addAll("find-btn", "btn-icon");
-		Button choose = new Button("OK");
-		ObservableList<LibraryMember> members = loadMembers("");
-		Parent booksTable = UserInterfaceUtils.renderMembers(members);
-
-		HBox container = new HBox(10, searchText, searchButton, choose);
-		VBox finderContainer = new VBox(10, container, booksTable);
-		StackPane pane = new StackPane(finderContainer);
-
-		Start.displayPopup(pane, "Member Finder", 550, 600, choose);
-	}
-
-	private ObservableList<LibraryMember> loadMembers(String searchString) {
-		return FXCollections.observableArrayList();
+		MemberSearchPopupWindow.INSTANCE.show();
 	}
 	
 	private void closePopup(ActionEvent evt) {

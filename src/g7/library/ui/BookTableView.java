@@ -19,7 +19,7 @@ public class BookTableView extends TableView<Book> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initDesign() {
+	private void initDesign() {
 
 		TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
 	    TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");

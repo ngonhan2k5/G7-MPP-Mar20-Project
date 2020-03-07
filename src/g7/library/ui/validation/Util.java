@@ -6,6 +6,8 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class Util {
 	public static boolean isInRangeAtoZ(char c) {
@@ -62,5 +64,22 @@ public class Util {
 	
 	public static void showAlert(String msg) {
 		Util.showAlert(msg, "Error", "");
+	}
+	
+	public static void showErrorLabel(Label lb, String error) {
+		lb.setTextFill(Color.web("red", 0.8));
+		lb.setText(error);
+	}
+		
+	public static void showInfoLabel(Label lb, String info) {
+		lb.setTextFill(Color.web("green", 0.8));
+		lb.setText(info);
+	}
+	
+	public static String camel2Name(String str	) {
+		String pattern = "([a-z])([A-Z0-9])";
+		String ret = str.replaceAll(pattern, "$1 $2");
+		return ret.substring(0, 1).toUpperCase() + ret.substring(1);
+		
 	}
 }

@@ -1,5 +1,7 @@
 package g7.library.ui.validation;
 
+import java.util.Arrays;
+
 import g7.library.ui.BaseScene;
 
 
@@ -19,25 +21,24 @@ public class AddressRuleSet implements RuleSet {
 	@Override
 	public void applyRules(BaseScene ob) throws RuleException {
 		addr = ob;
-		nonemptyRule();
+		nonemptyRule(new String[] {"street", "city", "state", "zip"});
 //		idNumericRule();
 		zipNumericRule();
 		stateRule();
 		idNotZipRule();
 	}
 
-	private void nonemptyRule() throws RuleException {
-		if(addr.getFieldValue("id").trim().isEmpty() ||
-				addr.getFieldValue("stree").trim().isEmpty() ||
-				addr.getFieldValue("city").trim().isEmpty() ||
-				addr.getFieldValue("state").trim().isEmpty() ||
-				addr.getFieldValue("zip").trim().isEmpty()) {
-			throw new RuleException("All fields must be non-empty!");
-		}
+	private void nonemptyRule(String[] nonEmptyList) throws RuleException {
+		
+		for(int i=0; i< nonEmptyList.length; i++) {
+			if (addr.getFieldValue(nonEmptyList[i]).isEmpty())
+				throw new RuleException(Util.camel2Name(nonEmptyList[i])+" field must be non-empty!");
+		};
+
 	}
 
 	private void idNumericRule() throws RuleException {
-		String val = addr.getFieldValue("id").trim();
+		String val = addr.getFieldValue("id");
 		try {
 			Integer.parseInt(val);
 			//val is numeric
@@ -47,7 +48,8 @@ public class AddressRuleSet implements RuleSet {
 	}
 
 	private void zipNumericRule() throws RuleException {
-		String val = addr.getFieldValue("zip").trim();
+		String val = addr.getFieldValue("zip");
+		if (val.isEmpty()) return;
 		try {
 			Integer.parseInt(val);
 			//val is numeric
@@ -58,7 +60,8 @@ public class AddressRuleSet implements RuleSet {
 	}
 
 	private void stateRule() throws RuleException {
-		String state = addr.getFieldValue("state").trim();
+		String state = addr.getFieldValue("state");
+		if (state.isEmpty()) return;
 		if(state.length() != 2) throw new RuleException("State field must have two characters");
 		if(!Util.isInRangeAtoZ(state.charAt(0)) 
 				|| !Util.isInRangeAtoZ(state.charAt(1))) {
@@ -69,8 +72,9 @@ public class AddressRuleSet implements RuleSet {
 	
 
 	private void idNotZipRule() throws RuleException {
-		String zip = addr.getFieldValue("zip").trim();
-		String id = addr.getFieldValue("id").trim();
+		String zip = addr.getFieldValue("zip");
+		String id = addr.getFieldValue("id");
+		if (id==null) return;
 		if(zip.equals(id)) throw new RuleException("ID may not be the same as zipcode");
 	}
 

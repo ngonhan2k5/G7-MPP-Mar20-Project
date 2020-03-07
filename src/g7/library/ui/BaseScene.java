@@ -14,7 +14,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,16 +28,7 @@ public abstract class BaseScene implements IData {
 	protected LibraryController libraryController;
 	
 	protected final HashMap<String, String> data = new HashMap<>();
-	
-	public String getFieldValue(String fieldName) {
-
-		return data.get(fieldName).trim();
-	}
-	
-//	public String getFieldValue(String fieldName) {
-//		if (Util.objectHasProperty(this.getField(fieldName), "text"))
-//		return data.get(fieldName).getText();
-//	}
+	Label infoLbl = new Label();
 	
 	protected BaseScene() {
 		libraryController = new LibraryController();
@@ -150,5 +144,45 @@ public abstract class BaseScene implements IData {
 		Start.exit();
 	}
 	
+	// Data fields access
+	public String getFieldValueOrBlank(String fieldName) {
+		return getFieldValue(fieldName, "");
+	}
+	
+	public String getFieldValue(String fieldName) {
+		return data.get(fieldName)==null?null:data.get(fieldName).trim();
+	}
+	
+	public String getFieldValue(String fieldName, String defaultValue) {
+		if (data.get(fieldName)==null) 
+			return defaultValue;
+		
+		return data.get(fieldName).trim();
+		
+	}
+	
+	public int getIntFieldValue(String fieldName) {
+		String val = getFieldValue(fieldName);
+		try {
+			return Integer.parseInt(val);
+		}catch(NumberFormatException e) {
+			return 0;
+		}
+	}
+	
+//	public String getFieldValue(String fieldName) {
+//		if (Util.objectHasProperty(this.getField(fieldName), "text"))
+//		return data.get(fieldName).getText();
+//	}
+	/**
+	 * Clear all fields text
+	 * @param cons
+	 */
+	public void clearFields(Control[] cons) {
+		for(int i=0; i< cons.length; i++) {
+			System.out.println(((TextInputControl) cons[i]).getText());
+			((TextInputControl) cons[i]).setText("");
+		}
+	}
 	
 }

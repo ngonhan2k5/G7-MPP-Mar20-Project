@@ -1,6 +1,7 @@
 package g7.library.ui;
 
 import g7.library.model.UserDataBuilder;
+import g7.library.ui.validation.Util;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -31,10 +32,12 @@ public class Start extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		System.out.println(Util.camel2Name("firstName01"));
 		stage = primaryStage;
 		
 		// set minimum size

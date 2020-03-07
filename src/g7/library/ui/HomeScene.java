@@ -1,8 +1,10 @@
 package g7.library.ui;
 
+import g7.library.ui.validation.Attributes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -38,9 +40,9 @@ public class HomeScene extends BaseScene {
 		return pane;
 	}
 
-	@Override
-	public void getDataFromFields() {
-		// TODO Auto-generated method stub
-		
-	}
+	  @Override
+	  public void getDataFromFields(Attributes<Control> attrs) {
+	    // TODO Auto-generated method stub
+
+	  }
 }

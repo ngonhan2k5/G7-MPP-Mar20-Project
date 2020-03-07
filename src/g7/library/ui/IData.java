@@ -1,15 +1,14 @@
 package g7.library.ui;
 
+import g7.library.ui.validation.Attributes;
+import javafx.scene.control.Control;
+
 public interface IData {
-//	public Map<String, ?> getAllFieldsData();
-//	public void setFieldData()
-//	public default <E> E getField(String fieldName) {
-//		return null;
-//	}
-//	
 	
 //	public String getFieldValue(String fieldName);
 	
+//	public void getDataFromFields();
+
+	public void getDataFromFields(Attributes<Control> ats);
 	
-	public void getDataFromFields();
 }

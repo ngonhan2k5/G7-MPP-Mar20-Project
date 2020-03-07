@@ -2,10 +2,12 @@ package g7.library.ui;
 
 import g7.library.domain.SystemUser;
 import g7.library.model.UserDataBuilder;
+import g7.library.ui.validation.Attributes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -81,13 +83,14 @@ public class LoginScene extends BaseScene {
 	}
 
 	private void initFields() {
-		userName = new TextField();
+		userName = new TextField("admin");
 		password = new PasswordField();
+		password.setText("12345");
 	}
 
-	@Override
-	public void getDataFromFields() {
-		// TODO Auto-generated method stub
-		
-	}
+	  @Override
+	  public void getDataFromFields(Attributes<Control> attrs) {
+	    // TODO Auto-generated method stub
+
+	  }
 }

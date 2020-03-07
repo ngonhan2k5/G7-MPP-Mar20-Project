@@ -18,7 +18,7 @@ public class UserInfoRuleSet implements RuleSet {
 	public void applyRules(BaseScene ob) throws RuleException {
 //		scene = (ProfileWindow)ob;
 		profWin = ob;
-		nonemptyRule();
+		nonemptyRule(new String[]{"firstName", "lastName", "street", "city", "zip", "state"});
 		idNumericRule();
 //		favRestAndMovieRule();		
 //		correctCharTypeRule();
@@ -26,14 +26,12 @@ public class UserInfoRuleSet implements RuleSet {
 		
 	}
 	
-	private void nonemptyRule() throws RuleException {
-		if(profWin.getFieldValue("firstName").isEmpty() ||
-		     profWin.getFieldValue("lastName").isEmpty() ||
-			 profWin.getFieldValue("lastName").isEmpty() ||
-//			 profWin.getFieldValue("memberId").isEmpty() ||
-//			 profWin.getFieldValue("memberId").isEmpty() ||
-		     profWin.getFieldValue("phone").isEmpty()) {
-			   throw new RuleException("All fields must be nonempty");
+	private void nonemptyRule(String[] fields) throws RuleException {
+		System.out.println("A"+profWin.getFieldValue(fields[0]).isBlank());
+		for(int i=0; i< fields.length; i++) {
+			boolean s = profWin.getFieldValue(fields[i]).isBlank();
+			if (profWin.getFieldValue(fields[i]).isBlank())
+			   throw new RuleException(Util.camel2Name(fields[i]) + " field must be nonempty");
 		}
 	}
 	
@@ -45,12 +43,13 @@ public class UserInfoRuleSet implements RuleSet {
 //	}
 
 	private void idNumericRule() throws RuleException {
-		String val = profWin.getFieldValue("phone").trim();
+		String val = profWin.getFieldValue("phone");
+		if (val.isEmpty()) return;
 		try {
 			Integer.parseInt(val);
 			//val is numeric
 		} catch(NumberFormatException e) {
-			throw new RuleException("ID must be numeric");
+			throw new RuleException("Phone number must be numeric");
 		}		
 	}
 //	private void correctCharTypeRule() throws RuleException {

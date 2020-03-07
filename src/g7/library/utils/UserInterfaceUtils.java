@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 import java.util.Optional;
@@ -35,8 +36,14 @@ public class UserInterfaceUtils {
     TableView<LibraryMember> table = new TableView<>(members);
     table.getColumns().addAll(memberIdColumn, firstNameColumn, lastNameColumn, phoneColumn, addressColumn);
     table.setMinWidth(500);
+    AnchorPane anchorPane = new AnchorPane(table);
+    anchorPane.setPrefSize(700, 500);
 
-    return new HBox(table);
+    AnchorPane.setTopAnchor(table, 0.0);
+    AnchorPane.setBottomAnchor(table, 0.0);
+    AnchorPane.setLeftAnchor(table, 0.0);
+    AnchorPane.setRightAnchor(table, 0.0);
+    return anchorPane;
   }
 
   @SuppressWarnings("unchecked")

@@ -27,137 +27,147 @@ import javafx.scene.layout.VBox;
 
 public class BookManagementScene extends BaseScene {
 
-  public static final BookManagementScene INSTANCE = new BookManagementScene();
+	public static final BookManagementScene INSTANCE = new BookManagementScene();
 
-  private BookManagementScene() {
-    super();
-  }
+	private BookManagementScene() {
+		super();
+	}
 
-  private TextField searchField;
-  private Label message;
-  private TableView<Book> booksTable;
+	private TextField searchField;
+	private Label message;
+	private TableView<Book> booksTable;
 
-  @Override
-  protected Parent renderMainContent() {
-    initFields();
+	@Override
+	protected Parent renderMainContent() {
+		initFields();
 
-    // Checkout Book Form
-    HBox hBox_1 = new HBox(10);
-    hBox_1.setAlignment(Pos.BASELINE_CENTER);
-    VBox vBox = new VBox(10);
+		// Checkout Book Form
+		HBox hBox_1 = new HBox(10);
+		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		VBox vBox = new VBox(10);
 
-    Label title = new Label("Books Management");
-    title.getStyleClass().add("form-title");
+		Label title = new Label("Books Management");
+		title.getStyleClass().add("form-title");
 
-    HBox titleContainer = new HBox(20, title);
-    titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		HBox titleContainer = new HBox(20, title);
+		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
 
-    Button searchBtn = new Button("Search");
+		Button searchBtn = new Button("Search");
 
-    HBox h1 = new HBox(10, searchField, searchBtn);
+		Button addBtn = new Button("+ Add");
 
-    searchBtn.setOnAction(this::handleOnSearch);
+		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 
-    HBox booksContainer = new HBox();
-    booksContainer.getChildren().add(this.booksTable);
-    
-    vBox.getChildren().addAll(titleContainer, message, h1, booksContainer);
-    hBox_1.getChildren().add(vBox);
+		searchBtn.setOnAction(this::handleOnSearch);
 
-    return hBox_1;
-  }
+		addBtn.setOnAction(this::handleOnAdd);
 
-  @SuppressWarnings("unchecked")
-private TableView<Book> createBookTableView() {
-	TableView<Book> booksTable = new TableView<>();
+		HBox booksContainer = new HBox();
+		booksContainer.getChildren().add(this.booksTable);
 
-    TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
-    TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
-    TableColumn<Book, String> availableColumn = new TableColumn<>("Available Copies");
-    TableColumn<Book, Parent> actionsColumn = new TableColumn<>("Actions");
+		vBox.getChildren().addAll(titleContainer, message, h1, booksContainer);
+		hBox_1.getChildren().add(vBox);
 
-    titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getTitle()));
-    isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
-    availableColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
-    actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
+		return hBox_1;
+	}
 
-    booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
-    booksTable.setMinWidth(400);
-    booksTable.setItems(loadBooks());
-    return booksTable;
-  }
+	@SuppressWarnings("unchecked")
+	private TableView<Book> createBookTableView() {
+		TableView<Book> booksTable = new TableView<>();
 
-  private void handleOnSearch(ActionEvent evt) {
-	  Set<Book> books = libraryController.searchBook(searchField.getText());
-	  this.booksTable.setItems(FXCollections.observableArrayList(books));
-	  this.booksTable.refresh();
-  }
+		TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+		TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
+		TableColumn<Book, String> availableColumn = new TableColumn<>("Available Copies");
+		TableColumn<Book, Parent> actionsColumn = new TableColumn<>("Actions");
 
-  private ObservableList<Book> loadBooks() {
-    return FXCollections.observableArrayList(libraryController.findAllBooks());
-  }
+		titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getTitle()));
+		isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
+		availableColumn.setCellValueFactory(
+				record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
+		actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
 
-  private void initFields() {
-    searchField = new TextField();
-    message = new Label();
-    this.booksTable = createBookTableView();
-  }
+		booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
+		booksTable.setMinWidth(400);
+		booksTable.setItems(loadBooks());
+		return booksTable;
+	}
 
-  @Override
-  public void getDataFromFields(Attributes<Control> attrs) {
-    // TODO Auto-generated method stub
+	private void handleOnSearch(ActionEvent evt) {
+		Set<Book> books = libraryController.searchBook(searchField.getText());
+		this.booksTable.setItems(FXCollections.observableArrayList(books));
+		this.booksTable.refresh();
+	}
+	
+	private void handleOnAdd(ActionEvent evt) {
+		Set<Book> books = libraryController.searchBook(searchField.getText());
+		this.booksTable.setItems(FXCollections.observableArrayList(books));
+		this.booksTable.refresh();
+	}
 
-  }
+	private ObservableList<Book> loadBooks() {
+		return FXCollections.observableArrayList(libraryController.findAllBooks());
+	}
 
-  public static class CustomButtonCell<Book, Parent> extends TableCell<Book, Parent> {
-    final HBox buttons;
+	private void initFields() {
+		searchField = new TextField();
+		message = new Label();
+		this.booksTable = createBookTableView();
+	}
 
-    CustomButtonCell() {
-      buttons = new HBox(10);
-      Button viewBtn = new Button("View");
-      Button addCopyBtn = new Button("Add Copy");
+	@Override
+	public void getDataFromFields(Attributes<Control> attrs) {
+		// TODO Auto-generated method stub
 
-      viewBtn.setOnAction(this::viewBook);
-      addCopyBtn.setOnAction(this::addCopy);
-      buttons.getChildren().addAll(viewBtn, addCopyBtn);
-    }
+	}
 
-    @Override
-    protected void updateItem(Parent item, boolean empty) {
-      super.updateItem(item, empty);
-      if (!empty) {
-        setGraphic(buttons);
-      }
-    }
+	public static class CustomButtonCell<Book, Parent> extends TableCell<Book, Parent> {
+		final HBox buttons;
 
-    void viewBook(ActionEvent evt) {
-      g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
-      System.out.println("Item: " + book.toString());
-      Start.displayPopup(generateBookInformation(book), "Book information", 400, 500);
-    }
+		CustomButtonCell() {
+			buttons = new HBox(10);
+			Button viewBtn = new Button("View");
+			Button addCopyBtn = new Button("Add Copy");
 
-    void addCopy(ActionEvent evt) {
-    }
+			viewBtn.setOnAction(this::viewBook);
+			addCopyBtn.setOnAction(this::addCopy);
+			buttons.getChildren().addAll(viewBtn, addCopyBtn);
+		}
 
-    private javafx.scene.Parent generateBookInformation(g7.library.domain.Book book) {
-      String authors = book.getAuthors().stream().map(Author::getFullName).collect(Collectors.joining(", "));
+		@Override
+		protected void updateItem(Parent item, boolean empty) {
+			super.updateItem(item, empty);
+			if (!empty) {
+				setGraphic(buttons);
+			}
+		}
 
-      VBox bookInfo = new VBox(10);
-      Label title = new Label("Title:"), isbn = new Label("ISBN:"), available = new Label("Available copies:"),
-          author = new Label("Author(s):");
+		void viewBook(ActionEvent evt) {
+			g7.library.domain.Book book = (g7.library.domain.Book) CustomButtonCell.this.getTableView().getItems()
+					.get(CustomButtonCell.this.getIndex());
+			System.out.println("Item: " + book.toString());
+			Start.displayPopup(generateBookInformation(book), "Book information", 400, 500);
+		}
 
-      Stream.of(title, isbn, available, author).forEach(lb -> lb.setPrefWidth(150));
+		void addCopy(ActionEvent evt) {
+		}
 
-      bookInfo.getChildren().addAll(
-          new HBox(title, new Label(book.getTitle())),
-          new HBox(isbn, new Label(book.getIsbn())),
-          new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
-          new HBox(author, new Label(authors))
-      );
-      StackPane pane = new StackPane(bookInfo);
-      StackPane.setMargin(bookInfo, new Insets(15));
+		private javafx.scene.Parent generateBookInformation(g7.library.domain.Book book) {
+			String authors = book.getAuthors().stream().map(Author::getFullName).collect(Collectors.joining(", "));
 
-      return pane;
-    }
-  }
+			VBox bookInfo = new VBox(10);
+			Label title = new Label("Title:"), isbn = new Label("ISBN:"), available = new Label("Available copies:"),
+					author = new Label("Author(s):");
+
+			Stream.of(title, isbn, available, author).forEach(lb -> lb.setPrefWidth(150));
+
+			bookInfo.getChildren().addAll(new HBox(title, new Label(book.getTitle())),
+					new HBox(isbn, new Label(book.getIsbn())),
+					new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
+					new HBox(author, new Label(authors)));
+			StackPane pane = new StackPane(bookInfo);
+			StackPane.setMargin(bookInfo, new Insets(15));
+
+			return pane;
+		}
+	}
 }

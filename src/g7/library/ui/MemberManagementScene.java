@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -37,22 +38,34 @@ public class MemberManagementScene extends BaseScene {
 		// Checkout Book Form
 		HBox hBox_1 = new HBox(10);
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		
+
+		
 		VBox vBox = new VBox(10);
 		Label title = new Label("Members Management");
 		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		
 		Button searchBtn = new Button("Search");
 		HBox h1 = new HBox(10, searchField, searchBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
-		Parent membersContainer = UserInterfaceUtils.renderMembers(members);
-		StackPane pane = new StackPane(membersContainer);
-		StackPane.setMargin(membersContainer, new Insets(15)); // Make sure there are spaces around
+//		Parent membersContainer = UserInterfaceUtils.renderMembers(members);
+
 
 		vBox.getChildren().addAll(titleContainer, message, h1, UserInterfaceUtils.renderMembers(members));
 		hBox_1.getChildren().add(vBox);
+//		StackPane stackPane = new StackPane(vBox);
+//		StackPane.setMargin(membersContainer, new Insets(15)); // Make sure there are spaces around
+		
+		AnchorPane anchorPane = new AnchorPane(hBox_1);
+        anchorPane.setPrefSize(700, 500);
 
-		return hBox_1;
+        AnchorPane.setTopAnchor(hBox_1, 0.0);
+        AnchorPane.setBottomAnchor(hBox_1, 0.0);
+        AnchorPane.setLeftAnchor(hBox_1, 0.0);
+        AnchorPane.setRightAnchor(hBox_1, 0.0);
+		return anchorPane;
 	}
 
 	private void handleOnSearch(ActionEvent evt) {

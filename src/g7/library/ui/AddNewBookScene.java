@@ -29,16 +29,14 @@ import javafx.scene.paint.Color;
 
 
 
-public class AddNewMemberScene extends BaseScene {
+public class AddNewBookScene extends BaseScene {
 
-	public static final AddNewMemberScene INSTANCE = new AddNewMemberScene();
-	private TextField memberId, firstName, lastName, street, city, zip, state, phone;
+	public static final AddNewBookScene INSTANCE = new AddNewBookScene();
+	private TextField iSBN, title, maxCheckOutLength, numOfCopy;
 
 	private Attributes<Control> attrs;
-
 	
-	
-	private AddNewMemberScene() {
+	private AddNewBookScene() {
 		super();
 	}
 
@@ -60,25 +58,22 @@ public class AddNewMemberScene extends BaseScene {
 
 		VBox memberFields = new VBox(10);
 		
-		Stream.of(firstName, lastName, street, city, state, zip, phone).forEach(field -> field.setMinWidth(200));
+		Stream.of(iSBN, title, maxCheckOutLength).forEach(field -> field.setMinWidth(200));
 
 		
 		infoLbl.setTextFill(Color.web("red", 0.8));
 		
 		HBox h0 = new HBox(10, infoLbl);
-		HBox h1 = new HBox(10, new Label("First Name: "), firstName);
-		HBox h2 = new HBox(10, new Label("Last Name: "), lastName);
-		HBox h3 = new HBox(10, new Label("Street: "), street);
-		HBox h4 = new HBox(10, new Label("City: "), city);
-		HBox h5 = new HBox(10, new Label("State: "), state);
-		HBox h6 = new HBox(10, new Label("Zipcode: "), zip);
-		HBox h7 = new HBox(10, new Label("Phone: "), phone);
+		HBox h1 = new HBox(10, new Label("Title: "), title);
+		HBox h2 = new HBox(10, new Label("ISBN: "), iSBN);
+		HBox h3 = new HBox(10, new Label("Number of Copies: "), numOfCopy);
+		
 
-		Stream.of(h0, h1, h2, h3, h4, h5, h6, h7).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
+		Stream.of(h0, h1, h2, h3).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
 
-		memberFields.getChildren().addAll(h0, h1, h2, h3, h4, h5, h6, h7);
+		memberFields.getChildren().addAll(h0, h1, h2, h3);
 
-		Button btn = new Button("Add");
+		Button btn = new Button("Add Book");
 		hButtons.getChildren().add(btn);
 		hButtons.setAlignment(Pos.BASELINE_RIGHT);
 		hButtons.setMinHeight(50);
@@ -96,12 +91,7 @@ public class AddNewMemberScene extends BaseScene {
 	}
 
 	private void initFields() {
-		memberId = new TextField();
-		firstName = new TextField();
-		lastName = new TextField();
-		street = new TextField();
-		city = new TextField();
-		zip =  new TextField() {
+		iSBN = new TextField() {
 		    @Override public void replaceText(int start, int end, String text) {
 		        // If the replaced text would end up being invalid, then simply
 		        // ignore this call!
@@ -116,44 +106,12 @@ public class AddNewMemberScene extends BaseScene {
 		        }
 		    }
 		};
+		title = new TextField();
+		numOfCopy = new TextField();
 
-		state = new TextField() {
-		    @Override public void replaceText(int start, int end, String text) {
-		        // If the replaced text would end up being invalid, then simply
-		        // ignore this call!
-		    	System.out.println(text);
-		        if (text.matches("[A-Z]") && this.getText().length()<2) {
-		            super.replaceText(start, end, text);
-		        }
-		        
-		    }
-
-		    @Override public void replaceSelection(String text) {
-		        if (text.matches("[A-Z]") && this.getText().length()<2) {
-		            super.replaceSelection(text);
-		        }
-		    }
-		};
-
-		phone = new TextField() {
-		    @Override public void replaceText(int start, int end, String text) {
-		        // If the replaced text would end up being invalid, then simply
-		        // ignore this call!
-		        if (!text.matches("[a-z]")) {
-		            super.replaceText(start, end, text);
-		        }
-		    }
-
-		    @Override public void replaceSelection(String text) {
-		        if (!text.matches("[a-z]")) {
-		            super.replaceSelection(text);
-		        }
-		    }
-		};
 		
-		
-		TextInputControl [] controls = {memberId, firstName, lastName, street, city, zip, state, phone};
-		String[] ids = {"memberId", "firstName", "lastName", "street", "city", "zip", "state", "phone"};
+		TextInputControl [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};
+		String[] ids = {"iSBN", "title", "maxCheckOutLength", "numOfCopy"};
 		attrs = new Attributes<Control>(ids, controls);
 	}
 	

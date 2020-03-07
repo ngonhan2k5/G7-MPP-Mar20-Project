@@ -70,18 +70,19 @@ public abstract class BaseScene implements IData {
 		VBox menuContainer = new VBox(10);
 
 		// buttons
-		Button btnLogin = createButton("Login", LoginScene.class.getName());
-		Button btnAddNew = createButton("Add new member", AddNewMemberScene.class.getName());
-		Button btnMemberManagement = createButton("Members Mamagement", MemberManagementScene.class.getName());
-		Button btnBooksManagement = createButton("Books Management", BookManagementScene.class.getName());
-		Button btnCheckout = createButton("Checkout", CheckoutScene.class.getName());
-		Button btnLogout = new Button("Logout");
-		Button btnExit = new Button("Exit");
+		Button btnLogin = createButton("_Login", LoginScene.class.getName());
+		Button btnAddNew = createButton("_Add new member", AddNewMemberScene.class.getName());
+		Button btnMemberManagement = createButton("_Members Mamagement", MemberManagementScene.class.getName());
+		Button btnBooksManagement = createButton("_Books Management", BookManagementScene.class.getName());
+		Button btnCheckout = createButton("_Checkout", CheckoutScene.class.getName());
+		Button btnLogout = new Button("Log_out");
+		Button btnExit = new Button("E_xit");
 		
 		List<Node> fxNodes = new ArrayList<Node>();
 		UserDataBuilder userData = Start.getUserData();
 		if(userData == null) {
 			fxNodes.add(btnLogin);
+			fxNodes.add( new Separator(Orientation.HORIZONTAL));
 		} else {
 			LogicViewController logicView = new LogicViewController(userData.systemUser());
 			if(logicView.isLibMemberAddPermited()) {
@@ -93,6 +94,7 @@ public abstract class BaseScene implements IData {
 				fxNodes.add(btnCheckout);
 			
 			fxNodes.add(btnBooksManagement);
+			fxNodes.add( new Separator(Orientation.HORIZONTAL));
 			fxNodes.add(btnLogout);
 		}
 		

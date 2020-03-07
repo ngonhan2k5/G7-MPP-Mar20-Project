@@ -37,6 +37,16 @@
   -fx-font-weight: 700;
 }
 
+.main-content .button:hover {
+  -fx-background-color: #004080;
+
+}
+
+.left-menu .button:hover {
+  -fx-background-color: #7f8c8d;
+
+}
+
 .popup-window .button {
 	-fx-background-color: #7f8c8d;
 	-fx-border-radius: none;

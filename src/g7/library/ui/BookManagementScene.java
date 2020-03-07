@@ -7,9 +7,7 @@ import java.util.stream.Stream;
 import g7.library.domain.Author;
 import g7.library.domain.Book;
 import g7.library.ui.validation.Attributes;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,8 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -35,7 +31,7 @@ public class BookManagementScene extends BaseScene {
 
   private TextField searchField;
   private Label message;
-  private TableView<Book> booksTable;
+  private BookTableView booksTable;
 
   @Override
   protected Parent renderMainContent() {
@@ -67,40 +63,16 @@ public class BookManagementScene extends BaseScene {
     return hBox_1;
   }
 
-  @SuppressWarnings("unchecked")
-private TableView<Book> createBookTableView() {
-	TableView<Book> booksTable = new TableView<>();
-
-    TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
-    TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
-    TableColumn<Book, String> availableColumn = new TableColumn<>("Available Copies");
-    TableColumn<Book, Parent> actionsColumn = new TableColumn<>("Actions");
-
-    titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getTitle()));
-    isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
-    availableColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
-    actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
-
-    booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
-    booksTable.setMinWidth(400);
-    booksTable.setItems(loadBooks());
-    return booksTable;
-  }
-
   private void handleOnSearch(ActionEvent evt) {
 	  Set<Book> books = libraryController.searchBook(searchField.getText());
-	  this.booksTable.setItems(FXCollections.observableArrayList(books));
-	  this.booksTable.refresh();
-  }
-
-  private ObservableList<Book> loadBooks() {
-    return FXCollections.observableArrayList(libraryController.findAllBooks());
+	  this.booksTable.update(books);
   }
 
   private void initFields() {
     searchField = new TextField();
     message = new Label();
-    this.booksTable = createBookTableView();
+    this.booksTable = new BookTableView();
+    this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
   }
 
   @Override
@@ -109,7 +81,7 @@ private TableView<Book> createBookTableView() {
 
   }
 
-  public static class CustomButtonCell<Book, Parent> extends TableCell<Book, Parent> {
+  public static class CustomButtonCell extends TableCell<Book, Parent> {
     final HBox buttons;
 
     CustomButtonCell() {

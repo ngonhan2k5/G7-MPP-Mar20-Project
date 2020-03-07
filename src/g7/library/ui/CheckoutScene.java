@@ -1,6 +1,5 @@
 package g7.library.ui;
 
-import java.util.Set;
 import java.util.stream.Stream;
 
 import g7.library.dataaccess.DataPersistor.SaveMessage;

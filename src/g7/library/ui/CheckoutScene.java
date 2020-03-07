@@ -1,5 +1,6 @@
 package g7.library.ui;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import g7.library.dataaccess.DataPersistor.SaveMessage;
@@ -127,13 +128,19 @@ public class CheckoutScene extends BaseScene {
 		TextField searchText = new TextField();
 		Button searchButton = new Button("Search");
 		Button choose = new Button("OK");
-		ObservableList<BookCopy> books = loadBooks();
-		Parent booksTable = UserInterfaceUtils.renderBooks(books);
 
+		BookTableView bookTableView = new BookTableView();
+		bookTableView.update(libraryController.findAllBooks());
+		Parent booksTable = new HBox(bookTableView);
 		HBox container = new HBox(10, searchText, searchButton, choose);
 		VBox finderContainer = new VBox(10, container, booksTable);
 		StackPane pane = new StackPane(finderContainer);
 
+		searchButton.setOnAction(e -> {
+			Set<Book> books = libraryController.searchBook(searchText.getText());
+			bookTableView.update(books);
+		});
+		
 		Start.displayPopup(pane, "Book Finder", 550, 600, choose);
 	}
 

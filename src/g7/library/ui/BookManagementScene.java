@@ -33,9 +33,11 @@ public class BookManagementScene extends BaseScene {
 		super();
 	}
 
-	private TextField searchField;
-	private Label message;
-	private TableView<Book> booksTable;
+
+  private TextField searchField;
+  private Label message;
+  private BookTableView booksTable;
+
 
 	@Override
 	protected Parent renderMainContent() {
@@ -73,6 +75,7 @@ public class BookManagementScene extends BaseScene {
 		return hBox_1;
 	}
 
+
 	@SuppressWarnings("unchecked")
 	private TableView<Book> createBookTableView() {
 		TableView<Book> booksTable = new TableView<>();
@@ -86,7 +89,7 @@ public class BookManagementScene extends BaseScene {
 		isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
 		availableColumn.setCellValueFactory(
 				record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
-		actionsColumn.setCellFactory(record -> new CustomButtonCell<>());
+		actionsColumn.setCellFactory(record -> new CustomButtonCell());
 
 		booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn, actionsColumn);
 		booksTable.setMinWidth(400);
@@ -94,12 +97,7 @@ public class BookManagementScene extends BaseScene {
 		return booksTable;
 	}
 
-	private void handleOnSearch(ActionEvent evt) {
-		Set<Book> books = libraryController.searchBook(searchField.getText());
-		this.booksTable.setItems(FXCollections.observableArrayList(books));
-		this.booksTable.refresh();
-	}
-	
+
 	private void handleOnAdd(ActionEvent evt) {
 		Set<Book> books = libraryController.searchBook(searchField.getText());
 		this.booksTable.setItems(FXCollections.observableArrayList(books));
@@ -110,11 +108,21 @@ public class BookManagementScene extends BaseScene {
 		return FXCollections.observableArrayList(libraryController.findAllBooks());
 	}
 
-	private void initFields() {
-		searchField = new TextField();
-		message = new Label();
-		this.booksTable = createBookTableView();
-	}
+  private void handleOnSearch(ActionEvent evt) {
+	  Set<Book> books = libraryController.searchBook(searchField.getText());
+	  this.booksTable.update(books);
+  }
+
+
+
+
+  private void initFields() {
+    searchField = new TextField();
+    message = new Label();
+    this.booksTable = new BookTableView();
+    this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
+  }
+
 
 	@Override
 	public void getDataFromFields(Attributes<Control> attrs) {
@@ -122,8 +130,11 @@ public class BookManagementScene extends BaseScene {
 
 	}
 
-	public static class CustomButtonCell<Book, Parent> extends TableCell<Book, Parent> {
-		final HBox buttons;
+
+
+  public static class CustomButtonCell extends TableCell<Book, Parent> {
+    final HBox buttons;
+
 
 		CustomButtonCell() {
 			buttons = new HBox(10);

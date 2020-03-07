@@ -1,18 +1,45 @@
 .button:focused {
-	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
-	-fx-background-insets: 0, 1, 2;
-	-fx-background-radius: 5, 4, 3;
+  -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 5, 4, 3;
 }
 
 .home-page {
-	-fx-background-image: url("background.jpg");
+  -fx-background-image: url("background.jpg");
 }
 
 .label .form-title {
-	-fx-font-size: 20;
+  -fx-font-size: 20;
 }
 
 .home-title {
-	-fx-font-size: 30;
-	-fx-background-color: white;
+  -fx-font-size: 30;
+  -fx-background-color: white;
+}
+
+.left-menu .button {
+  -fx-padding: 10px;
+  -fx-background-color: #2C3E4E;
+  -fx-border-width: 0;
+  -fx-text-fill: white;
+  -fx-font-weight: 700;
+  -fx-border-radius: 0 0 0 0 !important;
+}
+
+.main-container {
+  -fx-background-color: #ecf0f1;
+}
+
+.main-content .button {
+  -fx-background-color: #7f8c8d;
+  -fx-border-radius: none;
+  -fx-text-fill: white;
+  -fx-font-weight: 700;
+}
+
+.popup-window .button {
+	-fx-background-color: #7f8c8d;
+	-fx-border-radius: none;
+	-fx-text-fill: white;
+	-fx-font-weight: 700;
 }

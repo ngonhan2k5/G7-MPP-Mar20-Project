@@ -18,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -36,12 +35,10 @@ public abstract class BaseScene implements IData {
 	protected BaseScene() {
 		libraryController = new LibraryController();
 		scene = createScene();
-		loadCss();
 	}
 	
 	public void reinitialize() {
 		scene = createScene();
-		loadCss();
 	}
 	
 	public Scene getScene() {return scene;}
@@ -51,6 +48,8 @@ public abstract class BaseScene implements IData {
 		// Row
 		AnchorPane leftMenu = new AnchorPane(renderLeftMenu());
 		Parent mainContent = this.renderMainContent();
+		mainContent.getStyleClass().add("main-content");
+
 		StackPane mainContainer = new StackPane(mainContent);
 		StackPane.setMargin(mainContent, new Insets(10));
 
@@ -61,13 +60,8 @@ public abstract class BaseScene implements IData {
 		Separator separator = new Separator(Orientation.VERTICAL);
 		separator.prefHeightProperty().bind(mainContainer.heightProperty());
 		HBox mainScreen = new HBox(5, leftMenu, separator, mainContainer);
+		mainScreen.getStyleClass().add("main-container");
 
-//		SplitPane splitPane = new SplitPane(leftMenu, mainContainer);
-//		SplitPane.setResizableWithParent(leftMenu, false);
-//		SplitPane.setResizableWithParent(mainContainer, true);
-//		splitPane.setDividerPositions(0.3, 1);
-//		splitPane.setMinSize(800, 500);
-		
 		return new Scene(mainScreen, 800, 500);
 	}
 
@@ -116,14 +110,11 @@ public abstract class BaseScene implements IData {
 		menuContainer.getChildren().addAll(fxNodes);
 		StackPane.setMargin(menuContainer, new Insets(20));
 		pane.getChildren().add(menuContainer);
+		pane.getStyleClass().add("left-menu");
 
 		return pane;
 	}
-	
-	private void loadCss() {
-		scene.getStylesheets().add(getClass().getResource("scene.css").toExternalForm());
-	}
-	
+
 	private Button createButton(String text, String className) {
 		Button btn = new Button(text);
 		btn.setDisable(className.equals(Start.getActiveScene()));
@@ -156,24 +147,24 @@ public abstract class BaseScene implements IData {
 	private void handleExit(ActionEvent evt) {
 		Start.exit();
 	}
-	
+
 	// Data fields access
 	public String getFieldValueOrBlank(String fieldName) {
 		return getFieldValue(fieldName, "");
 	}
-	
+
 	public String getFieldValue(String fieldName) {
 		return data.get(fieldName)==null?null:data.get(fieldName).trim();
 	}
-	
+
 	public String getFieldValue(String fieldName, String defaultValue) {
-		if (data.get(fieldName)==null) 
+		if (data.get(fieldName)==null)
 			return defaultValue;
-		
+
 		return data.get(fieldName).trim();
-		
+
 	}
-	
+
 	public int getIntFieldValue(String fieldName) {
 		String val = getFieldValue(fieldName);
 		try {
@@ -182,7 +173,7 @@ public abstract class BaseScene implements IData {
 			return 0;
 		}
 	}
-	
+
 //	public String getFieldValue(String fieldName) {
 //		if (Util.objectHasProperty(this.getField(fieldName), "text"))
 //		return data.get(fieldName).getText();
@@ -197,5 +188,5 @@ public abstract class BaseScene implements IData {
 			((TextInputControl) cons[i]).setText("");
 		}
 	}
-	
+
 }

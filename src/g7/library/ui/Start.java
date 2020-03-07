@@ -5,6 +5,7 @@ import g7.library.ui.validation.Util;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -54,6 +55,8 @@ public class Start extends Application {
 		if (stage != null) {
 			activeScene = scene.getClass().getName();
 			scene.reinitialize();
+			Scene targetScene = scene.getScene();
+			targetScene.getStylesheets().add(Start.class.getResource("scene.css").toExternalForm());
 			stage.setScene(scene.getScene());
 		}
 	}

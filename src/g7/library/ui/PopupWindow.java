@@ -20,7 +20,10 @@ public class PopupWindow extends Stage {
 	}
 
 	public void setScene(Parent content, double width, double height) {
-		setScene(new Scene(content, width, height));
+		content.getStyleClass().add("popup-window");
+		Scene scene = new Scene(content, width, height);
+		scene.getStylesheets().add(getClass().getResource("scene.css").toExternalForm());
+		setScene(scene);
 	}
 
 	public void setScene(Parent content, String title) {
@@ -41,7 +44,6 @@ public class PopupWindow extends Stage {
 		StackPane pane = new StackPane(container, buttons);
 		StackPane.setMargin(container, new Insets(15));
 		StackPane.setMargin(buttons, new Insets(15));
-
 		this.setScene(pane, width, height);
 		this.setTitle(title);
 	}

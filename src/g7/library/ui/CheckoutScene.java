@@ -28,6 +28,10 @@ public class CheckoutScene extends BaseScene {
 	private TextField memberId;
 	private TextField isbn;
 	
+	public void showMessage(String msg) {
+		message.setText(msg);
+	}
+	
 	public void assignBookISBN(String isbn) {
 		this.isbn.setText(isbn);
 	}

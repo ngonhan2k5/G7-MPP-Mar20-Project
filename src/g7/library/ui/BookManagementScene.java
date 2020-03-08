@@ -1,7 +1,5 @@
 package g7.library.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import g7.library.domain.Book;
@@ -13,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -32,6 +29,10 @@ public class BookManagementScene extends BaseScene {
 	private Label message;
 	private BookTableView booksTable;
 
+	public void showMessage(String msg) {
+		this.message.setText(msg);
+	}
+	
 	@Override
 	protected Parent renderMainContent() {
 		initFields();
@@ -85,6 +86,8 @@ public class BookManagementScene extends BaseScene {
 	private void initFields() {
 		searchField = new TextField();
 		message = new Label();
+		message.getStyleClass().addAll("message");
+		
 		this.booksTable = new BookTableView();
 		this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
 	}

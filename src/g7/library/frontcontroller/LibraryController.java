@@ -44,7 +44,6 @@ public class LibraryController {
 		return libraryService.login(new LoginCredentials(loginUserName, password));
 	}
 	
-
 	public Set<Book> searchBook(String searchString) {
 		if("".equals(searchString))
 			return new HashSet<Book>(findAllBooks());
@@ -73,5 +72,9 @@ public class LibraryController {
 		Date returnDueDate = ca.getTime();
 		
 		return libraryService.checkoutBook(bookIsbn, memberId, checkoutDate, returnDueDate);
+	}
+	
+	public SaveMessage saveBook(Book book) {
+		return libraryService.saveBook(book);
 	}
 }

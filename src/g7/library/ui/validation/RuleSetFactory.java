@@ -13,13 +13,15 @@ final public class RuleSetFactory {
 	static HashMap<String, RuleSet> map = new HashMap<>();
 	final public static String MEMBER = "Member";
 	final public static String ADDRESS = "Address";
+	final public static String BOOK = "Book";
 	
 	static {
 		map.put(MEMBER, new UserInfoRuleSet());
 		map.put(ADDRESS, new AddressRuleSet());
+		map.put(BOOK, new BookRuleSet());
 	}
 	public static RuleSet getRuleSet(String cl) {
-//		Class<? extends Component> cl = (Class<? extends Component>) c.getClass();
+
 		if(!map.containsKey(cl)) {
 			throw new IllegalArgumentException(
 					"No RuleSet found for this Component");

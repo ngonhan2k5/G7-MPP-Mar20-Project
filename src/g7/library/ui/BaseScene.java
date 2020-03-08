@@ -1,8 +1,10 @@
 package g7.library.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import g7.library.domain.PermissionType;
@@ -205,10 +207,15 @@ public abstract class BaseScene implements IData {
 	 * @param cons
 	 */
 	public void clearFields(Control[] cons) {
-		for(int i=0; i< cons.length; i++) {
-			System.out.println(((TextInputControl) cons[i]).getText());
-			((TextInputControl) cons[i]).setText("");
-		}
+		
+		Arrays.asList(cons).forEach(f -> {
+			if (ComboBox.class.isAssignableFrom(f.getClass())) {
+				((ComboBox<?>) f).setValue(null);
+			}else if (TextInputControl.class.isAssignableFrom(f.getClass())){
+				((TextInputControl) f).clear();
+			}
+			
+		});
 	}
 	
 	@Override
@@ -216,7 +223,11 @@ public abstract class BaseScene implements IData {
 		
 		ats.getList().forEach(f -> {
 			if (ComboBox.class.isAssignableFrom(f.control.getClass())) {
-				data.put(f.name, ((ComboBox) f.control).getValue().toString());
+				Object value = ((ComboBox) f.control).getValue();
+				if (value != null)
+					data.put(f.name, value.toString());
+				else
+					data.put(f.name, null);
 			}else if (TextInputControl.class.isAssignableFrom(f.control.getClass())){
 				data.put(f.name, ((TextInputControl) f.control).getText());
 			}

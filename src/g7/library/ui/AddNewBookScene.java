@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Address;
+import g7.library.domain.Book;
 import g7.library.domain.LibraryMember;
 import g7.library.domain.factory.LibraryMemberFactory;
 import g7.library.service.LibraryServiceInterface;
@@ -46,7 +47,6 @@ public class AddNewBookScene extends BaseScene {
 	@Override
 	public Parent renderMainContent() {
 		initFields();
-		System.out.println("sssssssssssssss");
 		// Add New Member form
 		HBox hBox_1 = new HBox(10);
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
@@ -125,7 +125,7 @@ public class AddNewBookScene extends BaseScene {
 	private void onSave() {
 		infoLbl.setText("");
 		getDataFromFields(attrs);
-		RuleSet rules = RuleSetFactory.getRuleSet(RuleSetFactory.MEMBER);
+		RuleSet rules = RuleSetFactory.getRuleSet(RuleSetFactory.BOOK);
 		try {
 			rules.applyRules(INSTANCE);
 		} catch (RuleException e) { 
@@ -134,37 +134,32 @@ public class AddNewBookScene extends BaseScene {
 			return;
 		}
 		
-
-        //method 2 - via Date
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        //return number of milliseconds since January 1, 1970, 00:00:00 GMT
-        System.out.println(timestamp.getTime());
-        
-        
-//		LibraryServiceInterface srv = new LibraryServiceImpl();
-//		SaveMessage ret = srv.addNewLibraryMember(
-//				new LibraryMember(
-//					String.valueOf(timestamp.getTime()), 
-//					getFieldValue("firstName"), 
-//					getFieldValue("lastName"), 
-//					getFieldValue("phone"),
-//					new Address(
-//							getFieldValue("street"),
-//							getFieldValue("city"),
-//							getFieldValue("state"),
-//							getIntFieldValue("zip")
-//					)
-//				)
-//		);
+		LibraryServiceInterface srv = new LibraryServiceImpl();
+		Book book = srv.searchBookByIBSN(getFieldValue("ISBN"));
 		
-//		if (ret.isSuccessed()) {
-//			Util.showInfoLabel(infoLbl, "Add new Member succeeded");
-//			clearFields(attrs.getFieldControls());
-//		}else {
-//			Util.showErrorLabel(infoLbl, ret.getMessage());
-//		}
+		if (book != null) {
+			Util.showErrorLabel(infoLbl, "A book with same ISBN has existed");
+			return;
+		}
+		
+		book = new Book(
+				getFieldValue("iSBN"),
+				getFieldValue("title"), 
+				getIntFieldValue("maxCheckOutLength")
+				
+		);
+		book.makeBookCopies(getIntFieldValue("numOfCopy"));
+//		book.setMaxCheckoutLength(maxCheckoutLength);
+		
+		SaveMessage ret = srv.saveBook(book);
+				
+        	
+		if (ret.isSuccessed()) {
+			Util.showInfoLabel(infoLbl, "New Book and "+getIntFieldValue("numOfCopy")+" (copies) created!");
+			clearFields(attrs.getFieldControls());
+		}else {
+			Util.showErrorLabel(infoLbl, ret.getMessage());
+		}
 	}
 	
 

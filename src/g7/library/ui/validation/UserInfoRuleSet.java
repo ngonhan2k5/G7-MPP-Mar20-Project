@@ -17,7 +17,7 @@ public class UserInfoRuleSet implements RuleSet {
 	@Override
 	public void applyRules(BaseScene ob) throws RuleException {
 //		scene = (ProfileWindow)ob;
-		ob = ob;
+		this.ob = ob;
 		nonemptyRule(new String[]{"firstName", "lastName", "street", "city", "zip", "state"});
 		idNumericRule();
 //		favRestAndMovieRule();		

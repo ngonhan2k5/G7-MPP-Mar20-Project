@@ -24,7 +24,7 @@ public class AddressRuleSet implements RuleSet {
 		nonemptyRule(new String[] {"street", "city", "state", "zip"});
 //		idNumericRule();
 		zipNumericRule();
-		stateRule();
+//		stateRule();
 		idNotZipRule();
 	}
 

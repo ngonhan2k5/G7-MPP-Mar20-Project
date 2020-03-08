@@ -2,17 +2,16 @@ package g7.library.ui.validation;
 
 import g7.library.ui.BaseScene;
 
-public class BookRuleSet {
+public class BookRuleSet implements RuleSet {
 
 	private BaseScene ob;
 	public void applyRules(BaseScene ob) throws RuleException {
 
 		this.ob = ob;
-		nonemptyRule(new String[]{"firstName", "lastName", "street", "city", "zip", "state"});
+		nonemptyRule(new String[]{ "title","iSBN", "numOfCopy"});
 		idNumericRule();
 
-		RuleSetFactory.getRuleSet(RuleSetFactory.ADDRESS).applyRules(ob);
-		
+			
 	}
 	
 	private void nonemptyRule(String[] fields) throws RuleException {
@@ -26,13 +25,12 @@ public class BookRuleSet {
 	
 
 	private void idNumericRule() throws RuleException {
-		String val = ob.getFieldValue("phone");
-		if (val.isEmpty()) return;
-		try {
-			Integer.parseInt(val);
-			//val is numeric
-		} catch(NumberFormatException e) {
-			throw new RuleException("Phone number must be numeric");
-		}		
+		String val = ob.getFieldValue("iSBN");
+		
+		if (val.isEmpty()) 
+			return;
+		
+		if (!val.matches("[0-9]*"))
+			throw new RuleException("ISBN number must be numeric");
 	}
 }

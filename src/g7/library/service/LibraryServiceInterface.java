@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
 import g7.library.domain.CheckoutRecord;

@@ -2,7 +2,7 @@ package g7.library.ui;
 
 import java.util.stream.Stream;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.ui.validation.Attributes;
 import javafx.event.ActionEvent;

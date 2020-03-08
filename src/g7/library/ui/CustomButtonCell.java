@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Author;
 import g7.library.domain.Book;
 import g7.library.frontcontroller.LibraryController;

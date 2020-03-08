@@ -44,7 +44,10 @@
 
 .left-menu .button:hover {
   -fx-background-color: #7f8c8d;
+}
 
+.button:hover {
+  -fx-opacity: 0.7;
 }
 
 .popup-window .button {
@@ -52,4 +55,48 @@
 	-fx-border-radius: none;
 	-fx-text-fill: white;
 	-fx-font-weight: 700;
+}
+
+.button.view-btn {
+  -fx-min-width: 40px;
+  -fx-background-image: url("eye-icon.png");
+  -fx-background-size: 30px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+  -fx-background-color: none;
+}
+
+.button.find-btn {
+  -fx-min-width: 40px;
+  -fx-background-image: url('find-icon.jpg');
+  -fx-background-size: 30px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+  -fx-background-color: none;
+}
+
+.button.copy-btn {
+  -fx-min-width: 40px;
+  -fx-background-image: url('copy-icon.png');
+  -fx-background-size: 30px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+  -fx-background-color: none;
+}
+
+.button.btn-icon:hover {
+  -fx-opacity: 0.5;
+  -fx-background-color: none;
+}
+
+.button.btn-icon {
+  -fx-background-color: none;
+}
+
+.label.error-message {
+  -fx-text-fill: red;
+}
+
+.label.message {
+  -fx-text-fill: green;
 }

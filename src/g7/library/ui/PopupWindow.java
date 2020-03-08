@@ -74,4 +74,10 @@ public class PopupWindow extends Stage {
 	    
 	    return pop;
 	}
+	
+
+	public void setScene(Parent content, String title, Parent item) {
+		this.setScene(content, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, item);
+		this.show();
+	}
 }

@@ -1,8 +1,15 @@
 package g7.library.utils;
 
+import java.util.Collections;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import g7.library.domain.Address;
+import g7.library.domain.Author;
+import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
+import g7.library.ui.CustomButtonCell;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -10,9 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
-import java.util.Optional;
 
 /**
  * @author knguyen93
@@ -47,7 +51,7 @@ public class UserInterfaceUtils {
   }
 
   @SuppressWarnings("unchecked")
-  public static Parent renderBooks(ObservableList<BookCopy> books) {
+  public static Parent renderBookCopies(ObservableList<BookCopy> books) {
     TableColumn<BookCopy, String> titleColumn = new TableColumn<>("Title");
     TableColumn<BookCopy, String> isbnColumn = new TableColumn<>("ISBN");
     TableColumn<BookCopy, Integer> availableColumn = new TableColumn<>("Available");
@@ -60,6 +64,48 @@ public class UserInterfaceUtils {
     booksTable.getColumns().addAll(titleColumn, isbnColumn, availableColumn);
     booksTable.setMinWidth(400);
 
-    return new HBox(booksTable);
+    AnchorPane anchorPane = new AnchorPane(booksTable);
+    AnchorPane.setTopAnchor(booksTable, 0.0);
+    AnchorPane.setRightAnchor(booksTable, 0.0);
+    AnchorPane.setBottomAnchor(booksTable, 0.0);
+    AnchorPane.setLeftAnchor(booksTable, 0.0);
+
+    return anchorPane;
+  }
+
+  public static Parent renderBooks(ObservableList<Book> books) {
+    TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+    TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
+    TableColumn<Book, String> authorsColumn = new TableColumn<>("Authors");
+    TableColumn<Book, String> availableColumn = new TableColumn<>("Available Copy");
+    TableColumn<Book, Parent> actionColumn = new TableColumn<>("");
+
+
+    titleColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getTitle()));
+    isbnColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(record.getValue().getIsbn()));
+    authorsColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(extractAuthorsName(record.getValue())));
+    availableColumn.setCellValueFactory(record -> new ReadOnlyStringWrapper(String.valueOf(record.getValue().getCopieAvailable())));
+    actionColumn.setCellFactory(record -> new CustomButtonCell());
+
+    TableView<Book> table = new TableView<>(books);
+    table.getColumns().addAll(titleColumn, isbnColumn, authorsColumn, availableColumn, actionColumn);
+    table.setMinWidth(500);
+    AnchorPane anchorPane = new AnchorPane(table);
+    anchorPane.setPrefSize(700, 500);
+
+    AnchorPane.setTopAnchor(table, 0.0);
+    AnchorPane.setBottomAnchor(table, 0.0);
+    AnchorPane.setLeftAnchor(table, 0.0);
+    AnchorPane.setRightAnchor(table, 0.0);
+    return anchorPane;
+  }
+
+  private static String extractAuthorsName(Book book) {
+    return Optional.ofNullable(book)
+        .map(Book::getAuthors)
+        .orElse(Collections.emptySet())
+        .stream()
+        .map(Author::getFullName)
+        .collect(Collectors.joining(", "));
   }
 }

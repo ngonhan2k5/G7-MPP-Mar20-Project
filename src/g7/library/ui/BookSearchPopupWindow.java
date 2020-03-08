@@ -47,9 +47,10 @@ public class BookSearchPopupWindow extends PopupWindow {
 		VBox finderContainer = new VBox(10, container, booksTable, sepLine, buttons);
 		StackPane pane = new StackPane(finderContainer);
 		StackPane.setMargin(finderContainer, new Insets(15));
-		StackPane.setMargin(buttons, new Insets(15));
 		
-		this.displayPopup(pane, "Book Finder", 550, 600);
+		this.setScene(pane, 550, 600);
+		this.setTitle("Book Finder");
+		
 	}
 	
 	public void handleOnSearch(ActionEvent evt) {

@@ -5,9 +5,7 @@ import java.util.stream.Stream;
 import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
-import g7.library.domain.LibraryMember;
 import g7.library.ui.validation.Attributes;
-import g7.library.utils.UserInterfaceUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class CheckoutScene extends BaseScene {
@@ -40,7 +37,7 @@ public class CheckoutScene extends BaseScene {
 
 		// Checkout Book Form
 		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		hBox_1.setAlignment(Pos.BASELINE_LEFT);
 		VBox vBox = new VBox(10);
 
 		Label title = new Label("Checkout Book Form");
@@ -49,8 +46,8 @@ public class CheckoutScene extends BaseScene {
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 
-		message.setStyle("-fx-text-color: green");
-		errorMessage.setStyle("-fx-text-color: red");
+		message.getStyleClass().addAll("message");
+		errorMessage.getStyleClass().addAll("error-message");
 		HBox errorContainer = new HBox(20, errorMessage);
 		HBox messageContainer = new HBox(20, message);
 		errorContainer.setAlignment(Pos.BASELINE_LEFT);
@@ -58,16 +55,18 @@ public class CheckoutScene extends BaseScene {
 		HBox hButtons = new HBox(10);
 		VBox checkoutFields = new VBox(10);
 		Button checkout = new Button("Checkout");
-		Button findBook = new Button("Find");
-		Button findMember = new Button("Find");
+		Button findBook = new Button();
+		Button findMember = new Button();
+		findBook.getStyleClass().addAll("find-btn", "btn-icon");
+		findMember.getStyleClass().addAll("find-btn", "btn-icon");
 		checkout.setOnAction(this::handleOnSubmit);
 		findBook.setOnAction(this::findBooks);
 		findMember.setOnAction(this::findMembers);
 		Separator separator = new Separator();
 		separator.prefWidthProperty().bind(checkoutFields.widthProperty());
 
-		HBox h1 = new HBox(10, new Label("Member ID: "), memberId, findMember);
-		HBox h2 = new HBox(10, new Label("ISBN: "), isbn, findBook);
+		HBox h1 = new HBox(5, new Label("Member ID: "), memberId, findMember);
+		HBox h2 = new HBox(5, new Label("ISBN: "), isbn, findBook);
 		HBox h3 = new HBox(separator);
 
 		Stream.of(h1, h2).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
@@ -93,29 +92,25 @@ public class CheckoutScene extends BaseScene {
 
 	private void handleOnSubmit(ActionEvent evt) {
 		if("".equals(isbn.getText()) || "".equals(memberId.getText())) {
-			message.setText("Member Id and ISBN are required.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Member Id and ISBN are required.");
 			return;
 		}
 		
 		if(!libraryController.findAllMembers().stream().anyMatch(
 				u -> u.getMemberId().equals(memberId.getText()))) {
-			message.setText("Member Id is invalid.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Member Id is invalid.");
 			return;
 		}
 		
 		Book book = libraryController.findBookByISBN(isbn.getText());
 		if(book == null) {
-			message.setText("Book is not found or unavailable.");
-			message.setStyle("-fx-text-fill: red;");
+			errorMessage.setText("Book is not found or unavailable.");
 			return;
 		}
 
 		SaveMessage result = libraryController.checkoutBook(isbn.getText(), memberId.getText());
 		if(result.isSuccessed()) {
 			message.setText("Processed book checkout successfully.");
-			message.setStyle("-fx-text-fill: blue;");
 			isbn.setText("");
 			memberId.setText("");
 		} else {
@@ -124,42 +119,11 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-//		TextField searchText = new TextField();
-//		Button searchButton = new Button("Search");
-//		Button choose = new Button("OK");
-//
-//		BookTableView bookTableView = new BookTableView();
-//		bookTableView.update(libraryController.findAllBooks());
-//		Parent booksTable = new HBox(bookTableView);
-//		HBox container = new HBox(10, searchText, searchButton, choose);
-//		VBox finderContainer = new VBox(10, container, booksTable);
-//		StackPane pane = new StackPane(finderContainer);
-//
-//		searchButton.setOnAction(e -> {
-//			Set<Book> books = libraryController.searchBook(searchText.getText());
-//			bookTableView.update(books);
-//		});
-		
 		BookSearchPopupWindow.INSTANCE.show();
-		//Start.displayPopup(pane, "Book Finder", 550, 600, choose);
 	}
 
 	private void findMembers(ActionEvent evt) {
-		TextField searchText = new TextField();
-		Button searchButton = new Button("Search");
-		Button choose = new Button("OK");
-		ObservableList<LibraryMember> members = loadMembers("");
-		Parent booksTable = UserInterfaceUtils.renderMembers(members);
-
-		HBox container = new HBox(10, searchText, searchButton, choose);
-		VBox finderContainer = new VBox(10, container, booksTable);
-		StackPane pane = new StackPane(finderContainer);
-
-		Start.displayPopup(pane, "Member Finder", 550, 600, choose);
-	}
-
-	private ObservableList<LibraryMember> loadMembers(String searchString) {
-		return FXCollections.observableArrayList();
+		MemberSearchPopupWindow.INSTANCE.show();
 	}
 	
 	private void closePopup(ActionEvent evt) {

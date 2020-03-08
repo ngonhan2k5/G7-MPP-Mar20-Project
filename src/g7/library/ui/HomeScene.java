@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class HomeScene extends BaseScene {
 	public static final HomeScene INSTANCE = new HomeScene();
@@ -16,16 +17,14 @@ public class HomeScene extends BaseScene {
 	
 	@Override
 	protected Parent renderMainContent() {
-		// Login form
-		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		VBox vBox = new VBox();
 		Label title = new Label("Welcome to Library Management Tool");
 		title.getStyleClass().addAll("form-title", "home-title");
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
-		hBox_1.getChildren().add(titleContainer);
-		hBox_1.getStyleClass().add("home-page");
-		return hBox_1;
+		vBox.getChildren().add(titleContainer);
+		vBox.getStyleClass().add("home-page");
+		return vBox;
 	}
 
 	  @Override

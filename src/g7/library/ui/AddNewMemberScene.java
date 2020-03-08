@@ -102,11 +102,7 @@ public class AddNewMemberScene extends BaseScene {
 		street = new TextField();
 		city = new TextField();
 
-        // Weekdays 
-        String week_days[] = 
-                   { "Monday", "Tuesday", "Wednesday", 
-                                   "Thrusday", "Friday" }; 
-  
+
         // Create a combo box 
         state = 
                     new ComboBox(FXCollections 

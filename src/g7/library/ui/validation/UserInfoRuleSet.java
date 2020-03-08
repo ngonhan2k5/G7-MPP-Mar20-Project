@@ -13,11 +13,11 @@ import g7.library.ui.BaseScene;
  */
 public class UserInfoRuleSet implements RuleSet {
 
-	private BaseScene profWin;
+	private BaseScene ob;
 	@Override
 	public void applyRules(BaseScene ob) throws RuleException {
 //		scene = (ProfileWindow)ob;
-		profWin = ob;
+		ob = ob;
 		nonemptyRule(new String[]{"firstName", "lastName", "street", "city", "zip", "state"});
 		idNumericRule();
 //		favRestAndMovieRule();		
@@ -27,23 +27,23 @@ public class UserInfoRuleSet implements RuleSet {
 	}
 	
 	private void nonemptyRule(String[] fields) throws RuleException {
-		//System.out.println("A"+profWin.getFieldValue(fields[0]).isEmpty());
+		//System.out.println("A"+ob.getFieldValue(fields[0]).isEmpty());
 		for(int i=0; i< fields.length; i++) {
-			boolean s = profWin.getFieldValue(fields[i]).isEmpty();
-			if (profWin.getFieldValue(fields[i]).isEmpty())
+			boolean s = ob.getFieldValue(fields[i]).isEmpty();
+			if (ob.getFieldValue(fields[i]).isEmpty())
 			   throw new RuleException(Util.camel2Name(fields[i]) + " field must be nonempty");
 		}
 	}
 	
 //	private void favRestAndMovieRule() throws RuleException {
-//		if(profWin.getFavoriteMovieValue().trim().equals(
-//				profWin.getFavoriteRestaurantValue().trim())) {
+//		if(ob.getFavoriteMovieValue().trim().equals(
+//				ob.getFavoriteRestaurantValue().trim())) {
 //			throw new RuleException("Favorite movie must not equal favorite restaurant");
 //		}
 //	}
 
 	private void idNumericRule() throws RuleException {
-		String val = profWin.getFieldValue("phone");
+		String val = ob.getFieldValue("phone");
 		if (val.isEmpty()) return;
 		try {
 			Integer.parseInt(val);
@@ -53,8 +53,8 @@ public class UserInfoRuleSet implements RuleSet {
 		}		
 	}
 //	private void correctCharTypeRule() throws RuleException {
-//		char[] fname = profWin.getFirstNameValue().toCharArray();
-//		char[] lname = profWin.getLastNameValue().toCharArray();
+//		char[] fname = ob.getFirstNameValue().toCharArray();
+//		char[] lname = ob.getLastNameValue().toCharArray();
 //		for(char c: fname) {
 //			if(!Util.isInRangeAtoZ(c) || !Util.isInRangeatoz(c)) 
 //				throw new RuleException("All characters in first name must be "

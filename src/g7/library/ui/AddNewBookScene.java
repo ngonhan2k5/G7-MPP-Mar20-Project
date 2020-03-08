@@ -1,6 +1,7 @@
 package g7.library.ui;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Stream;
 
@@ -15,6 +16,7 @@ import g7.library.ui.validation.RuleException;
 import g7.library.ui.validation.RuleSet;
 import g7.library.ui.validation.RuleSetFactory;
 import g7.library.ui.validation.Util;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -23,7 +25,6 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -43,7 +44,7 @@ public class AddNewBookScene extends BaseScene {
 	}
 
 	@Override
-	protected Parent renderMainContent() {
+	public Parent renderMainContent() {
 		initFields();
 		System.out.println("sssssssssssssss");
 		// Add New Member form
@@ -51,7 +52,7 @@ public class AddNewBookScene extends BaseScene {
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
 
-		Label title1 = new Label("Add New Member Form");
+		Label title1 = new Label("Add New Book");
 		title1.setStyle("-fx-font-size: 20");
 		HBox titleContainer = new HBox(20, title1);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
@@ -70,12 +71,13 @@ public class AddNewBookScene extends BaseScene {
 		HBox h0 = new HBox(10, infoLbl);
 		HBox h1 = new HBox(10, new Label("Title: "), title);
 		HBox h2 = new HBox(10, new Label("ISBN: "), iSBN);
-		HBox h3 = new HBox(10, new Label("Number of Copies: "), numOfCopy);
+		HBox h3 = new HBox(10, new Label("Checkout Length: "), maxCheckOutLength);
+		HBox h4 = new HBox(10, new Label("Number of Copies: "), numOfCopy);
 		
 
-		Stream.of(h0, h1, h2, h3).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
+		Stream.of(h0, h1, h2, h3, h4).forEach(h -> {h.setAlignment(Pos.BASELINE_LEFT);});
 
-		memberFields.getChildren().addAll(h0, h1, h2, h3);
+		memberFields.getChildren().addAll(h0, h1, h2, h3, h4);
 
 		Button btn = new Button("Add Book");
 		hButtons.getChildren().add(btn);
@@ -112,7 +114,8 @@ public class AddNewBookScene extends BaseScene {
 		};
 		title = new TextField();
 		numOfCopy = new TextField();
-
+		maxCheckOutLength = new ComboBox(FXCollections.observableArrayList(Arrays.asList(20,7) ));
+		maxCheckOutLength.setValue("20");
 		
 		Control [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};
 		String[] ids = {"iSBN", "title", "maxCheckOutLength", "numOfCopy"};

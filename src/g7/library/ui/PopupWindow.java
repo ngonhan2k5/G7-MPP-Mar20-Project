@@ -66,10 +66,10 @@ public class PopupWindow extends Stage {
 		pop.setScene(content);
 		pop.setTitle(title);
 		
-			pop.initModality(Modality.WINDOW_MODAL);
+		pop.initModality(Modality.WINDOW_MODAL);
 	    pop.initOwner(
 	        ((Node)event.getSource()).getScene().getWindow() );
-		//this.show();
+		pop.show();
 		//this.setUserData(arg0);
 	    
 	    return pop;

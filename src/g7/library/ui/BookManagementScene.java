@@ -62,19 +62,20 @@ public class BookManagementScene extends BaseScene {
 	private void handleOnAdd(ActionEvent evt) {
 		Button saveBookBtn = new Button("Save");
 		saveBookBtn.setOnAction(this::doAddBook);
-		PopupWindow.INSTANCE.setScene(new VBox(), "Add New Book", saveBookBtn);
+//		PopupWindow.INSTANCE.setScene(new VBox(), "Add New Book", saveBookBtn);
+		AddNewBookScene.INSTANCE.reinitialize(false);
+		Stage ret = PopupWindow.INSTANCE.displayModal(evt, AddNewBookScene.INSTANCE.getScene(), "sss", 500,400);
+//		ret.showAndWait();
+		System.out.println(ret.getUserData());
 	}
 
 	private void doAddBook(ActionEvent event) {
 		// TODO: validate & persit new Book
-		PopupWindow.INSTANCE.close();
+//		PopupWindow.INSTANCE.close();
 //		Set<Book> books = libraryController.searchBook(searchField.getText());
 //		this.booksTable.setItems(FXCollections.observableArrayList(books));
 //		this.booksTable.refresh();
-		AddNewBookScene.INSTANCE.reinitialize(false);
-		Stage ret = PopupWindow.INSTANCE.displayModal(event, AddNewBookScene.INSTANCE.getScene(), "sss", 500,400);
-		ret.showAndWait();
-		System.out.println(ret.getUserData());
+		
 	}
 
 	private void handleOnSearch(ActionEvent evt) {

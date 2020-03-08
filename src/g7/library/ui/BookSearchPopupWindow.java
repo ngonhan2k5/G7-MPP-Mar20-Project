@@ -28,7 +28,11 @@ public class BookSearchPopupWindow extends PopupWindow {
 		searchButton.setOnAction(this::handleOnSearch);
 		
 		Button choose = new Button("OK");
-		choose.setOnAction(e -> {this.hide();});
+		choose.setOnAction(e -> {
+			Book book = this.bookTableView.getSelectionModel().getSelectedItem();
+			CheckoutScene.INSTANCE.assignBookISBN(book.getIsbn());
+			this.close();
+		});
 		
 		this.bookTableView = new BookTableView();
 		this.bookTableView.update(libraryController.findAllBooks());

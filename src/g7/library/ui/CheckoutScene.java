@@ -4,10 +4,7 @@ import java.util.stream.Stream;
 
 import g7.library.dataaccess.DataPersistor.SaveMessage;
 import g7.library.domain.Book;
-import g7.library.domain.BookCopy;
 import g7.library.ui.validation.Attributes;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -30,6 +27,14 @@ public class CheckoutScene extends BaseScene {
 	private Label errorMessage;
 	private TextField memberId;
 	private TextField isbn;
+	
+	public void assignBookISBN(String isbn) {
+		this.isbn.setText(isbn);
+	}
+	
+	public void assignMemberId(String memberId) {
+		this.memberId.setText(memberId);
+	}
 
 	@Override
 	protected Parent renderMainContent() {
@@ -126,14 +131,6 @@ public class CheckoutScene extends BaseScene {
 		MemberSearchPopupWindow.INSTANCE.show();
 	}
 	
-	private void closePopup(ActionEvent evt) {
-		Start.hidePopup();
-	}
-	
-	private ObservableList<BookCopy> loadBooks() {
-		return FXCollections.observableArrayList();
-	}
-
 	  @Override
 	  public void getDataFromFields(Attributes<Control> attrs) {
 	    // TODO Auto-generated method stub

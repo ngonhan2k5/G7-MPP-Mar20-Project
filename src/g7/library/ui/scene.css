@@ -93,10 +93,17 @@
   -fx-background-color: none;
 }
 
-.label.error-message {
+.label.error-message, .text-red {
   -fx-text-fill: red;
 }
 
 .label.message {
   -fx-text-fill: green;
+}
+
+.overdue-icon {
+  -fx-background-image: url('overdue-icon.jpg');
+  -fx-background-size: 40px;
+  -fx-min-width: 40px;
+  -fx-background-repeat: no-repeat;
 }

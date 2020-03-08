@@ -43,5 +43,9 @@ public final class CheckoutEntry implements Serializable {
 		calendar.add(Calendar.DAY_OF_MONTH, book.getBook().getMaxCheckoutLength());
 		return calendar.getTime();
 	}
+
+	public boolean isOverDue() {
+		return checkoutDate != null && getDueDate().before(new Date());
+	}
 	
 }

@@ -3,7 +3,7 @@ package g7.library.ui;
 import java.util.Collection;
 
 import g7.library.domain.Book;
-import g7.library.ui.BookManagementScene.CustomButtonCell;
+import g7.library.ui.CustomButtonCell;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

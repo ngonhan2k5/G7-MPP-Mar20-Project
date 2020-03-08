@@ -108,6 +108,7 @@ public class AddNewBookScene extends BaseScene {
 		};
 		title = new TextField();
 		numOfCopy = new TextField();
+		maxCheckOutLength = new TextField();
 
 		
 		TextInputControl [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};

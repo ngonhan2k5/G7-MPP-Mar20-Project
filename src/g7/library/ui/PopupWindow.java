@@ -24,6 +24,7 @@ public class PopupWindow extends Stage {
 		Scene scene = new Scene(content, width, height);
 		scene.getStylesheets().add(getClass().getResource("scene.css").toExternalForm());
 		setScene(scene);
+		setResizable(false);
 	}
 
 	public void setScene(Parent content, String title) {
@@ -56,6 +57,11 @@ public class PopupWindow extends Stage {
 	public void displayPopup(Parent content, String title, double width, double height) {
 		this.setScene(content, width, height);
 		this.setTitle(title);
+		this.show();
+	}
+
+	public void setScene(Parent content, String title, Parent item) {
+		this.setScene(content, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, item);
 		this.show();
 	}
 }

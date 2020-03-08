@@ -45,23 +45,15 @@ public class AddNewMemberScene extends BaseScene {
 		
 		// Add New Member form
 		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		hBox_1.setAlignment(Pos.BASELINE_LEFT);
 		VBox vBox = new VBox(10);
-
 		Label title = new Label("Add New Member Form");
 		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
-		titleContainer.setAlignment(Pos.BASELINE_LEFT);
-
 		HBox hButtons = new HBox(10);
-
 		VBox memberFields = new VBox(10);
-		
 		Stream.of(firstName, lastName, street, city, state, zip, phone).forEach(field -> field.setMinWidth(200));
-
-		
 		infoLbl.setTextFill(Color.web("red", 0.8));
-		
 		HBox h0 = new HBox(10, infoLbl);
 		HBox h1 = new HBox(10, new Label("First Name: "), firstName);
 		HBox h2 = new HBox(10, new Label("Last Name: "), lastName);

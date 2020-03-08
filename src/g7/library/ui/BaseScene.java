@@ -55,14 +55,15 @@ public abstract class BaseScene implements IData {
 
 		// set prefer size
 		leftMenu.setPrefWidth(220);
-		mainContainer.minWidth(580);
+		mainContainer.setPrefWidth(680);
 
 		Separator separator = new Separator(Orientation.VERTICAL);
 		separator.prefHeightProperty().bind(mainContainer.heightProperty());
 		HBox mainScreen = new HBox(5, leftMenu, separator, mainContainer);
+		mainScreen.setPrefWidth(900);
 		mainScreen.getStyleClass().add("main-container");
 
-		return new Scene(mainScreen, 800, 500);
+		return new Scene(mainScreen, 900, 600);
 	}
 
 	private Parent renderLeftMenu() {

@@ -38,12 +38,12 @@ public class Start extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		System.out.println(Util.camel2Name("firstName01"));
 		stage = primaryStage;
 		
 		// set minimum size
-		stage.setMinHeight(500);
-		stage.setMinWidth(800);
+		stage.setMinHeight(600);
+		stage.setWidth(900);
+		stage.setResizable(false);
 		stage.setTitle("Library Management");
 		changeScene(HomeScene.INSTANCE);
 		stage.show();

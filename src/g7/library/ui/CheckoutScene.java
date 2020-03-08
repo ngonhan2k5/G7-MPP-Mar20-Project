@@ -37,7 +37,7 @@ public class CheckoutScene extends BaseScene {
 
 		// Checkout Book Form
 		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
+		hBox_1.setAlignment(Pos.BASELINE_LEFT);
 		VBox vBox = new VBox(10);
 
 		Label title = new Label("Checkout Book Form");

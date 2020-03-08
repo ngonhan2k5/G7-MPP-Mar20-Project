@@ -117,4 +117,9 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 		return bookCopies;
 	}
 
+	@Override
+	public LibraryMember searchLibraryMemberById(String memberId) {
+		return SingletoneDataLoader.getInstance().getLibraryMember().get(memberId);
+	}
+
 }

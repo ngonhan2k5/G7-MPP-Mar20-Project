@@ -34,5 +34,7 @@ public interface LibraryServiceInterface {
 	public Map<String, Book> fetchAllBooks();
 	
 	public Set<BookCopy> fetchAllBookCopies();
+
+	public LibraryMember searchLibraryMemberById(String memberId);
 	
 }

@@ -56,6 +56,10 @@ public class LibraryController {
 		return searchService.searchLibraryMember(new SearchUserCriteria().withSearchString(searchString));
 	}
 
+	public LibraryMember findMemberById(String memberId) {
+		return libraryService.searchLibraryMemberById(memberId);
+	}
+
 	public Collection<LibraryMember> findAllMembers() {
 		return Optional.ofNullable(libraryService.fetchAllMembers())
 				.map(Map::values)

@@ -1,6 +1,8 @@
 package g7.library.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -8,6 +10,7 @@ import g7.library.domain.Address;
 import g7.library.domain.Author;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
+import g7.library.domain.CheckoutEntry;
 import g7.library.domain.LibraryMember;
 import g7.library.ui.CustomButtonCell;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -22,6 +25,8 @@ import javafx.scene.layout.AnchorPane;
  * @author knguyen93
  */
 public class UserInterfaceUtils {
+  private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+  private static final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_FORMAT);
 
   @SuppressWarnings("unchecked")
   public static Parent renderMembers(ObservableList<LibraryMember> members) {
@@ -108,4 +113,33 @@ public class UserInterfaceUtils {
         .map(Author::getFullName)
         .collect(Collectors.joining(", "));
   }
+
+  @SuppressWarnings("unchecked")
+  public static Parent renderCheckoutRecords(ObservableList<CheckoutEntry> records) {
+    TableColumn<CheckoutEntry, String> bookTileColumn = new TableColumn<>("Book tile");
+    TableColumn<CheckoutEntry, String> isbnColumn = new TableColumn<>("ISBN");
+    TableColumn<CheckoutEntry, String> checkoutDateColumn = new TableColumn<>("Checkout Date");
+    TableColumn<CheckoutEntry, String> dueDateColumn = new TableColumn<>("Due date");
+    TableColumn<CheckoutEntry, String> returnDateColumn = new TableColumn<>("Return Date");
+
+    bookTileColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getTitle()));
+    isbnColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getIsbn()));
+    checkoutDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getCheckoutDate())));
+    returnDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getReturnDueDate())));
+    dueDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getDueDate())));
+
+
+    TableView<CheckoutEntry> table = new TableView<>(records);
+    table.getColumns().addAll(bookTileColumn, isbnColumn, checkoutDateColumn, dueDateColumn, returnDateColumn);
+    table.setMinWidth(500);
+    AnchorPane anchorPane = new AnchorPane(table);
+    anchorPane.setPrefSize(700, 500);
+
+    AnchorPane.setTopAnchor(table, 0.0);
+    AnchorPane.setBottomAnchor(table, 0.0);
+    AnchorPane.setLeftAnchor(table, 0.0);
+    AnchorPane.setRightAnchor(table, 0.0);
+    return anchorPane;
+  }
+
 }

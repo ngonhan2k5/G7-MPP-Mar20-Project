@@ -11,7 +11,7 @@ public class LogicViewController {
 	}
 	
 	private LogicViewInterface logicView = (user, access) -> {
-		return user.getPermissionsGranted().contains(access);
+		return user.hasPermissionGranted(access);
 	};
 
 	public boolean isPermissionGranted(PermissionType accessPermission) {

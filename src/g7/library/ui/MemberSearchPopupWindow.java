@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MemberSearchPopupWindow extends PopupWindow {
-	public static final PopupWindow INSTANCE = new MemberSearchPopupWindow();
+	//public static final PopupWindow INSTANCE = new MemberSearchPopupWindow();
 	
 	protected LibraryController libraryController = new LibraryController();
 	private MemberTableView memberTableView;

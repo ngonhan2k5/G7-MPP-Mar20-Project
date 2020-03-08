@@ -63,7 +63,7 @@ public class CheckoutScene extends BaseScene {
 		hBox_1.setAlignment(Pos.BASELINE_LEFT);
 		VBox vBox = new VBox(10);
 
-		Label title = new Label("Checkout Book Form");
+		Label title = new Label("Checkout Book");
 		title.getStyleClass().add("form-title");
 
 		HBox titleContainer = new HBox(20, title);
@@ -173,16 +173,16 @@ public class CheckoutScene extends BaseScene {
 			isbn.setText("");
 			memberId.setText("");
 		} else {
-			message.setText(result.showErrors());
+			errorMessage.setText(result.showErrors());
 		}
 	}
 
 	private void findBooks(ActionEvent evt) {
-		BookSearchPopupWindow.INSTANCE.show();
+		new BookSearchPopupWindow().show();
 	}
 
 	private void findMembers(ActionEvent evt) {
-		MemberSearchPopupWindow.INSTANCE.show();
+		new MemberSearchPopupWindow().show();
 	}
 	
 	  @Override

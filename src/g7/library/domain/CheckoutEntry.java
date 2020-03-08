@@ -32,16 +32,8 @@ public final class CheckoutEntry implements Serializable {
 		return returnDueDate;
 	}
 
-	public Date getDueDate() {
-
-		if (checkoutDate == null || book.getBook() == null || book.getBook().getMaxCheckoutLength() < 1) {
-			return null;
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(checkoutDate);
-		calendar.add(Calendar.DAY_OF_MONTH, book.getBook().getMaxCheckoutLength());
-		return calendar.getTime();
+	public boolean isOverDue() {
+		return checkoutDate != null && getReturnDueDate().before(new Date());
 	}
 	
 }

@@ -13,13 +13,21 @@ import g7.library.domain.BookCopy;
 import g7.library.domain.CheckoutEntry;
 import g7.library.domain.LibraryMember;
 import g7.library.ui.CustomButtonCell;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 /**
  * @author knguyen93
@@ -118,19 +126,22 @@ public class UserInterfaceUtils {
   public static Parent renderCheckoutRecords(ObservableList<CheckoutEntry> records) {
     TableColumn<CheckoutEntry, String> bookTileColumn = new TableColumn<>("Book tile");
     TableColumn<CheckoutEntry, String> isbnColumn = new TableColumn<>("ISBN");
+    TableColumn<CheckoutEntry, String> copyNumberColumn = new TableColumn<>("Copy Number");
     TableColumn<CheckoutEntry, String> checkoutDateColumn = new TableColumn<>("Checkout Date");
     TableColumn<CheckoutEntry, String> dueDateColumn = new TableColumn<>("Due date");
-    TableColumn<CheckoutEntry, String> returnDateColumn = new TableColumn<>("Return Date");
+    TableColumn<CheckoutEntry, Parent> overdueColumn = new TableColumn<>("");
 
     bookTileColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getTitle()));
     isbnColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getIsbn()));
     checkoutDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getCheckoutDate())));
-    returnDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getReturnDueDate())));
-    dueDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getDueDate())));
+    dueDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getReturnDueDate())));
+    copyNumberColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(String.valueOf(r.getValue().getBook().getCopyNumber())));
+    overdueColumn.setCellValueFactory(UserInterfaceUtils::renderOverdueColumn);
 
 
     TableView<CheckoutEntry> table = new TableView<>(records);
-    table.getColumns().addAll(bookTileColumn, isbnColumn, checkoutDateColumn, dueDateColumn, returnDateColumn);
+    table.getColumns().addAll(bookTileColumn, isbnColumn, copyNumberColumn, checkoutDateColumn, dueDateColumn,
+        overdueColumn);
     table.setMinWidth(500);
     AnchorPane anchorPane = new AnchorPane(table);
     anchorPane.setPrefSize(700, 500);
@@ -140,6 +151,18 @@ public class UserInterfaceUtils {
     AnchorPane.setLeftAnchor(table, 0.0);
     AnchorPane.setRightAnchor(table, 0.0);
     return anchorPane;
+  }
+
+  private static ObservableValue<Parent> renderOverdueColumn(TableColumn.CellDataFeatures<CheckoutEntry,
+      Parent> cellDataFeatures) {
+    HBox box = new HBox();
+    CheckoutEntry record = cellDataFeatures.getValue();
+    if (!record.isOverDue()) {
+      Label overdueIcon = new Label();
+      overdueIcon.getStyleClass().addAll("overdue-icon");
+      box.getChildren().add(overdueIcon);
+    }
+    return new ReadOnlyObjectWrapper<>(box);
   }
 
 }

@@ -51,7 +51,7 @@ public class AddNewMemberScene extends BaseScene {
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
 
-		Label title = new Label("Add New Member Form");
+		Label title = new Label("Add New Member");
 		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BASELINE_LEFT);

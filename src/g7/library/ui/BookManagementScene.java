@@ -36,8 +36,6 @@ public class BookManagementScene extends BaseScene {
 	@Override
 	protected Parent renderMainContent() {
 		initFields();
-		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
 		Label title = new Label("Books Management");
 		title.getStyleClass().add("form-title");
@@ -48,15 +46,14 @@ public class BookManagementScene extends BaseScene {
 		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
 		addBtn.setOnAction(this::handleOnAdd);
-		vBox.getChildren().addAll(titleContainer, message, h1, this.booksTable);
-		hBox_1.getChildren().add(vBox);
-		AnchorPane anchorPane = new AnchorPane(hBox_1);
+		vBox.getChildren().addAll(titleContainer, message, h1, booksTable);
+		AnchorPane anchorPane = new AnchorPane(vBox);
 		anchorPane.setPrefSize(700, 500);
 
-		AnchorPane.setTopAnchor(hBox_1, 0.0);
-		AnchorPane.setBottomAnchor(hBox_1, 0.0);
-		AnchorPane.setLeftAnchor(hBox_1, 0.0);
-		AnchorPane.setRightAnchor(hBox_1, 0.0);
+		AnchorPane.setTopAnchor(vBox, 0.0);
+		AnchorPane.setBottomAnchor(vBox, 0.0);
+		AnchorPane.setLeftAnchor(vBox, 0.0);
+		AnchorPane.setRightAnchor(vBox, 0.0);
 		return anchorPane;
 	}
 

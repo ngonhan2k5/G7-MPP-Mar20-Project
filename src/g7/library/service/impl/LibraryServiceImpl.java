@@ -2,6 +2,7 @@ package g7.library.service.impl;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.dataaccess.storage.StorageType;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
+import g7.library.domain.CheckoutEntry;
 import g7.library.domain.CheckoutRecord;
 import g7.library.domain.LibraryMember;
 import g7.library.domain.LoginCredentials;
@@ -45,10 +47,16 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 			LibraryMember member = LibraryMemberFactory.getInstance(memberId).addNewCheckoutEntry(
 					bookIsbn, checkoutDate, returnDueDate);
 			
+			// update and save book
+			saveMessage = new SerializableDataPersistor<Map<String, Book>>(
+					StorageType.BOOKS, SingletoneDataLoader.getInstance().getBooks()).save();
+			
 			//save checkout record
-			SingletoneDataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
-			saveMessage = new SerializableDataPersistor<Map<String, LibraryMember>>(
-					StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
+			if(saveMessage.isSuccessed()) {
+				SingletoneDataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
+				saveMessage = new SerializableDataPersistor<Map<String, LibraryMember>>(
+						StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
+			}
 		} catch (Exception e) {
 			saveMessage.setSuccessed(false);
 			saveMessage.setE(e);

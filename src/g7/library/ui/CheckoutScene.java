@@ -178,11 +178,11 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-		BookSearchPopupWindow.INSTANCE.show();
+		new BookSearchPopupWindow().show();
 	}
 
 	private void findMembers(ActionEvent evt) {
-		MemberSearchPopupWindow.INSTANCE.show();
+		new MemberSearchPopupWindow().show();
 	}
 	
 	  @Override

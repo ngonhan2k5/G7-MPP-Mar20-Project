@@ -28,6 +28,7 @@ public class CheckoutEntryFactory {
 	}
 	
 	public CheckoutEntry createNewCheckoutEntry(Date checkoutDate, Date returnDueDate) {
+		this.book.setAvailable(false);
 		return CheckoutEntry.newCheckoutEntry(book, checkoutDate, returnDueDate);
 	}
 

@@ -16,7 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class BookSearchPopupWindow extends PopupWindow {
-	public static final PopupWindow INSTANCE = new BookSearchPopupWindow();
+	//public static final PopupWindow INSTANCE = new BookSearchPopupWindow();
 	
 	protected LibraryController libraryController = new LibraryController();
 	private BookTableView bookTableView;

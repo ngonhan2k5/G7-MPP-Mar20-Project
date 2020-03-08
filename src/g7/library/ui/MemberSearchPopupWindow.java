@@ -1,5 +1,6 @@
 package g7.library.ui;
 
+import g7.library.domain.LibraryMember;
 import g7.library.frontcontroller.LibraryController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,6 +28,11 @@ public class MemberSearchPopupWindow extends PopupWindow {
 		});
 		
 		Button choose = new Button("OK");
+		choose.setOnAction(e -> {
+			LibraryMember member = this.memberTableView.getSelectionModel().getSelectedItem();
+			CheckoutScene.INSTANCE.assignMemberId(member.getMemberId());
+			this.close();
+		});
 		HBox topButtons = new HBox(10, searchText, searchButton);
 		
 		Button closeButton = new Button("Close");

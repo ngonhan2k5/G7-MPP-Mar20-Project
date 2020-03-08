@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import g7.library.dataaccess.DataLoader;
-import g7.library.dataaccess.DataPersistor;
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SingletoneDataLoader;
+import g7.library.dataaccess.SerializableDataPersistor;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.dataaccess.storage.StorageType;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
@@ -23,7 +23,7 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 
 	@Override
 	public SystemUser login(LoginCredentials credentials) throws RuntimeException {
-		for(SystemUser u : DataLoader.getInstance().getSystemUsers().values()) {
+		for(SystemUser u : SingletoneDataLoader.getInstance().getSystemUsers().values()) {
 			if(u.login(credentials) != null) return u;
 		}
 		return null;
@@ -31,9 +31,9 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 
 	@Override
 	public SaveMessage addNewLibraryMember(LibraryMember libraryMember) throws RuntimeException {
-		DataLoader.getInstance().getLibraryMember().put(libraryMember.getMemberId(), libraryMember);
-		return new DataPersistor<Map<String, LibraryMember>>(
-				StorageType.MEMBERS, DataLoader.getInstance().getLibraryMember()).save();
+		SingletoneDataLoader.getInstance().getLibraryMember().put(libraryMember.getMemberId(), libraryMember);
+		return new SerializableDataPersistor<Map<String, LibraryMember>>(
+				StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
 	}
 
 	@Override
@@ -46,9 +46,9 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 					bookIsbn, checkoutDate, returnDueDate);
 			
 			//save checkout record
-			DataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
-			saveMessage = new DataPersistor<Map<String, LibraryMember>>(
-					StorageType.MEMBERS, DataLoader.getInstance().getLibraryMember()).save();
+			SingletoneDataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
+			saveMessage = new SerializableDataPersistor<Map<String, LibraryMember>>(
+					StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
 		} catch (Exception e) {
 			saveMessage.setSuccessed(false);
 			saveMessage.setE(e);
@@ -63,50 +63,50 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 		
 		if(user instanceof LibraryMember) {
 			LibraryMember member = (LibraryMember)user;
-			DataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
-			return new DataPersistor<Map<String, LibraryMember>>(
-					StorageType.MEMBERS, DataLoader.getInstance().getLibraryMember()).save();
+			SingletoneDataLoader.getInstance().getLibraryMember().put(member.getMemberId(), member);
+			return new SerializableDataPersistor<Map<String, LibraryMember>>(
+					StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
 		}
 		
 		SystemUser systemUser = (SystemUser)user;
-		DataLoader.getInstance().getSystemUsers().put(systemUser.getLoginUserName(), systemUser);
-		return new DataPersistor<Map<String, SystemUser>>(
-				StorageType.USERS, DataLoader.getInstance().getSystemUsers()).save();
+		SingletoneDataLoader.getInstance().getSystemUsers().put(systemUser.getLoginUserName(), systemUser);
+		return new SerializableDataPersistor<Map<String, SystemUser>>(
+				StorageType.USERS, SingletoneDataLoader.getInstance().getSystemUsers()).save();
 	}
 
 	@Override
 	public Book searchBookByIBSN(String ibsn) {
-		return DataLoader.getInstance().getBooks().get(ibsn);
+		return SingletoneDataLoader.getInstance().getBooks().get(ibsn);
 	}
 
 	@Override
 	public CheckoutRecord retrieveCheckoutRecord(String memberId) {
-		LibraryMember member = DataLoader.getInstance().getLibraryMember().get(memberId);
+		LibraryMember member = SingletoneDataLoader.getInstance().getLibraryMember().get(memberId);
 		if(member != null) return member.getCheckoutRecord();
 		return null;
 	}
 
 	@Override
 	public Map<String, LibraryMember> fetchAllMembers() {
-		return DataLoader.getInstance().getLibraryMember();
+		return SingletoneDataLoader.getInstance().getLibraryMember();
 	}
 
 	@Override
 	public Map<String, Book> fetchAllBooks() {
-		return DataLoader.getInstance().getBooks();
+		return SingletoneDataLoader.getInstance().getBooks();
 	}
 
 	@Override
 	public SaveMessage saveBook(Book book) throws RuntimeException {
-		DataLoader.getInstance().getBooks().put(book.getIsbn(), book);
-		return new DataPersistor<Map<String, Book>>(
-				StorageType.BOOKS, DataLoader.getInstance().getBooks()).save();
+		SingletoneDataLoader.getInstance().getBooks().put(book.getIsbn(), book);
+		return new SerializableDataPersistor<Map<String, Book>>(
+				StorageType.BOOKS, SingletoneDataLoader.getInstance().getBooks()).save();
 	}
 
 	@Override
 	public Set<BookCopy> fetchAllBookCopies() {
 		Set<BookCopy> bookCopies = new HashSet<BookCopy>();
-		Map<String, Book> books = DataLoader.getInstance().getBooks();
+		Map<String, Book> books = SingletoneDataLoader.getInstance().getBooks();
 		for(String isbn : books.keySet()) {
 			Book book = books.get(isbn);
 			if(book != null) {
@@ -115,6 +115,11 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 		}
 		
 		return bookCopies;
+	}
+
+	@Override
+	public LibraryMember searchLibraryMemberById(String memberId) {
+		return SingletoneDataLoader.getInstance().getLibraryMember().get(memberId);
 	}
 
 }

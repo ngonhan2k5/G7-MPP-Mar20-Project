@@ -1,7 +1,14 @@
 package g7.library.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Author;
 import g7.library.domain.Book;
+import g7.library.frontcontroller.LibraryController;
 import g7.library.frontcontroller.LogicViewController;
 import g7.library.model.UserDataBuilder;
 import javafx.event.ActionEvent;
@@ -16,22 +23,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * @author knguyen93
  */
 public class CustomButtonCell extends TableCell<Book, Parent> {
+  private LibraryController libraryController = new LibraryController();
+	
   private final HBox buttons;
-  private TextField copyNumber;
+  private TextField nbrOfCopies;
 
   public CustomButtonCell() {
     buttons = new HBox(10);
-    copyNumber = new TextField();
-    copyNumber.setPrefWidth(100);
+    nbrOfCopies = new TextField();
+    nbrOfCopies.setPrefWidth(100);
     Button viewBtn = new Button();
     viewBtn.getStyleClass().addAll("view-btn", "btn-icon");
     Button addCopyBtn = new Button();
@@ -69,7 +73,23 @@ public class CustomButtonCell extends TableCell<Book, Parent> {
   void addCopy(ActionEvent evt) {
     Book book = CustomButtonCell.this.getTableView().getItems().get(CustomButtonCell.this.getIndex());
     Button addCopyBtn = new Button("Add");
-    addCopyBtn.setOnAction(this::doAddCopy);
+    addCopyBtn.setOnAction(e -> {
+		if (nbrOfCopies != null && nbrOfCopies.getText() != "") {
+	      System.out.println("doAddCopy(ActionEvent actionEvent) - " + nbrOfCopies.getText());
+	      book.makeBookCopies(Integer.valueOf(nbrOfCopies.getText()));
+	      CustomButtonCell.this.getTableView().refresh();
+	      
+	      //save into database
+	      SaveMessage message = libraryController.saveBook(book);
+	      if(message.isSuccessed()) {
+	    	  BookManagementScene.INSTANCE.showMessage("Processed add " 
+	    			  + nbrOfCopies.getText() + " copies of book ISBN " + book.getIsbn());
+	      }
+	      
+	      Start.hidePopup();
+	     }
+    });
+    
     Start.displayPopup(generateAddCopy(book), "Add Copy", 400, 500, addCopyBtn);
   }
 
@@ -86,21 +106,13 @@ public class CustomButtonCell extends TableCell<Book, Parent> {
         new HBox(title, new Label(book.getTitle())),
         new HBox(isbn, new Label(book.getIsbn())),
         new HBox(available, new Label(String.valueOf(book.getCopieAvailable()))),
-        new HBox(addCopyLabel, this.copyNumber),
+        new HBox(addCopyLabel, this.nbrOfCopies),
         new HBox(author, new Label(authors))
     );
     StackPane pane = new StackPane(bookInfo);
     StackPane.setMargin(bookInfo, new Insets(15));
 
     return pane;
-  }
-
-  private void doAddCopy(ActionEvent actionEvent) {
-    if (copyNumber != null && copyNumber.getText() != "") {
-      System.out.println("doAddCopy(ActionEvent actionEvent) - " + copyNumber.getText());
-      Start.hidePopup();
-      // TODO: perform add copy
-    }
   }
 
   private Parent generateBookInformation(g7.library.domain.Book book) {

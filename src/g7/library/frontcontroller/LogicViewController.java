@@ -14,23 +14,27 @@ public class LogicViewController {
 		return user.getPermissionsGranted().contains(access);
 	};
 
+	public boolean isPermissionGranted(PermissionType accessPermission) {
+		return logicView.isPermissionGranted(systemUser, accessPermission);
+	}
+	
 	public boolean isLibMemberUpdatePermited() {
-		return logicView.isPermissionGranted(systemUser, PermissionType.UPDATE_MEMBER);
+		return isPermissionGranted(PermissionType.UPDATE_MEMBER);
 	}
 	
 	public boolean isLibMemberAddPermited() {
-		return logicView.isPermissionGranted(systemUser, PermissionType.ADD_MEMBER);
+		return isPermissionGranted(PermissionType.ADD_MEMBER);
 	}
 	
 	public boolean isLibMemberDeletePermited() {
-		return logicView.isPermissionGranted(systemUser, PermissionType.DELETE_MEMBER);
+		return isPermissionGranted(PermissionType.DELETE_MEMBER);
 	}
 	
 	public boolean isBookCheckoutPermited() {
-		return logicView.isPermissionGranted(systemUser, PermissionType.CHECKOUT_BOOK);
+		return isPermissionGranted(PermissionType.CHECKOUT_BOOK);
 	}
 	
 	public boolean isBookAddPermited() {
-		return logicView.isPermissionGranted(systemUser, PermissionType.ADD_BOOK);
+		return isPermissionGranted(PermissionType.ADD_BOOK);
 	}
 }

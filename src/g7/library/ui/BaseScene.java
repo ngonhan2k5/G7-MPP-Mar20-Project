@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import g7.library.domain.PermissionType;
 import g7.library.frontcontroller.LibraryController;
 import g7.library.frontcontroller.LogicViewController;
 import g7.library.model.UserDataBuilder;
@@ -104,7 +105,7 @@ public abstract class BaseScene implements IData {
 			fxNodes.add( new Separator(Orientation.HORIZONTAL));
 		} else {
 			LogicViewController logicView = new LogicViewController(userData.systemUser());
-			if(logicView.isLibMemberAddPermited()) {
+			if(logicView.isPermissionGranted(PermissionType.ADD_MEMBER)) {
 				fxNodes.add(btnMemberManagement);
 				fxNodes.add(btnAddNew);
 			}

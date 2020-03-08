@@ -2,7 +2,7 @@ package g7.library.domain.factory;
 
 import java.util.Date;
 
-import g7.library.dataaccess.DataLoader;
+import g7.library.dataaccess.SingletoneDataLoader;
 import g7.library.domain.CheckoutEntry;
 import g7.library.domain.LibraryMember;
 
@@ -14,7 +14,7 @@ public class LibraryMemberFactory {
 	}
 
 	public static LibraryMemberFactory getInstance(String memberId) {
-		LibraryMember member = DataLoader.getInstance().getLibraryMember().get(memberId);
+		LibraryMember member = SingletoneDataLoader.getInstance().getLibraryMember().get(memberId);
 		if(member == null) throw new IllegalArgumentException("Lib Member Not Found.");
 		return new LibraryMemberFactory(member);
 	}

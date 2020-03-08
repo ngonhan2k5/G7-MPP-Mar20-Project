@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Address;
 import g7.library.domain.LibraryMember;
 import g7.library.domain.factory.LibraryMemberFactory;

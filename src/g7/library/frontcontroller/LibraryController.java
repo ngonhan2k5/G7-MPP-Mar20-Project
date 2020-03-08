@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Book;
 import g7.library.domain.BookCopy;
 import g7.library.domain.LibraryMember;
@@ -44,7 +44,6 @@ public class LibraryController {
 		return libraryService.login(new LoginCredentials(loginUserName, password));
 	}
 	
-
 	public Set<Book> searchBook(String searchString) {
 		if("".equals(searchString))
 			return new HashSet<Book>(findAllBooks());
@@ -55,6 +54,10 @@ public class LibraryController {
 		if("".equals(searchString))
 			return new HashSet<LibraryMember>(findAllMembers());
 		return searchService.searchLibraryMember(new SearchUserCriteria().withSearchString(searchString));
+	}
+
+	public LibraryMember findMemberById(String memberId) {
+		return libraryService.searchLibraryMemberById(memberId);
 	}
 
 	public Collection<LibraryMember> findAllMembers() {
@@ -73,5 +76,9 @@ public class LibraryController {
 		Date returnDueDate = ca.getTime();
 		
 		return libraryService.checkoutBook(bookIsbn, memberId, checkoutDate, returnDueDate);
+	}
+	
+	public SaveMessage saveBook(Book book) {
+		return libraryService.saveBook(book);
 	}
 }

@@ -9,8 +9,8 @@ import g7.library.domain.LibraryMember;
 import g7.library.domain.SystemUser;
 import g7.library.utils.SerializableUtil;
 
-public class DataLoader {
-	private final static DataLoader instance = new DataLoader();
+public class SingletoneDataLoader {
+	private final static SingletoneDataLoader instance = new SingletoneDataLoader();
 	
 	private Map<String, LibraryMember> libraryMember;
 	private Map<String, Book> books;
@@ -28,7 +28,7 @@ public class DataLoader {
 		return systemUsers;
 	}
 
-	private DataLoader() {
+	private SingletoneDataLoader() {
 		try {
 			libraryMember = SerializableUtil.readFromStorage(StorageType.MEMBERS);
 			books = SerializableUtil.readFromStorage(StorageType.BOOKS);
@@ -38,12 +38,12 @@ public class DataLoader {
 		}
 	}
 	
-	public static DataLoader getInstance() {
+	public static SingletoneDataLoader getInstance() {
 		return instance;
 	}
 	
 	public static void main(String[] args) {
-		DataLoader instance = DataLoader.getInstance();
+		SingletoneDataLoader instance = SingletoneDataLoader.getInstance();
 		
 		System.out.println(instance.getBooks());
 		System.out.println(instance.getLibraryMember());

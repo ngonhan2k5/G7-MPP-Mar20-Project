@@ -3,7 +3,7 @@ package g7.library.ui;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.dataaccess.storage.Constants;
 import g7.library.domain.Address;
 import g7.library.domain.LibraryMember;

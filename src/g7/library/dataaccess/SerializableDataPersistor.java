@@ -7,11 +7,11 @@ import java.util.Set;
 import g7.library.dataaccess.storage.StorageType;
 import g7.library.utils.SerializableUtil;
 
-public class DataPersistor<E> {
+public class SerializableDataPersistor<E> {
 	private final StorageType type;
 	private final E data;
 	
-	public DataPersistor(StorageType type, E data) {
+	public SerializableDataPersistor(StorageType type, E data) {
 		this.type = type;
 		this.data = data;
 	}

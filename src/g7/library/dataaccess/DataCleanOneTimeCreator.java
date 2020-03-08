@@ -3,7 +3,7 @@ package g7.library.dataaccess;
 import java.util.HashMap;
 import java.util.Map;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.dataaccess.storage.StorageType;
 import g7.library.domain.Address;
 import g7.library.domain.Author;
@@ -89,13 +89,13 @@ public class DataCleanOneTimeCreator {
 	
 	public static void main(String[] args) {
 		Map<UserRoleType, UserRole> userRoles = createUserRoles();
-		SaveMessage saveMessage = new DataPersistor<Map<String, SystemUser>>(StorageType.USERS, createSystemUsers(userRoles)).save();
+		SaveMessage saveMessage = new SerializableDataPersistor<Map<String, SystemUser>>(StorageType.USERS, createSystemUsers(userRoles)).save();
 		System.out.println(saveMessage);
 		
-		saveMessage = new DataPersistor<Map<String, LibraryMember>>(StorageType.MEMBERS, createLibraryMembers()).save();
+		saveMessage = new SerializableDataPersistor<Map<String, LibraryMember>>(StorageType.MEMBERS, createLibraryMembers()).save();
 		System.out.println(saveMessage);
 		
-		saveMessage = new DataPersistor<Map<String, Book>>(StorageType.BOOKS, createBooks()).save();
+		saveMessage = new SerializableDataPersistor<Map<String, Book>>(StorageType.BOOKS, createBooks()).save();
 		System.out.println(saveMessage);
 		
 	}

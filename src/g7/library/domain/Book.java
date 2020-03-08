@@ -32,6 +32,15 @@ public class Book implements Serializable {
 		return this;
 	}
 	
+	public Book makeBookCopies(int nbrOfCopies) {
+		if(nbrOfCopies < 1) return this;
+		
+		for(int i=0; i<nbrOfCopies; i++) {
+			copies.add(new BookCopy(this, copies.size() + 1));
+		}
+		return this;
+	}
+	
 	public String getIsbn() {
 		return isbn;
 	}

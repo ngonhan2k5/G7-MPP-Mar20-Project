@@ -1,6 +1,7 @@
 package g7.library.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public final class CheckoutEntry implements Serializable {
@@ -29,6 +30,18 @@ public final class CheckoutEntry implements Serializable {
 	}
 	public Date getReturnDueDate() {
 		return returnDueDate;
+	}
+
+	public Date getDueDate() {
+
+		if (checkoutDate == null || book.getBook() == null || book.getBook().getMaxCheckoutLength() < 1) {
+			return null;
+		}
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(checkoutDate);
+		calendar.add(Calendar.DAY_OF_MONTH, book.getBook().getMaxCheckoutLength());
+		return calendar.getTime();
 	}
 	
 }

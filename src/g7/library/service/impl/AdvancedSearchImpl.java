@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import g7.library.dataaccess.DataLoader;
+import g7.library.dataaccess.SingletoneDataLoader;
 import g7.library.domain.Book;
 import g7.library.domain.LibraryMember;
 import g7.library.domain.SystemUser;
@@ -19,7 +19,7 @@ public class AdvancedSearchImpl implements AdvancedSearchInterface {
 		Set<SystemUser> results = new HashSet<SystemUser>();
 		
 		//usename //firstname //lastname //phone
-		Map<String, SystemUser> users = DataLoader.getInstance().getSystemUsers();
+		Map<String, SystemUser> users = SingletoneDataLoader.getInstance().getSystemUsers();
 		String searchString = criteria.searchString().toLowerCase();
 		for(SystemUser u : users.values()) {
 			if(u.getLoginUserName().toLowerCase().contains(searchString) 
@@ -37,7 +37,7 @@ public class AdvancedSearchImpl implements AdvancedSearchInterface {
 	public Set<Book> searchBook(BookSearchCriteria criteria) {
 		Set<Book> results = new HashSet<Book>();
 		
-		Map<String, Book> books = DataLoader.getInstance().getBooks();
+		Map<String, Book> books = SingletoneDataLoader.getInstance().getBooks();
 		
 		for(String isbn : books.keySet()) {
 			//by isbn //by title //by Author name
@@ -59,7 +59,7 @@ public class AdvancedSearchImpl implements AdvancedSearchInterface {
 		Set<LibraryMember> results = new HashSet<LibraryMember>();
 		
 		//memberId //firstname //lastname //phone
-		Map<String, LibraryMember> members = DataLoader.getInstance().getLibraryMember();
+		Map<String, LibraryMember> members = SingletoneDataLoader.getInstance().getLibraryMember();
 		String searchString = criteria.searchString().toLowerCase();
 		for(LibraryMember u : members.values()) {
 			if(u.getMemberId().toLowerCase().contains(searchString)

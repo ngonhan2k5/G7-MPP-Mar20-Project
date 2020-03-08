@@ -1,10 +1,18 @@
 package g7.library.ui;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.SerializableDataPersistor.SaveMessage;
 import g7.library.domain.Book;
+import g7.library.domain.CheckoutEntry;
+import g7.library.domain.CheckoutRecord;
+import g7.library.domain.LibraryMember;
 import g7.library.ui.validation.Attributes;
+import g7.library.utils.UserInterfaceUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -27,6 +35,11 @@ public class CheckoutScene extends BaseScene {
 	private Label errorMessage;
 	private TextField memberId;
 	private TextField isbn;
+	private VBox checkoutRecordsPanel;
+
+	public void showMessage(String msg) {
+		message.setText(msg);
+	}
 	
 	public void assignBookISBN(String isbn) {
 		this.isbn.setText(isbn);
@@ -34,6 +47,11 @@ public class CheckoutScene extends BaseScene {
 	
 	public void assignMemberId(String memberId) {
 		this.memberId.setText(memberId);
+
+		if (memberId != null && !memberId.isEmpty()) {
+			// display checkout records
+			renderMemberCheckoutRecords(memberId);
+		}
 	}
 
 	@Override
@@ -76,16 +94,50 @@ public class CheckoutScene extends BaseScene {
 
 		Stream.of(h1, h2).forEach(h -> h.setAlignment(Pos.BASELINE_RIGHT));
 
-		checkoutFields.getChildren().addAll(h1, h2, h3);
+		checkoutFields.getChildren().addAll(h1, h2, h3, hButtons);
 		hButtons.setAlignment(Pos.BASELINE_RIGHT);
 		hButtons.setMinHeight(50);
 		hButtons.getChildren().addAll(checkout);
 
+		HBox checkoutFormContainer = new HBox(checkoutFields);
+		checkoutFormContainer.setAlignment(Pos.BASELINE_LEFT);
 
-		vBox.getChildren().addAll(titleContainer, errorContainer, messageContainer, checkoutFields, hButtons);
+		vBox.getChildren().addAll(titleContainer, errorContainer, messageContainer, checkoutFormContainer, checkoutRecordsPanel);
 		hBox_1.getChildren().add(vBox);
+		hBox_1.maxWidth(400);
 
 		return hBox_1;
+	}
+
+	private void renderMemberCheckoutRecords(String mId) {
+		VBox container = new VBox(10);
+		Separator separator = new Separator();
+		Label title = new Label("Checkout records");
+		title.getStyleClass().add("form-title");
+		Label memberName = new Label("Member Name: ");
+		Label memberId = new Label("Member Id: ");
+		HBox id = new HBox(memberId,  new Label(mId));
+		if (mId != null && !mId.isEmpty()) {
+			LibraryMember member = libraryController.findMemberById(mId);
+			if (member != null) {
+				HBox name = new HBox(memberName, new Label(member.getFullName()));
+				ObservableList<CheckoutEntry> records =
+						FXCollections.observableArrayList(
+								Optional.ofNullable(member.getCheckoutRecord())
+										.map(CheckoutRecord::getCheckoutEntries)
+										.orElse(new ArrayList<>())
+						);
+				Parent checkoutRecordsTable =
+						UserInterfaceUtils.renderCheckoutRecords(records);
+				container.getChildren().addAll(separator, title, name, id, checkoutRecordsTable);
+				checkoutRecordsPanel.getChildren().clear();
+				checkoutRecordsPanel.getChildren().addAll(container);
+				return;
+			}
+		}
+		container.getChildren().addAll(separator, title, memberName, id, new Label("No available record"));
+		checkoutRecordsPanel.getChildren().clear();
+		checkoutRecordsPanel.getChildren().addAll(container);
 	}
 
 	private void initFields() {
@@ -93,6 +145,7 @@ public class CheckoutScene extends BaseScene {
 		errorMessage = new Label();
 		memberId = new TextField();
 		isbn = new TextField();
+		checkoutRecordsPanel = new VBox();
 	}
 
 	private void handleOnSubmit(ActionEvent evt) {
@@ -115,6 +168,7 @@ public class CheckoutScene extends BaseScene {
 
 		SaveMessage result = libraryController.checkoutBook(isbn.getText(), memberId.getText());
 		if(result.isSuccessed()) {
+			renderMemberCheckoutRecords(memberId.getText());
 			message.setText("Processed book checkout successfully.");
 			isbn.setText("");
 			memberId.setText("");

@@ -34,6 +34,10 @@ public final class SystemUser extends User implements SystemUserInterface {
 		return permissions;
 	}
 	
+	public boolean hasPermissionGranted(PermissionType access) {
+		return getPermissionsGranted().contains(access);
+	}
+	
 	public String getLoginUserName() {
 		return loginCredentials.getLoginUserName();
 	}

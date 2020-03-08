@@ -128,20 +128,20 @@ public class UserInterfaceUtils {
     TableColumn<CheckoutEntry, String> isbnColumn = new TableColumn<>("ISBN");
     TableColumn<CheckoutEntry, String> copyNumberColumn = new TableColumn<>("Copy Number");
     TableColumn<CheckoutEntry, String> checkoutDateColumn = new TableColumn<>("Checkout Date");
-    TableColumn<CheckoutEntry, Parent> dueDateColumn = new TableColumn<>("Due date");
-    TableColumn<CheckoutEntry, String> returnDateColumn = new TableColumn<>("Return Date");
+    TableColumn<CheckoutEntry, String> dueDateColumn = new TableColumn<>("Due date");
+    TableColumn<CheckoutEntry, Parent> overdueColumn = new TableColumn<>("");
 
     bookTileColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getTitle()));
     isbnColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(r.getValue().getBook().getBook().getIsbn()));
     checkoutDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getCheckoutDate())));
-    returnDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getReturnDueDate())));
-    dueDateColumn.setCellValueFactory(UserInterfaceUtils::renderDueDateColumn);
+    dueDateColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(DATE_FORMATER.format(r.getValue().getReturnDueDate())));
     copyNumberColumn.setCellValueFactory(r -> new ReadOnlyStringWrapper(String.valueOf(r.getValue().getBook().getCopyNumber())));
+    overdueColumn.setCellValueFactory(UserInterfaceUtils::renderOverdueColumn);
 
 
     TableView<CheckoutEntry> table = new TableView<>(records);
     table.getColumns().addAll(bookTileColumn, isbnColumn, copyNumberColumn, checkoutDateColumn, dueDateColumn,
-        returnDateColumn);
+        overdueColumn);
     table.setMinWidth(500);
     AnchorPane anchorPane = new AnchorPane(table);
     anchorPane.setPrefSize(700, 500);
@@ -153,18 +153,15 @@ public class UserInterfaceUtils {
     return anchorPane;
   }
 
-  private static ObservableValue<Parent> renderDueDateColumn(TableColumn.CellDataFeatures<CheckoutEntry,
+  private static ObservableValue<Parent> renderOverdueColumn(TableColumn.CellDataFeatures<CheckoutEntry,
       Parent> cellDataFeatures) {
     HBox box = new HBox();
     CheckoutEntry record = cellDataFeatures.getValue();
-    Label text = new Label(DATE_FORMATER.format(record.getDueDate()));
-    if (record.isOverDue()) {
+    if (!record.isOverDue()) {
       Label overdueIcon = new Label();
       overdueIcon.getStyleClass().addAll("overdue-icon");
       box.getChildren().add(overdueIcon);
-      text.getStyleClass().addAll("text-red");
     }
-    box.getChildren().addAll(text);
     return new ReadOnlyObjectWrapper<>(box);
   }
 

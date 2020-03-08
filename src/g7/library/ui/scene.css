@@ -103,7 +103,7 @@
 
 .overdue-icon {
   -fx-background-image: url('overdue-icon.jpg');
-  -fx-background-size: 40px;
-  -fx-min-width: 40px;
+  -fx-background-size: 60px;
+  -fx-min-width: 60px;
   -fx-background-repeat: no-repeat;
 }

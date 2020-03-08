@@ -1,7 +1,9 @@
 package g7.library.ui;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +11,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PopupWindow extends Stage {
@@ -57,5 +60,18 @@ public class PopupWindow extends Stage {
 		this.setScene(content, width, height);
 		this.setTitle(title);
 		this.show();
+	}
+	public Stage displayModal(ActionEvent event, Scene content, String title, double width, double height) {
+		PopupWindow pop = new PopupWindow();
+		pop.setScene(content);
+		pop.setTitle(title);
+		
+			pop.initModality(Modality.WINDOW_MODAL);
+	    pop.initOwner(
+	        ((Node)event.getSource()).getScene().getWindow() );
+		//this.show();
+		//this.setUserData(arg0);
+	    
+	    return pop;
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Stream;
 import g7.library.dataaccess.DataPersistor.SaveMessage;
+import g7.library.dataaccess.storage.Constants;
 import g7.library.domain.Address;
 import g7.library.domain.LibraryMember;
 import g7.library.service.LibraryServiceInterface;
@@ -13,9 +14,11 @@ import g7.library.ui.validation.RuleException;
 import g7.library.ui.validation.RuleSet;
 import g7.library.ui.validation.RuleSetFactory;
 import g7.library.ui.validation.Util;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -29,8 +32,8 @@ import javafx.scene.paint.Color;
 public class AddNewMemberScene extends BaseScene {
 
 	public static final AddNewMemberScene INSTANCE = new AddNewMemberScene();
-	private TextField memberId, firstName, lastName, street, city, zip, state, phone;
-
+	private TextField memberId, firstName, lastName, street, city, zip, phone;
+	private ComboBox<String> state;
 	private Attributes<Control> attrs;
 
 	
@@ -98,6 +101,19 @@ public class AddNewMemberScene extends BaseScene {
 		lastName = new TextField();
 		street = new TextField();
 		city = new TextField();
+
+        // Weekdays 
+        String week_days[] = 
+                   { "Monday", "Tuesday", "Wednesday", 
+                                   "Thrusday", "Friday" }; 
+  
+        // Create a combo box 
+        state = 
+                    new ComboBox(FXCollections 
+                              .observableArrayList(Constants.STATE_MAP.values())); 
+  
+		
+
 		zip =  new TextField() {
 		    @Override public void replaceText(int start, int end, String text) {
 		        // If the replaced text would end up being invalid, then simply
@@ -114,23 +130,23 @@ public class AddNewMemberScene extends BaseScene {
 		    }
 		};
 
-		state = new TextField() {
-		    @Override public void replaceText(int start, int end, String text) {
-		        // If the replaced text would end up being invalid, then simply
-		        // ignore this call!
-		    	System.out.println(text);
-		        if (text.matches("[A-Z]") ) {
-		            super.replaceText(start, end, text);
-		        }
-		        
-		    }
-
-		    @Override public void replaceSelection(String text) {
-		        if (text.matches("[A-Z]") ) {
-		            super.replaceSelection(text);
-		        }
-		    }
-		};
+//		state = new TextField() {
+//		    @Override public void replaceText(int start, int end, String text) {
+//		        // If the replaced text would end up being invalid, then simply
+//		        // ignore this call!
+//		    	System.out.println(text);
+//		        if (text.matches("[A-Z]") ) {
+//		            super.replaceText(start, end, text);
+//		        }
+//		        
+//		    }
+//
+//		    @Override public void replaceSelection(String text) {
+//		        if (text.matches("[A-Z]") ) {
+//		            super.replaceSelection(text);
+//		        }
+//		    }
+//		};
 
 		phone = new TextField() {
 		    @Override public void replaceText(int start, int end, String text) {
@@ -149,7 +165,7 @@ public class AddNewMemberScene extends BaseScene {
 		};
 		
 		
-		TextInputControl [] controls = {memberId, firstName, lastName, street, city, zip, state, phone};
+		Control [] controls = {memberId, firstName, lastName, street, city, zip, state, phone};
 		String[] ids = {"memberId", "firstName", "lastName", "street", "city", "zip", "state", "phone"};
 		attrs = new Attributes<Control>(ids, controls);
 	}
@@ -203,8 +219,7 @@ public class AddNewMemberScene extends BaseScene {
 	@Override
 	public void getDataFromFields(Attributes<Control> ats) {
 		
-		ats.getList().forEach(f -> data.put(f.name, ((TextInputControl) f.control).getText()));
-		System.out.println(data);
+		super.getDataFromFields(ats);
 		
 	}
 

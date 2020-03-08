@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class BookManagementScene extends BaseScene {
 
@@ -100,9 +101,13 @@ public class BookManagementScene extends BaseScene {
 	}
 
 	private void handleOnAdd(ActionEvent evt) {
-		Set<Book> books = libraryController.searchBook(searchField.getText());
-		this.booksTable.setItems(FXCollections.observableArrayList(books));
-		this.booksTable.refresh();
+//		Set<Book> books = libraryController.searchBook(searchField.getText());
+//		this.booksTable.setItems(FXCollections.observableArrayList(books));
+//		this.booksTable.refresh();
+		AddNewBookScene.INSTANCE.reinitialize(false);
+		Stage ret = PopupWindow.INSTANCE.displayModal(evt, AddNewBookScene.INSTANCE.getScene(), "sss", 500,400);
+		ret.showAndWait();
+		System.out.println(ret.getUserData());
 	}
 
 	private ObservableList<Book> loadBooks() {
@@ -138,9 +143,6 @@ public class BookManagementScene extends BaseScene {
 			viewBtn.setOnAction(this::viewBook);
 			addCopyBtn.setOnAction(this::addCopy);
 //			buttons.getChildren().addAll(viewBtn, addCopyBtn);
-
-			viewBtn.setOnAction(this::viewBook);
-			addCopyBtn.setOnAction(this::addCopy);
 
 			List<Node> nodes = new ArrayList<Node>();
 			nodes.add(viewBtn);

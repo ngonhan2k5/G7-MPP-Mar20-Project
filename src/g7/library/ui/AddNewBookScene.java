@@ -18,6 +18,7 @@ import g7.library.ui.validation.Util;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 
@@ -32,7 +33,8 @@ import javafx.scene.paint.Color;
 public class AddNewBookScene extends BaseScene {
 
 	public static final AddNewBookScene INSTANCE = new AddNewBookScene();
-	private TextField iSBN, title, maxCheckOutLength, numOfCopy;
+	private TextField iSBN, title, numOfCopy;
+	private ComboBox<String> maxCheckOutLength;
 
 	private Attributes<Control> attrs;
 	
@@ -43,22 +45,24 @@ public class AddNewBookScene extends BaseScene {
 	@Override
 	protected Parent renderMainContent() {
 		initFields();
-		
+		System.out.println("sssssssssssssss");
 		// Add New Member form
 		HBox hBox_1 = new HBox(10);
 		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
 
-		Label title = new Label("Add New Member Form");
-		title.setStyle("-fx-font-size: 20");
-		HBox titleContainer = new HBox(20, title);
+		Label title1 = new Label("Add New Member Form");
+		title1.setStyle("-fx-font-size: 20");
+		HBox titleContainer = new HBox(20, title1);
 		titleContainer.setAlignment(Pos.BOTTOM_CENTER);
+		
+		
 
 		HBox hButtons = new HBox(10);
 
 		VBox memberFields = new VBox(10);
 		
-		Stream.of(iSBN, title, maxCheckOutLength).forEach(field -> field.setMinWidth(200));
+		Stream.of(iSBN, title).forEach(field -> field.setMinWidth(200));
 
 		
 		infoLbl.setTextFill(Color.web("red", 0.8));
@@ -110,7 +114,7 @@ public class AddNewBookScene extends BaseScene {
 		numOfCopy = new TextField();
 
 		
-		TextInputControl [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};
+		Control [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};
 		String[] ids = {"iSBN", "title", "maxCheckOutLength", "numOfCopy"};
 		attrs = new Attributes<Control>(ids, controls);
 	}
@@ -136,36 +140,35 @@ public class AddNewBookScene extends BaseScene {
         System.out.println(timestamp.getTime());
         
         
-		LibraryServiceInterface srv = new LibraryServiceImpl();
-		SaveMessage ret = srv.addNewLibraryMember(
-				new LibraryMember(
-					String.valueOf(timestamp.getTime()), 
-					getFieldValue("firstName"), 
-					getFieldValue("lastName"), 
-					getFieldValue("phone"),
-					new Address(
-							getFieldValue("street"),
-							getFieldValue("city"),
-							getFieldValue("state"),
-							getIntFieldValue("zip")
-					)
-				)
-		);
+//		LibraryServiceInterface srv = new LibraryServiceImpl();
+//		SaveMessage ret = srv.addNewLibraryMember(
+//				new LibraryMember(
+//					String.valueOf(timestamp.getTime()), 
+//					getFieldValue("firstName"), 
+//					getFieldValue("lastName"), 
+//					getFieldValue("phone"),
+//					new Address(
+//							getFieldValue("street"),
+//							getFieldValue("city"),
+//							getFieldValue("state"),
+//							getIntFieldValue("zip")
+//					)
+//				)
+//		);
 		
-		if (ret.isSuccessed()) {
-			Util.showInfoLabel(infoLbl, "Add new Member succeeded");
-			clearFields(attrs.getFieldControls());
-		}else {
-			Util.showErrorLabel(infoLbl, ret.getMessage());
-		}
+//		if (ret.isSuccessed()) {
+//			Util.showInfoLabel(infoLbl, "Add new Member succeeded");
+//			clearFields(attrs.getFieldControls());
+//		}else {
+//			Util.showErrorLabel(infoLbl, ret.getMessage());
+//		}
 	}
 	
 
 	@Override
 	public void getDataFromFields(Attributes<Control> ats) {
 		
-		ats.getList().forEach(f -> data.put(f.name, ((TextInputControl) f.control).getText()));
-		System.out.println(data);
+		super.getDataFromFields(ats);
 		
 	}
 

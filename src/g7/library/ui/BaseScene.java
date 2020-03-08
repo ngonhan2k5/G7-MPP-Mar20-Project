@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import g7.library.frontcontroller.LibraryController;
 import g7.library.frontcontroller.LogicViewController;
 import g7.library.model.UserDataBuilder;
+import g7.library.ui.validation.Attributes;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -15,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -28,6 +30,7 @@ public abstract class BaseScene implements IData {
 
 	private Scene scene;
 	protected LibraryController libraryController;
+	boolean hasLeftMenu = true;
 	
 	protected final HashMap<String, String> data = new HashMap<>();
 	Label infoLbl = new Label();
@@ -37,7 +40,14 @@ public abstract class BaseScene implements IData {
 		scene = createScene();
 	}
 	
-	public void reinitialize() {
+	protected BaseScene(boolean hasLeftMenu) {
+		this();
+		this.hasLeftMenu = hasLeftMenu;
+		
+	}
+	
+	public void reinitialize(boolean hasLeftMenu) {
+		this.hasLeftMenu = hasLeftMenu;
 		scene = createScene();
 	}
 	
@@ -59,7 +69,13 @@ public abstract class BaseScene implements IData {
 
 		Separator separator = new Separator(Orientation.VERTICAL);
 		separator.prefHeightProperty().bind(mainContainer.heightProperty());
-		HBox mainScreen = new HBox(5, leftMenu, separator, mainContainer);
+		HBox mainScreen = new HBox(5);
+		
+		if (hasLeftMenu)
+			mainScreen.getChildren().addAll(leftMenu, separator, mainContainer);
+		else
+			mainScreen.getChildren().addAll( mainContainer);
+		
 		mainScreen.getStyleClass().add("main-container");
 
 		return new Scene(mainScreen, 800, 500);
@@ -189,6 +205,21 @@ public abstract class BaseScene implements IData {
 			System.out.println(((TextInputControl) cons[i]).getText());
 			((TextInputControl) cons[i]).setText("");
 		}
+	}
+	
+	@Override
+	public void getDataFromFields(Attributes<Control> ats) {
+		
+		ats.getList().forEach(f -> {
+			if (ComboBox.class.isAssignableFrom(f.control.getClass())) {
+				data.put(f.name, ((ComboBox) f.control).getValue().toString());
+			}else if (TextInputControl.class.isAssignableFrom(f.control.getClass())){
+				data.put(f.name, ((TextInputControl) f.control).getText());
+			}
+			
+		});
+		System.out.println(data);
+		
 	}
 
 }

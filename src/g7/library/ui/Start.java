@@ -54,7 +54,7 @@ public class Start extends Application {
 	public static void changeScene(BaseScene scene) {
 		if (stage != null) {
 			activeScene = scene.getClass().getName();
-			scene.reinitialize();
+			scene.reinitialize(true);
 			Scene targetScene = scene.getScene();
 			targetScene.getStylesheets().add(Start.class.getResource("scene.css").toExternalForm());
 			stage.setScene(scene.getScene());

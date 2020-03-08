@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -178,11 +179,16 @@ public class CheckoutScene extends BaseScene {
 	}
 
 	private void findBooks(ActionEvent evt) {
-		new BookSearchPopupWindow().show();
+		new BookSearchPopupWindow().setModal(
+					((Node)evt.getSource()).getScene()
+				).show();
+				
 	}
 
 	private void findMembers(ActionEvent evt) {
-		new MemberSearchPopupWindow().show();
+		new MemberSearchPopupWindow().setModal(
+				((Node)evt.getSource()).getScene()
+			).show();
 	}
 	
 	  @Override

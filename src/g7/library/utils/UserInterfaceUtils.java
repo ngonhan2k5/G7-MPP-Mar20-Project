@@ -157,7 +157,7 @@ public class UserInterfaceUtils {
       Parent> cellDataFeatures) {
     HBox box = new HBox();
     CheckoutEntry record = cellDataFeatures.getValue();
-    if (!record.isOverDue()) {
+    if (record.isOverDue()) {
       Label overdueIcon = new Label();
       overdueIcon.getStyleClass().addAll("overdue-icon");
       box.getChildren().add(overdueIcon);

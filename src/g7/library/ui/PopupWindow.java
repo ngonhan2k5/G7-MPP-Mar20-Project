@@ -19,7 +19,14 @@ public class PopupWindow extends Stage {
 	public static final PopupWindow INSTANCE = new PopupWindow();
 	public static final double DEFAULT_WIDTH = 300;
 	public static final double DEFAULT_HEIGHT = 250;
-
+	
+	
+	public PopupWindow setModal(Scene owner) {
+			this.initModality(Modality.WINDOW_MODAL);
+			this.initOwner( owner.getWindow() );
+			return this;
+			
+	}
 	public void setScene(Parent content, double width, double height) {
 		content.getStyleClass().add("popup-window");
 		setMinWidth(width);
@@ -54,10 +61,13 @@ public class PopupWindow extends Stage {
 		StackPane.setMargin(buttons, new Insets(15));
 		this.setScene(pane, width, height);
 		this.setTitle(title);
+		
+		System.out.println("");
 	}
 	
 	public void displayPopup(Parent content, String title, double width, double height) {
 		this.setScene(content, width, height);
+		
 		this.setTitle(title);
 		this.show();
 	}

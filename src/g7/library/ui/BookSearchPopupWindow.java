@@ -23,6 +23,7 @@ public class BookSearchPopupWindow extends PopupWindow {
 	private TextField searchText;
 	
 	public BookSearchPopupWindow () {
+		
 		searchText = new TextField();
 		Button searchButton = new Button("Search");
 		searchButton.setOnAction(this::handleOnSearch);

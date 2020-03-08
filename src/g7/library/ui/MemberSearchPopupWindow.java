@@ -19,12 +19,14 @@ public class MemberSearchPopupWindow extends PopupWindow {
 	
 	public MemberSearchPopupWindow() {
 		this.searchText = new TextField();
-		this.memberTableView = new MemberTableView();
-		this.memberTableView.update(libraryController.findAllMembers());
+		this.memberTableView = new MemberTableView(libraryController.findAllMembers());
 		
 		Button searchButton = new Button("Search");
+		searchButton.setOnAction(e -> {
+			this.memberTableView.update(libraryController.searchLibraryMember(searchText.getText()));
+		});
+		
 		Button choose = new Button("OK");
-
 		HBox topButtons = new HBox(10, searchText, searchButton);
 		
 		Button closeButton = new Button("Close");

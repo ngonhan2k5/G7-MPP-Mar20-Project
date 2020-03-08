@@ -1,10 +1,10 @@
 package g7.library.ui;
 
+import java.util.Set;
+
 import g7.library.domain.Book;
 import g7.library.ui.validation.Attributes;
-import g7.library.utils.UserInterfaceUtils;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -15,8 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.util.Set;
 
 public class BookManagementScene extends BaseScene {
 
@@ -45,7 +43,7 @@ public class BookManagementScene extends BaseScene {
 		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
 		addBtn.setOnAction(this::handleOnAdd);
-		vBox.getChildren().addAll(titleContainer, message, h1, UserInterfaceUtils.renderBooks(loadBooks()));
+		vBox.getChildren().addAll(titleContainer, message, h1, this.booksTable);
 		hBox_1.getChildren().add(vBox);
 		AnchorPane anchorPane = new AnchorPane(hBox_1);
 		anchorPane.setPrefSize(700, 500);
@@ -69,10 +67,6 @@ public class BookManagementScene extends BaseScene {
 		Set<Book> books = libraryController.searchBook(searchField.getText());
 		this.booksTable.setItems(FXCollections.observableArrayList(books));
 		this.booksTable.refresh();
-	}
-
-	private ObservableList<Book> loadBooks() {
-		return FXCollections.observableArrayList(libraryController.findAllBooks());
 	}
 
 	private void handleOnSearch(ActionEvent evt) {

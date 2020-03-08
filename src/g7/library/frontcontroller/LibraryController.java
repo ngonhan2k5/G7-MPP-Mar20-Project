@@ -16,6 +16,7 @@ import g7.library.domain.LibraryMember;
 import g7.library.domain.LoginCredentials;
 import g7.library.domain.SystemUser;
 import g7.library.model.BookSearchCriteria;
+import g7.library.model.SearchUserCriteria;
 import g7.library.service.AdvancedSearchInterface;
 import g7.library.service.LibraryServiceInterface;
 import g7.library.service.impl.AdvancedSearchImpl;
@@ -48,6 +49,12 @@ public class LibraryController {
 		if("".equals(searchString))
 			return new HashSet<Book>(findAllBooks());
 		return searchService.searchBook(new BookSearchCriteria().withSearchString(searchString));
+	}
+	
+	public Set<LibraryMember> searchLibraryMember(String searchString) {
+		if("".equals(searchString))
+			return new HashSet<LibraryMember>(findAllMembers());
+		return searchService.searchLibraryMember(new SearchUserCriteria().withSearchString(searchString));
 	}
 
 	public Collection<LibraryMember> findAllMembers() {

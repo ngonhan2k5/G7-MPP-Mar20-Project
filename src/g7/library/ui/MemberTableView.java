@@ -20,7 +20,9 @@ public class MemberTableView extends TableView<LibraryMember> {
 	}
 	
 	public MemberTableView(Collection<LibraryMember> libraryMembers) {
-		this.libraryMember = FXCollections.observableArrayList(libraryMembers);
+		if(libraryMembers != null)
+			this.libraryMember = FXCollections.observableArrayList(libraryMembers);
+		
 		initDesign();
 	}
 	

@@ -1,10 +1,6 @@
 package g7.library.ui;
 
-import g7.library.domain.LibraryMember;
 import g7.library.ui.validation.Attributes;
-import g7.library.utils.UserInterfaceUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -27,7 +23,6 @@ public class MemberManagementScene extends BaseScene {
 	private TextField searchField;
 	private Label message;
 	private MemberTableView memberTableView;
-	private ObservableList<LibraryMember> members;
 	
 	@Override
 	protected Parent renderMainContent() {
@@ -43,7 +38,7 @@ public class MemberManagementScene extends BaseScene {
 		Button searchBtn = new Button("Search");
 		HBox h1 = new HBox(10, searchField, searchBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
-		vBox.getChildren().addAll(titleContainer, message, h1, UserInterfaceUtils.renderMembers(members));
+		vBox.getChildren().addAll(titleContainer, message, h1, this.memberTableView);
 		hBox_1.getChildren().add(vBox);
 		AnchorPane anchorPane = new AnchorPane(hBox_1);
 		anchorPane.setPrefSize(700, 500);
@@ -56,17 +51,13 @@ public class MemberManagementScene extends BaseScene {
 	}
 
 	private void handleOnSearch(ActionEvent evt) {
-		
-	}
-
-	private ObservableList<LibraryMember> loadMembers() {
-		return FXCollections.observableArrayList(libraryController.findAllMembers());
+		this.memberTableView.update(libraryController.searchLibraryMember(searchField.getText()));
 	}
 
 	private void initFields() {
 		searchField = new TextField();
 		message = new Label();
-		members = loadMembers();
+		memberTableView = new MemberTableView(libraryController.findAllMembers());
 	}
 
 	  @Override

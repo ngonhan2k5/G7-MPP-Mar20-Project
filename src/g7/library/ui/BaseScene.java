@@ -119,6 +119,11 @@ public abstract class BaseScene implements IData {
 		}
 		
 		fxNodes.add(btnExit);
+		VBox testData = new VBox(new Label("Test users:"), new Label("superadmin/12345"), new Label("admin/12345"),
+				new Label(
+						"librarian" +
+								"/12345"));
+		fxNodes.add(testData);
 		
 		btnBooksManagement.setOnAction(this::openBooksManagement);
 		btnMemberManagement.setOnAction(this::openMembersManagement);

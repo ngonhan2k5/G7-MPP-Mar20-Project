@@ -77,15 +77,14 @@ public class LoginScene extends BaseScene {
 		hBox_1.getChildren().add(vBox);
 
 		StackPane.setMargin(hBox_1, new Insets(20));
-		pane.getChildren().add(hBox_1);
+		pane.getChildren().addAll(hBox_1);
 
 		return pane;
 	}
 
 	private void initFields() {
-		userName = new TextField("admin");
+		userName = new TextField();
 		password = new PasswordField();
-		password.setText("12345");
 	}
 
 	  @Override

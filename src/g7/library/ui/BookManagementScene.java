@@ -63,7 +63,8 @@ public class BookManagementScene extends BaseScene {
 //		PopupWindow.INSTANCE.setScene(new VBox(), "Add New Book", saveBookBtn);
 		AddNewBookScene.INSTANCE.reinitialize(false);
 		
-		Stage ret = PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New Book", 480,360);
+		Stage ret = PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New " +
+				"Book", 380,250);
 //		ret.showAndWait();
 		System.out.println(ret.getUserData());
 	}

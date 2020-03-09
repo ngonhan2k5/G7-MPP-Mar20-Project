@@ -10,7 +10,7 @@ public class BookRuleSet implements RuleSet {
 		this.ob = ob;
 		nonemptyRule(new String[]{ "title","iSBN", "numOfCopy"});
 		idNumericRule();
-
+		idNumericRule2();
 			
 	}
 	
@@ -30,7 +30,22 @@ public class BookRuleSet implements RuleSet {
 		if (val.isEmpty()) 
 			return;
 		
+
+		
 		if (!val.matches("[0-9]*"))
 			throw new RuleException("ISBN number must be numeric");
+	}
+	
+	private void idNumericRule2() throws RuleException {
+		String val = ob.getFieldValue("numOfCopy");
+		
+		if (val.isEmpty()) 
+			return;
+		
+		if (val.length()> 5)
+			throw new RuleException("NumOfCopy number too big");
+		
+		if (!val.matches("[0-9]*"))
+			throw new RuleException("numOfCopy number must be numeric");
 	}
 }

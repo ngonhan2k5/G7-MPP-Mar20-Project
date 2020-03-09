@@ -62,7 +62,8 @@ public class BookManagementScene extends BaseScene {
 		saveBookBtn.setOnAction(this::doAddBook);
 //		PopupWindow.INSTANCE.setScene(new VBox(), "Add New Book", saveBookBtn);
 		AddNewBookScene.INSTANCE.reinitialize(false);
-		Stage ret = PopupWindow.INSTANCE.displayModal(evt, AddNewBookScene.INSTANCE.getScene(), "sss", 500,400);
+		
+		Stage ret = PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New Book", 480,360);
 //		ret.showAndWait();
 		System.out.println(ret.getUserData());
 	}
@@ -90,10 +91,6 @@ public class BookManagementScene extends BaseScene {
 		this.booksTable.update(FXCollections.observableArrayList(libraryController.findAllBooks()));
 	}
 
-	@Override
-	public void getDataFromFields(Attributes<Control> attrs) {
-		// TODO Auto-generated method stub
 
-	}
 
 }

@@ -71,14 +71,17 @@ public class PopupWindow extends Stage {
 		this.setTitle(title);
 		this.show();
 	}
-	public Stage displayModal(ActionEvent event, Scene content, String title, double width, double height) {
+	public Stage displayModal(Scene parent, Scene content, String title, double width, double height) {
 		PopupWindow pop = new PopupWindow();
+		pop.setWidth(width);
+		pop.setHeight(height);
 		pop.setScene(content);
 		pop.setTitle(title);
 		
-		pop.initModality(Modality.WINDOW_MODAL);
-	    pop.initOwner(
-	        ((Node)event.getSource()).getScene().getWindow() );
+
+	    pop.setMinHeight(height);
+	    pop.setMinWidth(width);
+	    pop.setModal(parent);
 		pop.show();
 		//this.setUserData(arg0);
 	    

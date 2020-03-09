@@ -69,13 +69,13 @@ public class AddNewBookScene extends BaseScene {
 		infoLbl.setTextFill(Color.web("red", 0.8));
 		
 		HBox h0 = new HBox(10, infoLbl);
-		HBox h1 = new HBox(10, new Label("Title: "), title);
+		HBox h1 = new HBox(10, (new Label("Title: ")), title);
 		HBox h2 = new HBox(10, new Label("ISBN: "), iSBN);
 		HBox h3 = new HBox(10, new Label("Checkout Length: "), maxCheckOutLength);
 		HBox h4 = new HBox(10, new Label("Number of Copies: "), numOfCopy);
 		
 
-		Stream.of(h0, h1, h2, h3, h4).forEach(h -> {h.setAlignment(Pos.BASELINE_LEFT);});
+		Stream.of(h0, h1, h2, h3, h4).forEach(h -> {h.setAlignment(Pos.BASELINE_LEFT); ((Label)h.getChildren().get(0)).setMinWidth(120);});
 
 		memberFields.getChildren().addAll(h0, h1, h2, h3, h4);
 
@@ -114,7 +114,8 @@ public class AddNewBookScene extends BaseScene {
 		};
 		title = new TextField();
 		numOfCopy = new TextField();
-		maxCheckOutLength = new ComboBox(FXCollections.observableArrayList(Arrays.asList(20,7) ));
+		maxCheckOutLength = new ComboBox<String>();
+		maxCheckOutLength.setItems(FXCollections.observableArrayList(Arrays.asList("20","7") ));
 		maxCheckOutLength.setValue("20");
 		
 		Control [] controls = {iSBN, title, maxCheckOutLength, numOfCopy};

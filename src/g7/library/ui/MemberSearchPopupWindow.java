@@ -12,8 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MemberSearchPopupWindow extends PopupWindow {
-	//public static final PopupWindow INSTANCE = new MemberSearchPopupWindow();
-	
 	protected LibraryController libraryController = new LibraryController();
 	private MemberTableView memberTableView;
 	private TextField searchText;
@@ -48,7 +46,7 @@ public class MemberSearchPopupWindow extends PopupWindow {
 		StackPane pane = new StackPane(finderContainer);
 		StackPane.setMargin(finderContainer, new Insets(15));
 		
-		this.setScene(pane, 550, 600);
+		this.setScene(pane, 550, 500);
 		this.setTitle("Member Finder");
 	}
 }

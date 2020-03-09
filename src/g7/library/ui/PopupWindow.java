@@ -88,8 +88,7 @@ public class PopupWindow extends Stage {
 	    pop.setMinWidth(width);
 	    pop.setModal(parent);
 	    pop.setOnCloseRequest(this::getOnClose);
-//		pop.show();
-		//this.setUserData(arg0);
+		pop.showAndWait();
 	    
 	    return pop;
 	}

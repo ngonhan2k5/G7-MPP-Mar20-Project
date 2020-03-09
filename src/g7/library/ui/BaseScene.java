@@ -93,7 +93,6 @@ public abstract class BaseScene implements IData {
 
 		// buttons
 		Button btnLogin = createButton("_Login", LoginScene.class.getName());
-		Button btnAddNew = createButton("_Add new member", AddNewMemberScene.class.getName());
 		Button btnMemberManagement = createButton("_Members Mamagement", MemberManagementScene.class.getName());
 		Button btnBooksManagement = createButton("_Books Management", BookManagementScene.class.getName());
 		Button btnCheckout = createButton("_Checkout", CheckoutScene.class.getName());
@@ -109,7 +108,6 @@ public abstract class BaseScene implements IData {
 			LogicViewController logicView = new LogicViewController(userData.systemUser());
 			if(logicView.isPermissionGranted(PermissionType.ADD_MEMBER)) {
 				fxNodes.add(btnMemberManagement);
-				fxNodes.add(btnAddNew);
 			}
 
 			if(logicView.isBookCheckoutPermited())
@@ -122,7 +120,6 @@ public abstract class BaseScene implements IData {
 		
 		fxNodes.add(btnExit);
 		
-		btnAddNew.setOnAction(this::openAddNewMember);
 		btnBooksManagement.setOnAction(this::openBooksManagement);
 		btnMemberManagement.setOnAction(this::openMembersManagement);
 		btnCheckout.setOnAction(this::openCheckout);
@@ -130,7 +127,7 @@ public abstract class BaseScene implements IData {
 		btnLogout.setOnAction(this::handleLogout);
 		btnExit.setOnAction(this::handleExit);
 
-		Stream.of(btnAddNew, btnMemberManagement, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit).forEach(b -> b.setPrefWidth(200));
+		Stream.of(btnMemberManagement, btnBooksManagement, btnCheckout, btnLogin, btnLogout, btnExit).forEach(b -> b.setPrefWidth(200));
 		menuContainer.getChildren().addAll(fxNodes);
 		StackPane.setMargin(menuContainer, new Insets(20));
 		pane.getChildren().add(menuContainer);
@@ -198,10 +195,6 @@ public abstract class BaseScene implements IData {
 		}
 	}
 
-//	public String getFieldValue(String fieldName) {
-//		if (Util.objectHasProperty(this.getField(fieldName), "text"))
-//		return data.get(fieldName).getText();
-//	}
 	/**
 	 * Clear all fields text
 	 * @param cons
@@ -220,7 +213,6 @@ public abstract class BaseScene implements IData {
 	
 	@Override
 	public void getDataFromFields(Attributes<Control> ats) {
-		
 		ats.getList().forEach(f -> {
 			if (ComboBox.class.isAssignableFrom(f.control.getClass())) {
 				Object value = ((ComboBox) f.control).getValue();
@@ -233,8 +225,7 @@ public abstract class BaseScene implements IData {
 			}
 			
 		});
-		System.out.println(data);
-		
+
 	}
 
 }

@@ -16,8 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class BookSearchPopupWindow extends PopupWindow {
-	//public static final PopupWindow INSTANCE = new BookSearchPopupWindow();
-	
 	protected LibraryController libraryController = new LibraryController();
 	private BookTableView bookTableView;
 	private TextField searchText;
@@ -37,25 +35,20 @@ public class BookSearchPopupWindow extends PopupWindow {
 		
 		this.bookTableView = new BookTableView();
 		this.bookTableView.update(libraryController.findAllBooks());
-		Parent booksTable = new HBox(this.bookTableView);
 		HBox container = new HBox(10, searchText, searchButton);
-		
 		Button closeButton = new Button("Close");
 		closeButton.setOnAction(evt -> this.hide());
-
 		Separator separator = new Separator();
 		separator.prefWidthProperty().bind(container.widthProperty());
 		HBox buttons = new HBox(10, choose, closeButton);
 		HBox sepLine = new HBox(separator);
 		buttons.setAlignment(Pos.BOTTOM_RIGHT);
-		
-		VBox finderContainer = new VBox(10, container, booksTable, sepLine, buttons);
+		VBox finderContainer = new VBox(10, container, bookTableView, sepLine, buttons);
 		StackPane pane = new StackPane(finderContainer);
 		StackPane.setMargin(finderContainer, new Insets(15));
-		
-		this.setScene(pane, 550, 600);
+
+		this.setScene(pane, 550, 500);
 		this.setTitle("Book Finder");
-		
 	}
 	
 	public void handleOnSearch(ActionEvent evt) {

@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -44,9 +43,9 @@ public class BookManagementScene extends BaseScene {
 		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 		Button searchBtn = new Button("Search");
 		Button addBtn = new Button("+ Add");
-		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
 		addBtn.setOnAction(this::handleOnAdd);
+		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		vBox.getChildren().addAll(titleContainer, message, h1, booksTable);
 		AnchorPane anchorPane = new AnchorPane(vBox);
 		anchorPane.setPrefSize(700, 500);
@@ -59,30 +58,14 @@ public class BookManagementScene extends BaseScene {
 	}
 
 	private void handleOnAdd(ActionEvent evt) {
-		Button saveBookBtn = new Button("Save");
-		saveBookBtn.setOnAction(this::doAddBook);
-//		PopupWindow.INSTANCE.setScene(new VBox(), "Add New Book", saveBookBtn);
+		System.out.println("dfd");
 		AddNewBookScene.INSTANCE.reinitialize(false);
-		
-		Stage ret = PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New Book", 480,360);
-		ret.showAndWait();
-		System.out.println("sss"+ret.getUserData());
-		this.reinitialize(hasLeftMenu);
-//		Start.changeScene(this.createScene());
-		
-		Scene targetScene = this.getScene();
-		targetScene.getStylesheets().add(Start.class.getResource("scene.css").toExternalForm());
-		Start.getCurrentStage().setScene(this.getScene());
-
+		PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New " +
+				"Book", 380,320);
 	}
 
-	private void doAddBook(ActionEvent event) {
-		// TODO: validate & persit new Book
-//		PopupWindow.INSTANCE.close();
-//		Set<Book> books = libraryController.searchBook(searchField.getText());
-//		this.booksTable.setItems(FXCollections.observableArrayList(books));
-//		this.booksTable.refresh();
-		
+	public void refreshMembersTable() {
+		this.booksTable.update(libraryController.findAllBooks());
 	}
 
 	private void handleOnSearch(ActionEvent evt) {

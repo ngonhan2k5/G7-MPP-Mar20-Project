@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -64,8 +65,15 @@ public class BookManagementScene extends BaseScene {
 		AddNewBookScene.INSTANCE.reinitialize(false);
 		
 		Stage ret = PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewBookScene.INSTANCE.getScene(), "Add New Book", 480,360);
-//		ret.showAndWait();
-		System.out.println(ret.getUserData());
+		ret.showAndWait();
+		System.out.println("sss"+ret.getUserData());
+		this.reinitialize(hasLeftMenu);
+//		Start.changeScene(this.createScene());
+		
+		Scene targetScene = this.getScene();
+		targetScene.getStylesheets().add(Start.class.getResource("scene.css").toExternalForm());
+		Start.getCurrentStage().setScene(this.getScene());
+
 	}
 
 	private void doAddBook(ActionEvent event) {

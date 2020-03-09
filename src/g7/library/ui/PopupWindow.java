@@ -1,6 +1,8 @@
 package g7.library.ui;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class PopupWindow extends Stage {
 
@@ -71,6 +74,8 @@ public class PopupWindow extends Stage {
 		this.setTitle(title);
 		this.show();
 	}
+	
+	private Scene parent;
 	public Stage displayModal(Scene parent, Scene content, String title, double width, double height) {
 		PopupWindow pop = new PopupWindow();
 		pop.setWidth(width);
@@ -82,10 +87,15 @@ public class PopupWindow extends Stage {
 	    pop.setMinHeight(height);
 	    pop.setMinWidth(width);
 	    pop.setModal(parent);
-		pop.show();
+	    pop.setOnCloseRequest(this::getOnClose);
+//		pop.show();
 		//this.setUserData(arg0);
 	    
 	    return pop;
+	}
+	
+	private void getOnClose(WindowEvent we) {
+//		this.parent.?
 	}
 	
 

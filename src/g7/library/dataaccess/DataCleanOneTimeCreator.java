@@ -59,17 +59,17 @@ public class DataCleanOneTimeCreator {
 		Map<String, Book> books = new HashMap<String, Book>();
 		
 		Book book = new Book("ISBN1", "Java Core 8", 30);
-		book.addNewAuthor(new Author("BIO 111", "Jone", "Kathy", "", null));
+		book.addNewAuthor(new Author("001", "BIO 111", "Jone", "Kathy", "", null));
 		book.makeABookCopy(1).makeABookCopy(2).makeABookCopy(3).makeABookCopy(4);
 		books.put(book.getIsbn(), book);
 		
 		book = new Book("ISBN2", "Java Core 11", 30);
-		book.addNewAuthor(new Author("BIO 112", "Jone", "Kathy", "", null));
+		book.addNewAuthor(new Author("002", "BIO 112", "Jone", "Kathy", "", null));
 		book.makeABookCopy(1).makeABookCopy(2).makeABookCopy(3).makeABookCopy(4);
 		books.put(book.getIsbn(), book);
 		
 		book = new Book("ISBN3", "Java Core 9", 30);
-		book.addNewAuthor(new Author("BIO 113", "Jone", "Kathy", "", null));
+		book.addNewAuthor(new Author("003", "BIO 113", "Jone", "Kathy", "", null));
 		book.makeABookCopy(1).makeABookCopy(2).makeABookCopy(3).makeABookCopy(4);
 		books.put(book.getIsbn(), book);
 		
@@ -87,6 +87,17 @@ public class DataCleanOneTimeCreator {
 		return members;
 	}
 	
+	static Map<String, Author> createAuthors() {
+		Map<String, Author> authors = new HashMap<>();
+		Author author = new Author("001", "Ralph Johnson (computer scientist) (born 1955), computer science professor at the University of Illinois at Urbana-Champaign", "Ralph", "Johnson", "2234234343", null);
+		authors.put(author.getId(), author);
+		
+		author = new Author("002", "Erich Gamma (born 1961 in Zürich) is a Swiss computer scientist.", "Erich", "Gamma", "656456456", null);
+		authors.put(author.getId(), author);
+		
+		return authors;
+	}
+	
 	public static void main(String[] args) {
 		Map<UserRoleType, UserRole> userRoles = createUserRoles();
 		SaveMessage saveMessage = new SerializableDataPersistor<Map<String, SystemUser>>(StorageType.USERS, createSystemUsers(userRoles)).save();
@@ -96,6 +107,9 @@ public class DataCleanOneTimeCreator {
 		System.out.println(saveMessage);
 		
 		saveMessage = new SerializableDataPersistor<Map<String, Book>>(StorageType.BOOKS, createBooks()).save();
+		System.out.println(saveMessage);
+		
+		saveMessage = new SerializableDataPersistor<Map<String, Author>>(StorageType.AUTHORS, createAuthors()).save();
 		System.out.println(saveMessage);
 		
 	}

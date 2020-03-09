@@ -43,9 +43,9 @@ public class BookManagementScene extends BaseScene {
 		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 		Button searchBtn = new Button("Search");
 		Button addBtn = new Button("+ Add");
-		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		searchBtn.setOnAction(this::handleOnSearch);
 		addBtn.setOnAction(this::handleOnAdd);
+		HBox h1 = new HBox(10, searchField, searchBtn, addBtn);
 		vBox.getChildren().addAll(titleContainer, message, h1, booksTable);
 		AnchorPane anchorPane = new AnchorPane(vBox);
 		anchorPane.setPrefSize(700, 500);

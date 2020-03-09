@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MemberManagementScene extends BaseScene {
 
@@ -28,26 +29,36 @@ public class MemberManagementScene extends BaseScene {
 	protected Parent renderMainContent() {
 		initFields();
 
-		HBox hBox_1 = new HBox(10);
-		hBox_1.setAlignment(Pos.BASELINE_CENTER);
 		VBox vBox = new VBox(10);
 		Label title = new Label("Members Management");
 		title.getStyleClass().add("form-title");
 		HBox titleContainer = new HBox(20, title);
 		titleContainer.setAlignment(Pos.BOTTOM_LEFT);
 		Button searchBtn = new Button("Search");
-		HBox h1 = new HBox(10, searchField, searchBtn);
+		Button addNew = new Button("+ Add");
 		searchBtn.setOnAction(this::handleOnSearch);
+		addNew.setOnAction(this::handleOnAddNew);
+		HBox h1 = new HBox(10, searchField, searchBtn, addNew);
 		vBox.getChildren().addAll(titleContainer, message, h1, this.memberTableView);
-		hBox_1.getChildren().add(vBox);
-		AnchorPane anchorPane = new AnchorPane(hBox_1);
+		AnchorPane anchorPane = new AnchorPane(vBox);
 		anchorPane.setPrefSize(700, 500);
 
-		AnchorPane.setTopAnchor(hBox_1, 0.0);
-		AnchorPane.setBottomAnchor(hBox_1, 0.0);
-		AnchorPane.setLeftAnchor(hBox_1, 0.0);
-		AnchorPane.setRightAnchor(hBox_1, 0.0);
+		AnchorPane.setTopAnchor(vBox, 0.0);
+		AnchorPane.setBottomAnchor(vBox, 0.0);
+		AnchorPane.setLeftAnchor(vBox, 0.0);
+		AnchorPane.setRightAnchor(vBox, 0.0);
 		return anchorPane;
+	}
+
+	private void handleOnAddNew(ActionEvent event) {
+		Button saveMember = new Button("Save");
+		saveMember.setOnAction(this::doAddMember);
+		AddNewMemberScene.INSTANCE.reinitialize(false);
+		PopupWindow.INSTANCE.displayModal(this.getScene(), AddNewMemberScene.INSTANCE.getScene(), "Add New Member", 480,
+				500);
+	}
+
+	private void doAddMember(ActionEvent event) {
 	}
 
 	private void handleOnSearch(ActionEvent evt) {

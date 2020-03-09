@@ -126,6 +126,7 @@ public class AddNewBookScene extends BaseScene {
 		if (ret.isSuccessed()) {
 			Util.showInfoLabel(infoLbl, "New Book and "+getIntFieldValue("numOfCopy")+" (copies) created!");
 			clearFields(attrs.getFieldControls());
+			BookManagementScene.INSTANCE.refreshMembersTable();
 		}else {
 			Util.showErrorLabel(infoLbl, ret.getMessage());
 		}

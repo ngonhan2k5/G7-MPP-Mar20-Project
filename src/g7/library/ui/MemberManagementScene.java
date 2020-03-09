@@ -67,7 +67,7 @@ public class MemberManagementScene extends BaseScene {
   }
 
   public void refreshMembersTable() {
-  	memberTableView = new MemberTableView(libraryController.findAllMembers());
+  	memberTableView.update(libraryController.findAllMembers());
 	}
 
   @Override

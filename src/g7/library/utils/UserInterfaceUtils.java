@@ -2,7 +2,6 @@ package g7.library.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,24 +15,20 @@ import g7.library.ui.CustomButtonCell;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 /**
  * @author knguyen93
  */
 public class UserInterfaceUtils {
-  private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+  private static final String DATE_FORMAT = "yyyy-MM-dd";
   private static final SimpleDateFormat DATE_FORMATER = new SimpleDateFormat(DATE_FORMAT);
 
   @SuppressWarnings("unchecked")

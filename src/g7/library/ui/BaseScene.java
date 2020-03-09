@@ -68,7 +68,7 @@ public abstract class BaseScene implements IData {
 
 		// set prefer size
 		leftMenu.setPrefWidth(220);
-		mainContainer.setPrefWidth(680);
+		mainContainer.setPrefWidth(620);
 
 		Separator separator = new Separator(Orientation.VERTICAL);
 		separator.prefHeightProperty().bind(mainContainer.heightProperty());
